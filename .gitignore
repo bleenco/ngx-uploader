@@ -1,0 +1,29 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/node_modules
+/bower_components
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
+
+# Bundles
+/bundles
+
+*.js
+*.d.ts
+*.js.map
+
+!ember-cli-build.js
+!karma-test-shim.js
+!karma.conf.js
+!make-packages.js
