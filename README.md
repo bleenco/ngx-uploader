@@ -1,23 +1,16 @@
 # ng2-uploader
 
+[Demos](http://ng2-uploader.jankuri.com)
+
 ## Angular2 File Uploader
 
-### Run Example 
+### Installation
 
-Clone this repository
 ```
-git clone https://github.com/jkuri/ng2-uploader.git
+npm install ng2-uploader
 ```
-Install dependencies
-```
-cd ng2-uploader
-npm i
-```
-Run demo app
-```
-ng serve
-```
-Open browser at path `localhost:4200`
+
+For more information, examples and usage examples please see [demos](http://ng2-uploader.jankuri.com)
 
 #### LICENCE
 

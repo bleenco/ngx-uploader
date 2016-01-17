@@ -1,6 +1,6 @@
 {
   "name": "ng2-uploader",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "description": "Angular2 File Uploader",
   "repository": {
@@ -19,7 +19,7 @@
   "typings": "./ng2-uploader.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "angular-cli": "0.0.*",
+    "angular-cli": "https://github.com/jkuri/angular-cli#3rd-party-libs",
     "angular-cli-github-pages": "^0.2.0",
     "angular2": "2.0.0-beta.0",
     "ember-cli-inject-live-reload": "^1.3.0",

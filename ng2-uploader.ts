@@ -8,3 +8,5 @@ export default {
   directives: [NgFileSelect],
   providers: [Ng2Uploader]
 }
+
+export const UPLOAD_DIRECTIVES: [any] = [NgFileSelect];
