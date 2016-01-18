@@ -1,6 +1,6 @@
 # ng2-uploader
 
-For demos please see [demos page](http://ng2-uploader.jankuri.com).
+For demos please see [demos page](http://ng2-uploader.com).
 
 ## Angular2 File Uploader
 
@@ -228,9 +228,80 @@ export class MultipleProgressbar {
 </div>
 ````
 
+### Backend Example Using HapiJS
+
+````javascript
+'use strict';
+
+const Hapi        = require('hapi');
+const Inert       = require('inert');
+const Md5         = require('md5');
+const Multiparty  = require('multiparty');
+const fs          = require('fs');
+const path        = require('path');
+const server      = new Hapi.Server();
+
+server.connection({ port: 10050, routes: { cors: true } });
+server.register(Inert, (err) => {});
+
+const upload = {
+  payload: {
+    maxBytes: 209715200,
+    output: 'stream',
+    parse: false
+  },
+  handler: (request, reply) => {
+    const form = new Multiparty.Form();
+    form.parse(request.payload, (err, fields, files) => {
+      if (err) {
+        return reply({status: false, msg: err});
+      }
+
+      let responseData = [];
+
+      files.file.forEach((file) => {
+        let fileData = fs.readFileSync(file.path);
+        const originalName = file.originalFilename;
+        const generatedName = Md5(new Date().toString() + 
+          originalName) + path.extname(originalName);
+        const filePath = path.resolve(__dirname, 'uploads', 
+          generatedName);
+
+        fs.writeFileSync(filePath, fileData);
+        const data = {
+          originalName: originalName,
+          generatedName: generatedName
+        };
+
+        responseData.push(data);
+      });
+
+      reply({status: true, data: responseData});
+    });
+  }
+};
+
+const uploads = {
+  handler: {
+    directory: {
+      path: path.resolve(__dirname, 'uploads')
+    }
+  }
+};
+
+server.route([
+  { method: 'POST', path: '/upload',          config: upload  },
+  { method: 'GET',  path: '/uploads/{path*}', config: uploads }
+]);
+
+server.start(() => {
+  console.log('Upload server running at', server.info.uri);
+});
+````
+
 ### Demos
 
-For more information, examples and usage examples please see [demos](http://ng2-uploader.jankuri.com)
+For more information, examples and usage examples please see [demos](http://ng2-uploader.com)
 
 #### LICENCE
 
