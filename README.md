@@ -29,15 +29,15 @@ Or you can add mappings to you SystemJS configuration
 
 #### Examples
 
-[Basic Example](https://github.com/jkuri/ng2-uploader#basic-example)
-[Multiple Files Example](https://github.com/jkuri/ng2-uploader#multiple-files-example)
-[Basic Progressbar Example](https://github.com/jkuri/ng2-uploader#progressbar-example)
-[Multiple Files Progressbars Example](https://github.com/jkuri/ng2-uploader#multiple-files-progressbars-example)
+1. [Basic Example](https://github.com/jkuri/ng2-uploader#basic-example)
+2. [Multiple Files Example](https://github.com/jkuri/ng2-uploader#multiple-files-example)
+3. [Basic Progressbar Example](https://github.com/jkuri/ng2-uploader#progressbar-example)
+4. [Multiple Files Progressbars Example](https://github.com/jkuri/ng2-uploader#multiple-files-progressbars-example)
 
 #### Backend Examples
 
-[NodeJS using HapiJS](https://github.com/jkuri/ng2-uploader#backend-example-using-hapijs)
-[PHP (Plain)](https://github.com/jkuri/ng2-uploader#backend-example-using-plain-php)
+1. [NodeJS using HapiJS](https://github.com/jkuri/ng2-uploader#backend-example-using-hapijs)
+2. [PHP (Plain)](https://github.com/jkuri/ng2-uploader#backend-example-using-plain-php)
 
 ### Basic Example
 
