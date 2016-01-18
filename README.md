@@ -10,6 +10,35 @@ For demos please see [demos page](http://ng2-uploader.com).
 npm install ng2-uploader
 ```
 
+If you're using SystemJS loader you can simply include file located in `bundles/` directory.
+````html
+<script src="node_modules/ng2-uploader/bundles/ng2-uploader.js"></script>
+````
+Or you can add mappings to you SystemJS configuration
+````html
+<script>
+  System.config({
+    map: {
+      'ng2-uploader': 'node_modules/ng2-uploader/ng2-uploader.js'
+    }
+  });
+</script>
+````
+
+### Readme Contents
+
+#### Examples
+
+[Basic Example](https://github.com/jkuri/ng2-uploader#basic-example)
+[Multiple Files Example](https://github.com/jkuri/ng2-uploader#multiple-files-example)
+[Basic Progressbar Example](https://github.com/jkuri/ng2-uploader#progressbar-example)
+[Multiple Files Progressbars Example](https://github.com/jkuri/ng2-uploader#multiple-files-progressbars-example)
+
+#### Backend Examples
+
+[NodeJS using HapiJS](https://github.com/jkuri/ng2-uploader#backend-example-using-hapijs)
+[PHP (Plain)](https://github.com/jkuri/ng2-uploader#backend-example-using-plain-php)
+
 ### Basic Example
 
 `component.ts`
@@ -297,6 +326,52 @@ server.route([
 server.start(() => {
   console.log('Upload server running at', server.info.uri);
 });
+````
+
+### Backend example using plain PHP
+
+````php
+<?php 
+
+header("Access-Control-Allow-Origin: *");
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  echo json_encode(array('status' => false));
+  exit;
+}
+
+$path = 'uploads/';
+
+if (isset($_FILES['file'])) {
+  $originalName = $_FILES['file']['name'];
+  $ext = '.'.pathinfo($originalName, PATHINFO_EXTENSION);
+  $generatedName = md5($_FILES['file']['tmp_name']).$ext;
+  $filePath = $path.$generatedName;
+  
+  if (!is_writable($path)) {
+    echo json_encode(array(
+      'status' => false,
+      'msg'    => 'Destination directory not writable.'
+    ));
+    exit;
+  }
+
+  if (move_uploaded_file($_FILES['file']['tmp_name'], $filePath)) {
+    echo json_encode(array(
+      'status'        => true,
+      'originalName'  => $originalName,
+      'generatedName' => $generatedName
+    ));
+  }
+}
+else {
+  echo json_encode(
+    array('status' => false, 'msg' => 'No file uploaded.')
+  );
+  exit;
+}
+
+?>
 ````
 
 ### Demos
