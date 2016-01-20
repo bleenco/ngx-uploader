@@ -24,3 +24,5 @@ testem.log
 !karma-test-shim.js
 !karma.conf.js
 !make.js
+
+!bundles/*
