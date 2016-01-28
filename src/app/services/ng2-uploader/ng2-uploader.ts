@@ -148,6 +148,13 @@ export class Ng2Uploader {
 
     xhr.open(this.method, this.url, true);
     xhr.withCredentials = this.withCredentials;
+
+    if (this.customHeaders){
+      Object.keys(this.customHeaders).forEach((key) => {
+        xhr.setRequestHeader(key, this.customHeaders[key]);
+      });
+    }
+
     xhr.send(form);
   }
 
