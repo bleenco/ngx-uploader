@@ -257,6 +257,91 @@ export class MultipleProgressbar {
 </div>
 ````
 
+
+### Token-authorized call example
+
+`component.ts`
+````typescript
+import {Component} from 'angular2/core';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader';
+
+@Component({
+  selector: 'demo-app',
+  templateUrl: 'app/demo.html',
+  directives: [UPLOAD_DIRECTIVES],
+})
+export class DemoApp {
+  uploadFile: any;
+  options: Object = {
+    url: 'http://localhost:10050/upload',
+    withCredentials: true,
+    authToken: localStorage.getItem('token'),
+    authTokenPrefix: "Bearer" // required only if different than "Bearer"
+    
+  };
+
+  handleUpload(data): void {
+    if (data && data.response) {
+      data = JSON.parse(data.response);
+      this.uploadFile = data;
+    }
+  }
+}
+````
+
+`component.html`
+````html
+<input type="file" 
+       [ng-file-select]="options"
+       (onUpload)="handleUpload($event)">
+
+<div>
+Response: {{ uploadFile | json }}
+</div>
+````
+
+### Custom field name example
+
+You may want to sent file with specific form field name. For that you can use options.fieldName. If not provided than the field will be named "file".
+
+`component.ts`
+````typescript
+import {Component} from 'angular2/core';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader';
+
+@Component({
+  selector: 'demo-app',
+  templateUrl: 'app/demo.html',
+  directives: [UPLOAD_DIRECTIVES],
+})
+export class DemoApp {
+  uploadFile: any;
+  options: Object = {
+    url: 'http://localhost:10050/upload',
+    fieldName: 'logo'    
+  };
+
+  handleUpload(data): void {
+    if (data && data.response) {
+      data = JSON.parse(data.response);
+      this.uploadFile = data;
+    }
+  }
+}
+````
+
+`component.html`
+````html
+<input type="file" 
+       [ng-file-select]="options"
+       (onUpload)="handleUpload($event)">
+
+<div>
+Response: {{ uploadFile | json }}
+</div>
+````
+
+
 ### Backend Example Using HapiJS
 
 ````javascript
