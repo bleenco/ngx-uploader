@@ -65,7 +65,7 @@ export class Ng2Uploader {
   debug: boolean = false;
   customHeaders: Object = {};
   encodeHeaders: boolean = true;
-  authTokenPrefix: string = Bearer;
+  authTokenPrefix: string = "Bearer";
   authToken: string = undefined;
 
   _queue: any[] = [];
