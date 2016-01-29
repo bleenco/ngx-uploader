@@ -65,6 +65,8 @@ export class Ng2Uploader {
   debug: boolean = false;
   customHeaders: Object = {};
   encodeHeaders: boolean = true;
+  authTokenPrefix: string = "Bearer";
+  authToken: string = undefined;
 
   _queue: any[] = [];
   _emitter: EventEmitter<any> = new EventEmitter(true);
@@ -85,6 +87,8 @@ export class Ng2Uploader {
     this.debug = options && options.debug || this.debug;
     this.customHeaders = options && options.customHeaders || this.customHeaders;
     this.encodeHeaders = options && options.encodeHeaders || this.encodeHeaders;
+    this.authTokenPrefix = options && options.authTokenPrefix || this.authTokenPrefix;
+    this.authToken = options && options.authToken || this.authToken;
 
     if (!this.multiple) {
         this.maxUploads = 1;
@@ -149,10 +153,14 @@ export class Ng2Uploader {
     xhr.open(this.method, this.url, true);
     xhr.withCredentials = this.withCredentials;
 
-    if (this.customHeaders){
+    if (this.customHeaders) {
       Object.keys(this.customHeaders).forEach((key) => {
         xhr.setRequestHeader(key, this.customHeaders[key]);
       });
+    }
+
+    if (this.authToken) {
+      xhr.setRequestHeader("Authorization", `${this.authTokenPrefix} ${this.authToken}`);
     }
 
     xhr.send(form);
