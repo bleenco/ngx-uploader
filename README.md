@@ -27,7 +27,7 @@ npm install ng2-uploader
 `component.ts`
 ````typescript
 import {Component} from 'angular2/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 
 @Component({
   selector: 'demo-app',
@@ -65,7 +65,7 @@ Response: {{ uploadFile | json }}
 `component.ts`
 ````typescript
 import {Component} from 'angular2/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 
 @Component({
   selector: 'basic-multiple',
@@ -106,7 +106,7 @@ Response: <br/>{{ uploadedFiles | json }}
 `component.ts`
 ````typescript
 import {Component, NgZone} from 'angular2/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 
 @Component({
   selector: 'basic-progressbar',
@@ -176,7 +176,7 @@ Response: <br/>{{ uploadFile | json }}
 `component.ts`
 ````typescript
 import {Component, NgZone} from 'angular2/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 
 @Component({
   selector: 'multiple-progressbar',
@@ -246,7 +246,7 @@ export class MultipleProgressbar {
 `component.ts`
 ````typescript
 import {Component} from 'angular2/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 
 @Component({
   selector: 'demo-app',
@@ -290,7 +290,7 @@ You may want to sent file with specific form field name. For that you can use op
 `component.ts`
 ````typescript
 import {Component} from 'angular2/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 
 @Component({
   selector: 'demo-app',
