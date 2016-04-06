@@ -73,24 +73,25 @@ export class Ng2Uploader {
   _emitter: EventEmitter<any> = new EventEmitter(true);
 
   setOptions(options: any): void {
-    this.url = options && options.url || this.url;
-    this.cors = options && options.cors || this.cors;
-    this.withCredentials = options && options.withCredentials || this.withCredentials;
-    this.multiple = options && options.multiple || this.multiple;
-    this.maxUploads = options && options.maxUploads || this.maxUploads;
-    this.allowedExtensions = options && options.allowedExtensions || this.allowedExtensions;
-    this.maxSize = options && options.maxSize || this.maxSize;
-    this.data = options && options.data || this.data;
-    this.noParams = options && options.noParams || this.noParams;
-    this.autoUpload = options && options.autoUpload || this.autoUpload;
-    this.multipart = options && options.multipart || this.multipart;
-    this.method = options && options.method || this.method;
-    this.debug = options && options.debug || this.debug;
-    this.customHeaders = options && options.customHeaders || this.customHeaders;
-    this.encodeHeaders = options && options.encodeHeaders || this.encodeHeaders;
-    this.authTokenPrefix = options && options.authTokenPrefix || this.authTokenPrefix;
-    this.authToken = options && options.authToken || this.authToken;
-    this.fieldName =  options && options.fieldName || this.fieldName;
+
+    this.url = options.url != null ? options.url : this.url;
+    this.cors = options.cors != null ? options.cors : this.cors;
+    this.withCredentials = options.withCredentials != null ? options.withCredentials : this.withCredentials;
+    this.multiple = options.multiple != null ? options.multiple : this.multiple;
+    this.maxUploads = options.maxUploads != null ? options.maxUploads : this.maxUploads;
+    this.allowedExtensions = options.allowedExtensions != null ? options.allowedExtensions : this.allowedExtensions;
+    this.maxSize = options.maxSize != null ? options.maxSize : this.maxSize;
+    this.data = options.data != null ? options.data : this.data;
+    this.noParams = options.noParams != null ? options.noParams : this.noParams;
+    this.autoUpload = options.autoUpload != null ? options.autoUpload : this.autoUpload;
+    this.multipart = options.multipart != null ? options.multipart : this.multipart;
+    this.method = options.method != null ? options.method : this.method;
+    this.debug = options.debug != null ? options.debug : this.debug;
+    this.customHeaders = options.customHeaders != null ? options.customHeaders : this.customHeaders;
+    this.encodeHeaders = options.encodeHeaders != null ? options.encodeHeaders : this.encodeHeaders;
+    this.authTokenPrefix = options.authTokenPrefix != null ? options.authTokenPrefix : this.authTokenPrefix;
+    this.authToken = options.authToken != null ? options.authToken : this.authToken;
+    this.fieldName = options.fieldName != null ? options.fieldName : this.fieldName;
 
     if (!this.multiple) {
       this.maxUploads = 1;
