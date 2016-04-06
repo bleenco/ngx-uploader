@@ -1,13 +1,16 @@
 {
   "name": "ng2-uploader",
   "description": "Angular2 File Uploader",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MIT",
   "main": "./ng2-uploader.ts",
   "author": "Jan Kuri <jkuri88@gmail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jkuri/ng2-uploader.git"
+  },
+  "scripts": {
+    "prepublish": "tsc && node make.js"
   },
   "keywords": [
     "ng2",
@@ -18,28 +21,16 @@
     "uploader"
   ],
   "dependencies": {
-    "angular2": "2.0.0-beta.7",
+    "angular2": "^2.0.0-beta.13",
     "clang-format": "^1.0.35",
     "es6-promise": "^3.0.2",
-    "es6-shim": "^0.33.3",
+    "es6-shim": "^0.35.0",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
-    "systemjs": "0.19.20"
+    "systemjs": "0.19.20",
+    "zone.js": "^0.6.9"
   },
   "devDependencies": {
-    "angular-cli": "0.0.*",
-    "angular-cli-github-pages": "^0.2.0",
-    "ember-cli-inject-live-reload": "^1.3.0",
-    "glob": "^6.0.4",
-    "jasmine-core": "^2.3.4",
-    "jasmine-spec-reporter": "^2.4.0",
-    "karma": "^0.13.15",
-    "karma-chrome-launcher": "^0.2.1",
-    "karma-jasmine": "^0.3.6",
-    "protractor": "^3.0.0",
-    "tslint": "^3.3.0",
-    "typescript": "^1.8.2",
-    "typings": "^0.6.6",
-    "ts-node": "^0.5.5"
+    "systemjs-builder": "^0.15.14"
   }
 }

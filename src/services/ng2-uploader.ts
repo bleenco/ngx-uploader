@@ -115,7 +115,7 @@ export class Ng2Uploader {
         file.size
     );
 
-    let queueIndex = this._queue.findIndex(x => x === file);
+    let queueIndex = this._queue.indexOf(file);
 
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable) {

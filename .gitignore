@@ -1,2 +1,6 @@
+**/*.js
+**/*.js.map
+!make.js
+
 /node_modules
 /typings
