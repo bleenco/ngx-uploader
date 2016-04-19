@@ -1,3 +1,4 @@
+/// <reference path="node_modules/angular2/typings/browser.d.ts" />
 import {Ng2Uploader} from './src/services/ng2-uploader';
 import {NgFileSelect} from './src/directives/ng-file-select';
 import {NgFileDrop} from './src/directives/ng-file-drop';
