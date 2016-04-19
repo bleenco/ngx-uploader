@@ -18,6 +18,7 @@ export declare class Ng2Uploader {
     authTokenPrefix: string;
     authToken: string;
     fieldName: string;
+    formFields: Object;
     _queue: any[];
     _emitter: EventEmitter<any>;
     setOptions(options: any): void;
