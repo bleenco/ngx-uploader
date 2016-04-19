@@ -21,16 +21,15 @@
     "uploader"
   ],
   "dependencies": {
-    "angular2": "^2.0.0-beta.13",
-    "clang-format": "^1.0.35",
-    "es6-promise": "^3.0.2",
-    "es6-shim": "^0.35.0",
-    "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.2",
-    "systemjs": "0.19.20",
-    "zone.js": "^0.6.9"
+      "angular2": "2.0.0-beta.15",
+      "es6-shim": "^0.35.0",
+      "reflect-metadata": "0.1.2",
+      "rxjs": "5.0.0-beta.2",
+      "systemjs": "0.19.26",
+      "zone.js": "0.6.10"
   },
   "devDependencies": {
-    "systemjs-builder": "^0.15.14"
+      "typescript": "^1.8.10",
+      "systemjs-builder": "^0.15.14"
   }
 }
