@@ -13,6 +13,10 @@
     "sourceRoot": "/",
     "target": "es5"
   },
+  "files": [
+    "ng2-uploader.ts",
+    "node_modules/angular2/typings/browser.d.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
