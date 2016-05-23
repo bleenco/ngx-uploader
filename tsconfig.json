@@ -15,7 +15,9 @@
   },
   "files": [
     "ng2-uploader.ts",
-    "node_modules/angular2/typings/browser.d.ts"
+    "typings/browser/ambient/es6-collections/index.d.ts",
+    "typings/browser/ambient/es6-promise/index.d.ts"
+
   ],
   "exclude": [
     "node_modules"

@@ -1,4 +1,4 @@
-import {Directive, ElementRef, EventEmitter} from 'angular2/core';
+import {Directive, ElementRef, EventEmitter} from '@angular/core';
 import {Ng2Uploader} from '../services/ng2-uploader';
 
 @Directive({
