@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from 'angular2/core';
+import {Injectable, EventEmitter} from "@angular/core";
 
 class UploadedFile {
   id: string;
@@ -61,7 +61,7 @@ export class Ng2Uploader {
   noParams: boolean = true;
   autoUpload: boolean = true;
   multipart: boolean = true;
-  method: string = 'POST';
+  method: string = "POST";
   debug: boolean = false;
   customHeaders: Object = {};
   encodeHeaders: boolean = true;
@@ -111,9 +111,9 @@ export class Ng2Uploader {
     form.append(this.fieldName, file, file.name);
 
     let uploadingFile = new UploadedFile(
-        this.generateRandomIndex(),
-        file.name,
-        file.size
+      this.generateRandomIndex(),
+      file.name,
+      file.size
     );
 
     let queueIndex = this._queue.indexOf(file);
@@ -129,29 +129,29 @@ export class Ng2Uploader {
 
         this._emitter.emit(uploadingFile);
       }
-    }
+    };
 
     xhr.upload.onabort = (e) => {
       uploadingFile.setAbort();
       this._emitter.emit(uploadingFile);
-    }
+    };
 
     xhr.upload.onerror = (e) => {
       uploadingFile.setError();
       this._emitter.emit(uploadingFile);
-    }
+    };
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         uploadingFile.onFinished(
-            xhr.status,
-            xhr.statusText,
-            xhr.response
+          xhr.status,
+          xhr.statusText,
+          xhr.response
         );
         this.removeFileFromQueue(queueIndex);
         this._emitter.emit(uploadingFile);
       }
-    }
+    };
 
     xhr.open(this.method, this.url, true);
     xhr.withCredentials = this.withCredentials;
@@ -206,7 +206,7 @@ export class Ng2Uploader {
     if (!this.debug) {
       return;
     }
-    console.log('[Ng2Uploader]:', msg);
+    console.log("[Ng2Uploader]:", msg);
   }
 
   generateRandomIndex(): string {

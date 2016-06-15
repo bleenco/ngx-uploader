@@ -1,5 +1,5 @@
-import { ElementRef, EventEmitter } from 'angular2/core';
-import { Ng2Uploader } from '../services/ng2-uploader';
+import { ElementRef, EventEmitter } from "@angular/core";
+import { Ng2Uploader } from "../services/ng2-uploader";
 export declare class NgFileSelect {
     el: ElementRef;
     uploader: Ng2Uploader;
