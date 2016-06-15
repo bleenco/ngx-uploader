@@ -8,9 +8,9 @@ import {Ng2Uploader} from "../services/ng2-uploader";
   host: { "(change)": "onFiles()" }
 })
 export class NgFileDrop {
-  uploader: Ng2Uploader;
-  options: any;
-  onUpload: EventEmitter<any> = new EventEmitter();
+  public uploader: Ng2Uploader;
+  public options: any;
+  public onUpload: EventEmitter<any> = new EventEmitter();
 
   constructor(public el: ElementRef) {
     this.uploader = new Ng2Uploader();
@@ -25,7 +25,7 @@ export class NgFileDrop {
     this.initEvents();
   }
 
-  initEvents(): void {
+  private initEvents(): void {
     this.el.nativeElement.addEventListener("drop", (e) => {
       e.stopPropagation();
       e.preventDefault();
