@@ -11,15 +11,15 @@ var config = {
     module: 'cjs'
   },
   map: {
-    typescript: './node_modules/typescript/lib/typescript.js',
-    angular2: path.resolve('node_modules/angular2'),
-    rxjs: path.resolve('node_modules/rxjs')
+    "typescript": './node_modules/typescript/lib/typescript.js',
+    "@angular": path.resolve('node_modules/@angular'),
+    "rxjs": path.resolve('node_modules/rxjs')
   },
   paths: {
     '*': '*.js'
   },
   meta: {
-    'node_modules/angular2/*': { build: false },
+    'node_modules/@angular/*': { build: false },
     'node_modules/rxjs/*': { build: false }
   },
 };

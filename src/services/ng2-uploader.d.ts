@@ -1,4 +1,4 @@
-import { EventEmitter } from 'angular2/core';
+import { EventEmitter } from '@angular/core';
 export declare class Ng2Uploader {
     url: string;
     cors: boolean;
