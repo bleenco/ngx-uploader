@@ -9,9 +9,6 @@
     "type": "git",
     "url": "git+https://github.com/jkuri/ng2-uploader.git"
   },
-  "scripts": {
-    "prepublish": "tsc && node make.js"
-  },
   "keywords": [
     "ng2",
     "angular",
