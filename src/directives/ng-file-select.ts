@@ -18,7 +18,7 @@ export class NgFileSelect {
       this.uploader.setOptions(this.options);
     });
 
-    this.uploader._emitter.subscribe((data) => {
+    this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
     });
   }

@@ -18,7 +18,7 @@ export class NgFileDrop {
       this.uploader.setOptions(this.options);
     });
 
-    this.uploader._emitter.subscribe((data) => {
+    this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
     });
 
@@ -26,7 +26,7 @@ export class NgFileDrop {
   }
 
   initEvents(): void {
-    this.el.nativeElement.addEventListener('drop', (e) => {
+    this.el.nativeElement.addEventListener('drop', (e: any) => {
       e.stopPropagation();
       e.preventDefault();
 
@@ -38,12 +38,12 @@ export class NgFileDrop {
       }
     }, false);
     
-    this.el.nativeElement.addEventListener('dragenter', (e) => {
+    this.el.nativeElement.addEventListener('dragenter', (e: DragEvent) => {
       e.stopPropagation();
       e.preventDefault();
     }, false);
     
-    this.el.nativeElement.addEventListener('dragover', (e) => {
+    this.el.nativeElement.addEventListener('dragover', (e: DragEvent) => {
       e.stopPropagation();
       e.preventDefault();
     }, false);
