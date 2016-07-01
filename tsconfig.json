@@ -7,7 +7,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "rootDir": ".",
     "sourceMap": true,
     "sourceRoot": "./",
