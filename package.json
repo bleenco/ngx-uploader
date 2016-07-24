@@ -1,7 +1,7 @@
 {
   "name": "ng2-uploader",
   "description": "Angular2 File Uploader",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "license": "MIT",
   "main": "./ng2-uploader.ts",
   "author": "Jan Kuri <jkuri88@gmail.com>",
@@ -18,20 +18,18 @@
     "uploader"
   ],
   "dependencies": {
-    "@angular/core": "2.0.0-rc.1",
-    "@angular/common": "2.0.0-rc.1",
-    "@angular/compiler": "2.0.0-rc.1",
-    "clang-format": "^1.0.39",
+    "@angular/common": "^2.0.0-rc.4",
+    "@angular/compiler": "^2.0.0-rc.4",
+    "@angular/core": "^2.0.0-rc.4",
+    "clang-format": "^1.0.42",
     "es6-promise": "^3.2.1",
     "es6-shim": "^0.35.1",
-    "reflect-metadata": "0.1.3",
-    "rxjs": "5.0.0-beta.6",
-    "systemjs": "0.19.26",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "^5.0.0-beta.6",
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
-    "systemjs-builder": "^0.15.14",
     "typescript": "1.8.10",
-    "typings": "^0.8.1"
+    "typings": "^1.3.1"
   }
 }
