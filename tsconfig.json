@@ -14,10 +14,7 @@
     "target": "es5"
   },
   "files": [
-    "ng2-uploader.ts",
-    "typings/browser/ambient/es6-collections/index.d.ts",
-    "typings/browser/ambient/es6-promise/index.d.ts"
-
+    "ng2-uploader.ts"
   ],
   "exclude": [
     "node_modules"

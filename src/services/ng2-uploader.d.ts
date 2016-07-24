@@ -1,3 +1,4 @@
+/// <reference path="../../typings/index.d.ts" />
 import { EventEmitter } from '@angular/core';
 export declare class Ng2Uploader {
     url: string;
