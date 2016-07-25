@@ -1,10 +1,13 @@
 {
   "name": "ng2-uploader",
   "description": "Angular2 File Uploader",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "license": "MIT",
   "main": "./ng2-uploader.ts",
   "author": "Jan Kuri <jkuri88@gmail.com>",
+  "scripts": {
+    "postinstall": "typings install",
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jkuri/ng2-uploader.git"
