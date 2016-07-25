@@ -118,7 +118,7 @@ export class Ng2Uploader {
 
     let queueIndex = this._queue.indexOf(file);
 
-    xhr.upload.onprogress = (e) => {
+    xhr.upload.onprogress = (e: ProgressEvent) => {
       if (e.lengthComputable) {
         let percent = Math.round(e.loaded / e.total * 100);
         uploadingFile.setProgres({
@@ -129,17 +129,17 @@ export class Ng2Uploader {
 
         this._emitter.emit(uploadingFile);
       }
-    }
+    };
 
-    xhr.upload.onabort = (e) => {
+    xhr.upload.onabort = (e: Event) => {
       uploadingFile.setAbort();
       this._emitter.emit(uploadingFile);
-    }
+    };
 
-    xhr.upload.onerror = (e) => {
+    xhr.upload.onerror = (e: Event) => {
       uploadingFile.setError();
       this._emitter.emit(uploadingFile);
-    }
+    };
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -151,7 +151,7 @@ export class Ng2Uploader {
         this.removeFileFromQueue(queueIndex);
         this._emitter.emit(uploadingFile);
       }
-    }
+    };
 
     xhr.open(this.method, this.url, true);
     xhr.withCredentials = this.withCredentials;
@@ -169,8 +169,11 @@ export class Ng2Uploader {
     xhr.send(form);
   }
 
-  addFilesToQueue(files: FileList[]): void {
-    for (let file of files) {
+  addFilesToQueue(files: FileList): void {
+    let index: number, file: File;
+
+    for (index = 0; index < files.length; index++) {
+      file = files.item(index);
       if (this.isFile(file) && !this.inQueue(file)) {
         this._queue.push(file);
       }
