@@ -6,7 +6,7 @@
   "main": "./ng2-uploader.ts",
   "author": "Jan Kuri <jkuri88@gmail.com>",
   "scripts": {
-    "postinstall": "typings install",
+    "postinstall": "typings install"
   },
   "repository": {
     "type": "git",
