@@ -2,5 +2,7 @@
 **/*.js.map
 !make.js
 
+npm-debug.log
+
 /node_modules
 /typings
