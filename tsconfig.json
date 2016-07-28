@@ -4,16 +4,17 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "mapRoot": "",
-    "module": "system",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noImplicitAny": false,
     "rootDir": ".",
     "sourceMap": true,
-    "sourceRoot": "/",
+    "sourceRoot": "./",
     "target": "es5"
   },
   "files": [
+    "typings/index.d.ts",
     "ng2-uploader.ts"
   ],
   "exclude": [

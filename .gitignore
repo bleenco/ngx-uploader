@@ -1,6 +1,5 @@
 **/*.js
 **/*.js.map
-!make.js
 
 npm-debug.log
 

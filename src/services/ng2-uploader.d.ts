@@ -23,7 +23,7 @@ export declare class Ng2Uploader {
     setOptions(options: any): void;
     uploadFilesInQueue(): void;
     uploadFile(file: any): void;
-    addFilesToQueue(files: FileList[]): void;
+    addFilesToQueue(files: FileList): void;
     removeFileFromQueue(i: number): void;
     clearQueue(): void;
     getQueueSize(): number;
