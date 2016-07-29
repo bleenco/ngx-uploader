@@ -63,7 +63,7 @@ export class Ng2Uploader {
   multipart: boolean = true;
   method: string = 'POST';
   debug: boolean = false;
-  customHeaders: Object = {};
+  customHeaders: any = {};
   encodeHeaders: boolean = true;
   authTokenPrefix: string = "Bearer";
   authToken: string = undefined;
