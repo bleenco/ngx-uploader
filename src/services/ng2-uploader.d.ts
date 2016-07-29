@@ -1,4 +1,21 @@
 import { EventEmitter } from '@angular/core';
+export declare class UploadedFile {
+    id: string;
+    status: number;
+    statusText: string;
+    progress: Object;
+    originalName: string;
+    size: number;
+    response: string;
+    done: boolean;
+    error: boolean;
+    abort: boolean;
+    constructor(id: string, originalName: string, size: number);
+    setProgres(progress: Object): void;
+    setError(): void;
+    setAbort(): void;
+    onFinished(status: number, statusText: string, response: string): void;
+}
 export declare class Ng2Uploader {
     url: string;
     cors: boolean;
@@ -13,7 +30,7 @@ export declare class Ng2Uploader {
     multipart: boolean;
     method: string;
     debug: boolean;
-    customHeaders: Object;
+    customHeaders: any;
     encodeHeaders: boolean;
     authTokenPrefix: string;
     authToken: string;
