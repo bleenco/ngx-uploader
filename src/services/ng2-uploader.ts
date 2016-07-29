@@ -1,6 +1,6 @@
 import {Injectable, EventEmitter} from '@angular/core';
 
-class UploadedFile {
+export class UploadedFile {
   id: string;
   status: number;
   statusText: string;
