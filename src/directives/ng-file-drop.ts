@@ -4,8 +4,7 @@ import {Ng2Uploader} from '../services/ng2-uploader';
 @Directive({
   selector: '[ng-file-drop]',
   inputs: ['options: ng-file-drop'],
-  outputs: ['onUpload'],
-  host: { '(change)': 'onFiles()' }
+  outputs: ['onUpload']
 })
 export class NgFileDrop {
   uploader: Ng2Uploader;
