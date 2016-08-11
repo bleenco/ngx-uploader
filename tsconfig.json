@@ -3,21 +3,11 @@
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "mapRoot": "",
-    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "mapRoot": "./",
+    "module": "es6",
     "moduleResolution": "node",
-    "noEmitOnError": true,
-    "noImplicitAny": true,
-    "rootDir": ".",
     "sourceMap": true,
-    "sourceRoot": "./",
     "target": "es5"
-  },
-  "files": [
-    "typings/index.d.ts",
-    "ng2-uploader.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }
