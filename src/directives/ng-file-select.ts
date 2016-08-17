@@ -23,9 +23,37 @@ export class NgFileSelect {
     });
   }
 
+  /**
+  * Modified:kharatps02
+  * Date :17/08/2016
+  * Description: It will check all files types with config param allowedExtensions
+    If some of the files types doesn't match  then handleUpload will get following object otherwise it will work as it is .
+
+   {
+    status: 'INVALID_FILE_EXTENTION',
+    files: invalidExtentionFiles // invalid files names
+  }
+  **/
+
+
   onFiles(): void {
     let files = this.el.nativeElement.files;
-    if (files.length) {
+    let invalidExtentionFiles: Array<string> = [];
+
+    if (files.length && this.uploader.allowedExtensions.length) {
+      for (var i = 0; i < files.length; i++) {
+        (this.uploader.allowedExtensions.indexOf(files[i].type) === -1) ? invalidExtentionFiles.push(files[i].name) : null;
+      }
+      if (!invalidExtentionFiles.length) {
+        this.uploader.addFilesToQueue(files);
+      } else {
+        let data = {
+          status: 'INVALID_FILE_EXTENTION',
+          files: invalidExtentionFiles
+        };
+        this.uploader._emitter.emit(data);
+      }
+    } else if (files.length) {
       this.uploader.addFilesToQueue(files);
     }
   }
