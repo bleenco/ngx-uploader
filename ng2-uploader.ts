@@ -9,6 +9,6 @@ export * from './src/directives/ng-file-drop';
 export default {
   directives: [NgFileSelect, NgFileDrop],
   providers: [Ng2Uploader]
-}
+};
 
 export const UPLOAD_DIRECTIVES: [any] = [NgFileSelect, NgFileDrop];

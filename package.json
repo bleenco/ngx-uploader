@@ -1,13 +1,12 @@
 {
   "name": "ng2-uploader",
   "description": "Angular2 File Uploader",
-  "version": "0.5.12",
+  "version": "0.5.13",
   "license": "MIT",
   "main": "ng2-uploader.ts",
   "author": "Jan Kuri <jkuri88@gmail.com>",
   "scripts": {
     "clean": "./scripts/clean.sh",
-    "lint": "tslint \"src/**/*.ts\"",
     "dev": "tsc --watch",
     "prepublish": "tsc"
   },
@@ -33,8 +32,6 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
-    "codelyzer": "0.0.26",
-    "tslint": "3.14.0",
     "typescript": "2.0.0"
   }
 }
