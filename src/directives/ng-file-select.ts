@@ -29,7 +29,9 @@ export class NgFileSelect {
 
     if (files.length && this.uploader.allowedExtensions.length) {
       for (var i = 0; i < files.length; i++) {
-        (this.uploader.allowedExtensions.indexOf(files[i].type) === -1) ? invalidExtensionFiles.push(files[i].name) : null;
+        if (this.uploader.allowedExtensions.indexOf(files[i].type) === -1){
+          invalidExtensionFiles.push(files[i].name);
+        }  
       }
       if (!invalidExtentionFiles.length) {
         this.uploader.addFilesToQueue(files);
