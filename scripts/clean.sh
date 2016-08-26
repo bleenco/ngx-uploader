@@ -1,5 +1,5 @@
 #!/bin/bash
 
-find src/ -name "*.js" -type f -delete
-find src/ -name "*.js.map" -type f -delete
-find src/ -name "*.d.ts" -type f -delete
+find . -name "*.js" -type f -not -path "./node_modules/*" -delete
+find . -name "*.js.map" -type f -not -path "./node_modules/*" -delete
+find . -name "*.d.ts" -type f -not -path "./node_modules/*" -delete
