@@ -254,6 +254,7 @@ import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
 })
 export class ImagePreview {
   @ViewChild(NgFileSelect) private fileSelect: NgFileSelect;
+  previewData = ''
   options: Object = {
     url: 'http://localhost:10050/upload',
     previewUrl: true,
