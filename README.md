@@ -240,7 +240,55 @@ export class MultipleProgressbar {
 </div>
 ````
 
+### Image preview example and manual upload
 
+`component.ts`
+````typescript
+import {Component, NgZone} from '@angular/core';
+import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
+
+@Component({
+  selector: 'image-preview',
+  templateUrl: 'app/components/image-preview/image-preview.html',
+  directives: [UPLOAD_DIRECTIVES]
+})
+export class ImagePreview {
+  @ViewChild(NgFileSelect) private fileSelect: NgFileSelect;
+  previewData = ''
+  options: Object = {
+    url: 'http://localhost:10050/upload',
+    previewUrl: true,
+    autoUpload: false
+  };
+
+  constructor() {
+    
+  }
+  getData(data) {
+     this.previewData = data;
+  }
+  upload() {
+     this.fileSelect.uploader.uploadFilesInQueue();
+  }
+
+
+}
+````
+
+`component.html`
+````html
+<div [ng-file-select]="options"
+     (onUpload)="handleUpload($event)"
+     (onPreviewData)="getData($event)">
+</div>
+<img [src]="previewData"/>
+<button (click)="clearImage()">
+    Clear
+</button>
+<button (click)="upload()">
+    Upload
+</button>
+````
 ### Token-authorized call example
 
 `component.ts`
