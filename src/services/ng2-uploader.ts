@@ -68,10 +68,10 @@ export class Ng2Uploader {
   authTokenPrefix: string = "Bearer";
   authToken: string = undefined;
   fieldName: string = "file";
-
+  previewUrl: boolean = false;
   _queue: any[] = [];
   _emitter: EventEmitter<any> = new EventEmitter(true);
-
+  _previewEmitter: EventEmitter<any> = new EventEmitter(true);
   setOptions(options: any): void {
 
     this.url = options.url != null ? options.url : this.url;
@@ -92,7 +92,7 @@ export class Ng2Uploader {
     this.authTokenPrefix = options.authTokenPrefix != null ? options.authTokenPrefix : this.authTokenPrefix;
     this.authToken = options.authToken != null ? options.authToken : this.authToken;
     this.fieldName = options.fieldName != null ? options.fieldName : this.fieldName;
-
+    this.previewUrl = options.previewUrl != null ? options.previewUrl : this.previewUrl;
     if (!this.multiple) {
       this.maxUploads = 1;
     }
@@ -178,12 +178,20 @@ export class Ng2Uploader {
         this._queue.push(file);
       }
     }
-
+    if(this.previewUrl){
+      this.createFileUrl(file)
+    }
     if (this.autoUpload) {
       this.uploadFilesInQueue();
     }
   }
-
+  createFileUrl(file){
+    var reader = new FileReader();
+    reader.addEventListener('load', () => {
+        this._previewEmitter.emit(reader.result)
+    });
+    reader.readAsDataURL(file);
+  }
   removeFileFromQueue(i: number): void {
     this._queue.splice(i, 1);
   }
