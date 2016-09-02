@@ -20,7 +20,8 @@ npm install ng2-uploader
 #### Backend Examples
 
 1. [NodeJS using HapiJS](https://github.com/jkuri/ng2-uploader#backend-example-using-hapijs)
-2. [PHP (Plain)](https://github.com/jkuri/ng2-uploader#backend-example-using-plain-php)
+2. [NodeJS using express](https://github.com/jkuri/ng2-uploader#backend-example-using-express)
+3. [PHP (Plain)](https://github.com/jkuri/ng2-uploader#backend-example-using-plain-php)
 
 ### Basic Example
 
@@ -393,6 +394,42 @@ server.route([
 
 server.start(() => {
   console.log('Upload server running at', server.info.uri);
+});
+````
+
+### Backed example using express
+
+````js
+const express = require('express');
+const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
+
+const app = express();
+app.use(cors());
+
+const upload = multer({ 
+  dest: 'uploads/',
+  storage: multer.diskStorage({
+    filename: (req, file, cb) => {
+      let ext = path.extname(file.originalname);
+      cb(null, `${Math.random().toString(36).substring(7)}${ext}`);
+    }
+  }) 
+});
+
+app.post('/upload', upload.any(), (req, res) => {
+  res.json(req.files.map(file => {
+    let ext = path.extname(file.originalname);
+    return {
+      originalName: file.originalname,
+      filename: file.filename
+    }
+  }));
+});
+
+app.listen(10050, () => {
+  console.log('ng2-uploader server running on port 10050.');
 });
 ````
 
