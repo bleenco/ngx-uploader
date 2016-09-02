@@ -445,7 +445,7 @@ server.start(() => {
 });
 ````
 
-### Backed example using express
+### Backend example using express
 
 ````js
 const express = require('express');
