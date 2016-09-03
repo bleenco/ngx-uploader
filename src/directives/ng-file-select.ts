@@ -28,7 +28,24 @@ export class NgFileSelect {
 
   onFiles(): void {
     let files = this.el.nativeElement.files;
-    if (files.length) {
+    let invalidExtensionFiles: Array<string> = [];
+
+    if (files.length && this.uploader.allowedExtensions.length) {
+      for (var i = 0; i < files.length; i++) {
+        if (this.uploader.allowedExtensions.indexOf(files[i].type) === -1){
+          invalidExtensionFiles.push(files[i].name);
+        }  
+      }
+      if (!invalidExtentionFiles.length) {
+        this.uploader.addFilesToQueue(files);
+      } else {
+        let data = {
+          status: 'INVALID_FILE_EXTENSION',
+          files: invalidExtensionFiles
+        };
+        this.uploader._emitter.emit(data);
+      }
+    } else if (files.length) {
       this.uploader.addFilesToQueue(files);
     }
   }
