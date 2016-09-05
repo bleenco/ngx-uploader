@@ -13,6 +13,7 @@ import {Ng2Uploader} from '../services/ng2-uploader';
 })
 export class NgFileDropDirective {
   @Input() options: any;
+  @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
 
@@ -34,6 +35,12 @@ export class NgFileDropDirective {
 
     this.uploader._previewEmitter.subscribe((data: any) => {
       this.onPreviewData.emit(data);
+    });
+
+    this.events.subscribe((data: string) => {
+      if (data === 'startUpload') {
+        this.uploader.uploadFilesInQueue();
+      }
     });
 
     this.initEvents();
