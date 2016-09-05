@@ -1,17 +1,24 @@
-import {Directive, ElementRef, EventEmitter} from '@angular/core';
-import {Ng2Uploader} from '../services/ng2-uploader';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  HostListener
+} from '@angular/core';
+import { Ng2Uploader } from '../services/ng2-uploader';
 
 @Directive({
-  selector: '[ng-file-select]',
-  inputs: ['options: ng-file-select'],
-  outputs: ['onUpload', 'onPreviewData'],
-  host: { '(change)': 'onFiles()' }
+  selector: '[ngFileSelect]'
 })
-export class NgFileSelect {
+export class NgFileSelectDirective {
+  @Input() options: any;
+  @Output() onUpload: EventEmitter<any> = new EventEmitter();
+  @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
+
+  files: any[] = [];
   uploader: Ng2Uploader;
-  options: any;
-  onUpload: EventEmitter<any> = new EventEmitter();
-  onPreviewData: EventEmitter<any> = new EventEmitter();
+
   constructor(public el: ElementRef) {
     this.uploader = new Ng2Uploader();
     setTimeout(() => {
@@ -20,16 +27,39 @@ export class NgFileSelect {
 
     this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
+      if (data.done) {
+        this.files = this.files.filter(f => f.name !== data.originalName);
+      }
     });
+
     this.uploader._previewEmitter.subscribe((data: any) => {
       this.onPreviewData.emit(data);
-    })
+    });
   }
 
-  onFiles(): void {
-    let files = this.el.nativeElement.files;
-    if (files.length) {
-      this.uploader.addFilesToQueue(files);
+  filterFilesByExtension(): void {
+    this.files = this.files.filter(f => {
+      if (this.options.allowedExtensions.indexOf(f.type) !== -1) {
+        return true;
+      }
+
+      let ext: string = f.name.split('.').pop();
+      if (this.options.allowedExtensions.indexOf(ext) !== -1 ) {
+        return true;
+      }
+
+      return false;
+    });
+  }
+
+  @HostListener('change') onChange(): void {
+    this.files = Array.from(this.el.nativeElement.files);
+    if (this.options.filterExtensions && this.options.allowedExtensions) {
+      this.filterFilesByExtension();
+    }
+
+    if (this.files.length) {
+      this.uploader.addFilesToQueue(this.files);
     }
   }
 }

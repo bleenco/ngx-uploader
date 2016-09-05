@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 export class UploadedFile {
   id: string;
@@ -11,6 +11,10 @@ export class UploadedFile {
   done: boolean;
   error: boolean;
   abort: boolean;
+  startTime: number;
+  endTime: number;
+  speedAverage: number;
+  speedAverageHumanized: string;
 
   constructor(id: string, originalName: string, size: number) {
     this.id = id;
@@ -19,11 +23,17 @@ export class UploadedFile {
     this.progress = {
       loaded: 0,
       total: 0,
-      percent: 0
+      percent: 0,
+      speed: 0,
+      speedHumanized: null
     };
     this.done = false;
     this.error = false;
     this.abort = false;
+    this.startTime = new Date().getTime();
+    this.endTime = 0;
+    this.speedAverage = 0;
+    this.speedAverageHumanized = null;
   }
 
   setProgres(progress: Object): void {
@@ -41,6 +51,10 @@ export class UploadedFile {
   }
 
   onFinished(status: number, statusText: string, response: string): void {
+    this.endTime = new Date().getTime();
+    this.speedAverage = this.size / (this.endTime - this.startTime) * 1000;
+    this.speedAverage = parseInt(<any>this.speedAverage, 10);
+    this.speedAverageHumanized = humanizeBytes(this.speedAverage);
     this.status = status;
     this.statusText = statusText;
     this.response = response;
@@ -48,51 +62,45 @@ export class UploadedFile {
   }
 }
 
-@Injectable()
 export class Ng2Uploader {
   url: string;
   cors: boolean = false;
   withCredentials: boolean = false;
   multiple: boolean = false;
   maxUploads: number = 3;
-  allowedExtensions: string[] = [];
-  maxSize: boolean = false;
   data: Object = {};
-  noParams: boolean = true;
   autoUpload: boolean = true;
   multipart: boolean = true;
   method: string = 'POST';
   debug: boolean = false;
   customHeaders: any = {};
   encodeHeaders: boolean = true;
-  authTokenPrefix: string = "Bearer";
+  authTokenPrefix: string = 'Bearer';
   authToken: string = undefined;
-  fieldName: string = "file";
+  fieldName: string = 'file';
   previewUrl: boolean = false;
+  calculateSpeed: boolean = false;
   _queue: any[] = [];
-  _emitter: EventEmitter<any> = new EventEmitter(true);
-  _previewEmitter: EventEmitter<any> = new EventEmitter(true);
-  setOptions(options: any): void {
+  _emitter: EventEmitter<any> = new EventEmitter();
+  _previewEmitter: EventEmitter<any> = new EventEmitter();
 
+  setOptions(options: any): void {
     this.url = options.url != null ? options.url : this.url;
     this.cors = options.cors != null ? options.cors : this.cors;
     this.withCredentials = options.withCredentials != null ? options.withCredentials : this.withCredentials;
     this.multiple = options.multiple != null ? options.multiple : this.multiple;
     this.maxUploads = options.maxUploads != null ? options.maxUploads : this.maxUploads;
-    this.allowedExtensions = options.allowedExtensions != null ? options.allowedExtensions : this.allowedExtensions;
-    this.maxSize = options.maxSize != null ? options.maxSize : this.maxSize;
     this.data = options.data != null ? options.data : this.data;
-    this.noParams = options.noParams != null ? options.noParams : this.noParams;
     this.autoUpload = options.autoUpload != null ? options.autoUpload : this.autoUpload;
     this.multipart = options.multipart != null ? options.multipart : this.multipart;
     this.method = options.method != null ? options.method : this.method;
-    this.debug = options.debug != null ? options.debug : this.debug;
     this.customHeaders = options.customHeaders != null ? options.customHeaders : this.customHeaders;
     this.encodeHeaders = options.encodeHeaders != null ? options.encodeHeaders : this.encodeHeaders;
     this.authTokenPrefix = options.authTokenPrefix != null ? options.authTokenPrefix : this.authTokenPrefix;
     this.authToken = options.authToken != null ? options.authToken : this.authToken;
     this.fieldName = options.fieldName != null ? options.fieldName : this.fieldName;
     this.previewUrl = options.previewUrl != null ? options.previewUrl : this.previewUrl;
+    this.calculateSpeed = options.calculateSpeed != null ? options.calculateSpeed : this.calculateSpeed;
     if (!this.multiple) {
       this.maxUploads = 1;
     }
@@ -110,22 +118,49 @@ export class Ng2Uploader {
     let form = new FormData();
     form.append(this.fieldName, file, file.name);
 
+    Object.keys(this.data).forEach(k => {
+      form.append(k, this.data[k]);
+    });
+
     let uploadingFile = new UploadedFile(
-        this.generateRandomIndex(),
-        file.name,
-        file.size
+      this.generateRandomIndex(),
+      file.name,
+      file.size
     );
 
     let queueIndex = this._queue.indexOf(file);
 
+    let time: number = new Date().getTime();
+    let load = 0;
+    let speed = 0;
+    let speedHumanized: string = null;
+
     xhr.upload.onprogress = (e: ProgressEvent) => {
       if (e.lengthComputable) {
+        if (this.calculateSpeed) {
+          time = new Date().getTime() - time;
+          load = e.loaded - load;
+          speed = load / time * 1000;
+          speed = parseInt(<any>speed, 10);
+          speedHumanized = humanizeBytes(speed);
+        }
+
         let percent = Math.round(e.loaded / e.total * 100);
-        uploadingFile.setProgres({
-          total: e.total,
-          loaded: e.loaded,
-          percent: percent
-        });
+        if (speed === 0) {
+          uploadingFile.setProgres({
+            total: e.total,
+            loaded: e.loaded,
+            percent: percent
+          });
+        } else {
+          uploadingFile.setProgres({
+            total: e.total,
+            loaded: e.loaded,
+            percent: percent,
+            speed: speed,
+            speedHumanized: speedHumanized
+          });
+        }
 
         this._emitter.emit(uploadingFile);
       }
@@ -163,35 +198,36 @@ export class Ng2Uploader {
     }
 
     if (this.authToken) {
-      xhr.setRequestHeader("Authorization", `${this.authTokenPrefix} ${this.authToken}`);
+      xhr.setRequestHeader('Authorization', `${this.authTokenPrefix} ${this.authToken}`);
     }
 
     xhr.send(form);
   }
 
-  addFilesToQueue(files: FileList): void {
-    let index: number, file: File;
-
-    for (index = 0; index < files.length; index++) {
-      file = files.item(index);
+  addFilesToQueue(files: File[]): void {
+    files.forEach((file: File, i: number) => {
       if (this.isFile(file) && !this.inQueue(file)) {
         this._queue.push(file);
       }
+    });
+
+    if (this.previewUrl) {
+      files.forEach(file => this.createFileUrl(file));
     }
-    if(this.previewUrl){
-      this.createFileUrl(file)
-    }
+
     if (this.autoUpload) {
       this.uploadFilesInQueue();
     }
   }
+
   createFileUrl(file){
-    var reader = new FileReader();
+    let reader: FileReader = new FileReader();
     reader.addEventListener('load', () => {
-        this._previewEmitter.emit(reader.result)
+        this._previewEmitter.emit(reader.result);
     });
     reader.readAsDataURL(file);
   }
+
   removeFileFromQueue(i: number): void {
     this._queue.splice(i, 1);
   }
@@ -213,15 +249,18 @@ export class Ng2Uploader {
     return file !== null && (file instanceof Blob || (file.name && file.size));
   }
 
-  log(msg: any): void {
-    if (!this.debug) {
-      return;
-    }
-    console.log('[Ng2Uploader]:', msg);
-  }
-
   generateRandomIndex(): string {
     return Math.random().toString(36).substring(7);
   }
+}
 
+function humanizeBytes(bytes): string {
+  if (bytes === 0) {
+    return '0 Byte';
+  }
+  let k = 1024;
+  const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+  let i: number = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i] + '/s';
 }

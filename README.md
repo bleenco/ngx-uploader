@@ -7,15 +7,29 @@ For demos please see [demos page](http://ng2-uploader.com).
 ### Installation
 
 ```
-npm install ng2-uploader
+npm install ng2-uploader --save
 ```
+
+### Available parameters
+
+|Parameter   	| Example Value
+|---	       |---	|
+| url   	    | http://api.ng2-uploader.com:10050  	|
+| filterExtensions | true/false |
+| allowedExtensions | ['image/png', 'image/jpg'] or ['jpg', 'png'] |
+| calculateSpeed | true/false |
+| data          | { userId: 12, isAdmin: true } |
+| customHeaders  | { 'custom-header': 'value' } |
+| authToken      | 012313asdadklj123123 |
+| authTokenPrefix | 'Bearer' (default) |
+
+**All parameters except `url` are optional.**
+
 
 #### Examples
 
 1. [Basic Example](https://github.com/jkuri/ng2-uploader#basic-example)
-2. [Multiple Files Example](https://github.com/jkuri/ng2-uploader#multiple-files-example)
-3. [Basic Progressbar Example](https://github.com/jkuri/ng2-uploader#progressbar-example)
-4. [Multiple Files Progressbars Example](https://github.com/jkuri/ng2-uploader#multiple-files-progressbars-example)
+2. [Advanced Example](https://github.com/jkuri/ng2-uploader#advanced-example)
 
 #### Backend Examples
 
@@ -25,15 +39,23 @@ npm install ng2-uploader
 
 ### Basic Example
 
-`component.ts`
-````typescript
-import {Component} from '@angular/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
+````ts
+// app.module.ts
+import { UPLOAD_DIRECTIVES } from 'ng2-uploader';
+...
+@NgModule({
+  ...
+  declarations: [
+    UPLOAD_DIRECTIVES
+  ],
+  ...
+})
+// app.component.ts
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'demo-app',
-  templateUrl: 'app/demo.html',
-  directives: [UPLOAD_DIRECTIVES],
+  templateUrl: 'app/demo.html'
 })
 export class DemoApp {
   uploadFile: any;
@@ -50,10 +72,11 @@ export class DemoApp {
 }
 ````
 
-`component.html`
 ````html
+<!-- app.component.html -->
 <input type="file" 
-       [ng-file-select]="options"
+       ngFileSelect
+       [options]="options"
        (onUpload)="handleUpload($event)">
 
 <div>
@@ -61,317 +84,50 @@ Response: {{ uploadFile | json }}
 </div>
 ````
 
-### Multiple files example
+### Advanced Example
 
-`component.ts`
-````typescript
-import {Component} from '@angular/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
+This example show how to use available options and progress.
 
-@Component({
-  selector: 'basic-multiple',
-  templateUrl: 'basic-multiple.html',
-  directives: [UPLOAD_DIRECTIVES],
-})
-export class BasicMultiple {
-  uploadedFiles: any[] = [];
-  options: Object = {
-      url: 'http://localhost:10050/upload'
-  };
-
-  handleUpload(data): void {
-    if (data && data.response) {
-      data = JSON.parse(data.response);
-      this.uploadedFiles.push(data);
-    }
-  }
-}
-````
-
-`component.html`
-````html
-<input type="file" 
-       style="display:none;"
-       [ng-file-select]="options"
-       (onUpload)="handleUpload($event)"
-       multiple>
-</div>
-
-<div>
-Response: <br/>{{ uploadedFiles | json }}
-</div>
-````
-
-### Progressbar example
-
-`component.ts`
-````typescript
-import {Component, NgZone} from '@angular/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
+```ts
+import { Component, OnInit, NgZone } from '@angular/core';
 
 @Component({
-  selector: 'basic-progressbar',
-  templateUrl: 'app/components/basic-progressbar/basic-progressbar.html',
-  directives: [UPLOAD_DIRECTIVES],
+  selector: 'app-component',
+  templateUrl: 'app.component.html'
 })
-export class BasicProgressbar {
-  uploadFile: any;
-  uploadProgress: number;
-  uploadResponse: Object;
-  zone: NgZone;
-  options: Object = {
-    url: 'http://localhost:10050/upload'
-  };
+export class AppDemoComponent implements OnInit {
+  private zone: NgZone;
+  private options: Object;
+  private progress: number = 0;
+  private response: any = {};
 
-  constructor() {
-    this.uploadProgress = 0;
-    this.uploadResponse = {};
+  ngOnInit() {
     this.zone = new NgZone({ enableLongStackTrace: false });
+    this.options = {
+      url: 'http://api.ng2-uploader.com:10050/upload',
+      filterExtensions: true,
+      allowedExtensions: ['image/png', 'image/jpg'],
+      calculateSpeed: true,
+      data: {
+        userId: 12,
+        isAdmin: true
+      },
+      customHeaders: {
+        'custom-header': 'value'
+      },
+      authToken: 'asd123b123zxc08234cxcv',
+      authTokenPrefix: 'Bearer'
+    };
   }
 
-  handleUpload(data): void {
-    this.uploadFile = data;
+  handleUpload(data: any): void {
     this.zone.run(() => {
-      this.uploadProgress = data.progress.percent;
+      this.response = data;
+      this.progress = Math.floor(data.progress.percent / 100);
     });
-    let resp = data.response;
-    if (resp) {
-      resp = JSON.parse(resp);
-      this.uploadResponse = resp;
-    }
   }
 }
-````
-
-`component.html`
-````html
-<div>
-  <label for="file-pb" class="ui small black button right icon upload-button">
-      <i class="ion-document icon"></i>
-      Choose file
-  </label>
-  <input type="file" 
-         id="file-pb"
-         style="display:none;"
-         [ng-file-select]="options"
-         (onUpload)="handleUpload($event)">
-</div>
-
-<div *ngIf="uploadFile">
-Progress: {{ uploadProgress }}%
-</div>
-<div *ngIf="uploadFile">
-  <div class="ui indicating olive progress">
-    <div class="bar" [style.width]="uploadProgress + '%'"></div>
-    <div class="label">Uploading file ({{ uploadProgress }}%)</div>
-  </div>
-</div>
-
-<div>
-Response: <br/>{{ uploadFile | json }}
-</div>
-````
-
-### Multiple files progressbars example
-
-`component.ts`
-````typescript
-import {Component, NgZone} from '@angular/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
-
-@Component({
-  selector: 'multiple-progressbar',
-  templateUrl: 'app/components/multiple-progressbar/multiple-progressbar.html',
-  directives: [UPLOAD_DIRECTIVES]
-})
-export class MultipleProgressbar {
-  uploadFiles: any[];
-  uploadProgresses: any[] = [];
-  zone: NgZone;
-  options: Object = {
-    url: 'http://localhost:10050/upload'
-  };
-
-  constructor() {
-    this.zone = new NgZone({ enableLongStackTrace: false });
-  }
-
-  handleUpload(data): void {
-    let id = data.id;
-    let index = this.findIndex(id);
-    if (index === -1) {
-      this.uploadProgresses.push({id: id, percent: 0});
-    }
-    if (this.uploadProgresses[index]) {
-      this.zone.run(() => {
-        this.uploadProgresses[index].percent = data.progress.percent;
-      });
-    }
-  }
-
-  findIndex(id: string): number {
-    return this.uploadProgresses.findIndex(x => x.id === id);
-  }
-
-}
-````
-
-`component.html`
-````html
-<div>
-  <label for="files-pb" class="ui small black button right icon upload-button">
-      <i class="ion-document-text icon"></i>
-      Choose files
-  </label>
-  <input type="file" 
-         id="files-pb"
-         style="display:none;"
-         [ng-file-select]="options"
-         (onUpload)="handleUpload($event)"
-         multiple>
-</div>
-
-<div class="ui divider"></div>
-
-<div *ngFor="#progressObj of uploadProgresses">
-  <div class="ui indicating olive progress">
-    <div class="bar" [style.width]="progressObj.percent + '%'"></div>
-    <div class="label">Uploading file ({{ progressObj.percent }}%)</div>
-  </div>
-</div>
-````
-
-### Image preview example and manual upload
-
-`component.ts`
-````typescript
-import {Component, NgZone} from '@angular/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
-
-@Component({
-  selector: 'image-preview',
-  templateUrl: 'app/components/image-preview/image-preview.html',
-  directives: [UPLOAD_DIRECTIVES]
-})
-export class ImagePreview {
-  @ViewChild(NgFileSelect) private fileSelect: NgFileSelect;
-  previewData = ''
-  options: Object = {
-    url: 'http://localhost:10050/upload',
-    previewUrl: true,
-    autoUpload: false
-  };
-
-  constructor() {
-    
-  }
-  getData(data) {
-     this.previewData = data;
-  }
-  upload() {
-     this.fileSelect.uploader.uploadFilesInQueue();
-  }
-
-
-}
-````
-
-`component.html`
-````html
-<div [ng-file-select]="options"
-     (onUpload)="handleUpload($event)"
-     (onPreviewData)="getData($event)">
-</div>
-<img [src]="previewData"/>
-<button (click)="clearImage()">
-    Clear
-</button>
-<button (click)="upload()">
-    Upload
-</button>
-````
-### Token-authorized call example
-
-`component.ts`
-````typescript
-import {Component} from '@angular/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
-
-@Component({
-  selector: 'demo-app',
-  templateUrl: 'app/demo.html',
-  directives: [UPLOAD_DIRECTIVES],
-})
-export class DemoApp {
-  uploadFile: any;
-  options: Object = {
-    url: 'http://localhost:10050/upload',
-    withCredentials: true,
-    authToken: localStorage.getItem('token'),
-    authTokenPrefix: "Bearer" // required only if different than "Bearer"
-    
-  };
-
-  handleUpload(data): void {
-    if (data && data.response) {
-      data = JSON.parse(data.response);
-      this.uploadFile = data;
-    }
-  }
-}
-````
-
-`component.html`
-````html
-<input type="file" 
-       [ng-file-select]="options"
-       (onUpload)="handleUpload($event)">
-
-<div>
-Response: {{ uploadFile | json }}
-</div>
-````
-
-### Custom field name example
-
-You may want to sent file with specific form field name. For that you can use options.fieldName. If not provided then the field will be named "file".
-
-`component.ts`
-````typescript
-import {Component} from '@angular/core';
-import {UPLOAD_DIRECTIVES} from 'ng2-uploader/ng2-uploader';
-
-@Component({
-  selector: 'demo-app',
-  templateUrl: 'app/demo.html',
-  directives: [UPLOAD_DIRECTIVES],
-})
-export class DemoApp {
-  uploadFile: any;
-  options: Object = {
-    url: 'http://localhost:10050/upload',
-    fieldName: 'logo'    
-  };
-
-  handleUpload(data): void {
-    if (data && data.response) {
-      data = JSON.parse(data.response);
-      this.uploadFile = data;
-    }
-  }
-}
-````
-
-`component.html`
-````html
-<input type="file" 
-       [ng-file-select]="options"
-       (onUpload)="handleUpload($event)">
-
-<div>
-Response: {{ uploadFile | json }}
-</div>
-````
+```
 
 
 ### Backend Example Using HapiJS
