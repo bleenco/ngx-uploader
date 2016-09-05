@@ -37,9 +37,13 @@ export class NgFileDropDirective {
       this.onPreviewData.emit(data);
     });
 
-    this.events.subscribe((data: string) => {
-      if (data === 'startUpload') {
-        this.uploader.uploadFilesInQueue();
+    setTimeout(() => {
+      if (this.events instanceof EventEmitter) {
+        this.events.subscribe((data: string) => {
+          if (data === 'startUpload') {
+            this.uploader.uploadFilesInQueue();
+          }
+        });
       }
     });
 
