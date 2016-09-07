@@ -68,7 +68,7 @@ export class Ng2Uploader {
   withCredentials: boolean = false;
   multiple: boolean = false;
   maxUploads: number = 3;
-  data: Object = {};
+  data: { [index: string]: any } = {};
   autoUpload: boolean = true;
   multipart: boolean = true;
   method: string = 'POST';
@@ -220,7 +220,7 @@ export class Ng2Uploader {
     }
   }
 
-  createFileUrl(file){
+  createFileUrl(file: File){
     let reader: FileReader = new FileReader();
     reader.addEventListener('load', () => {
         this._previewEmitter.emit(reader.result);
@@ -254,7 +254,7 @@ export class Ng2Uploader {
   }
 }
 
-function humanizeBytes(bytes): string {
+function humanizeBytes(bytes: number): string {
   if (bytes === 0) {
     return '0 Byte';
   }
