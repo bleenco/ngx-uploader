@@ -12,10 +12,22 @@ import { Ng2Uploader } from '../services/ng2-uploader';
   selector: '[ngFileSelect]'
 })
 export class NgFileSelectDirective {
-  @Input() options: any;
+  
   @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
+  
+  _options:any;
+
+  get options(): any {
+    return this._options;
+  }
+
+  @Input('options')
+  set options(value: any) {
+    this._options = value;
+    this.uploader.setOptions(this.options);
+  }
 
   files: any[] = [];
   uploader: Ng2Uploader;
