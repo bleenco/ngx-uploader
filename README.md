@@ -59,6 +59,7 @@ import { Component } from '@angular/core';
 })
 export class DemoApp {
   uploadFile: any;
+  hasBaseDropZoneOver: boolean = false;
   options: Object = {
     url: 'http://localhost:10050/upload'
   };
@@ -69,6 +70,10 @@ export class DemoApp {
       this.uploadFile = data;
     }
   }
+
+  fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
 }
 ````
 
@@ -78,6 +83,17 @@ export class DemoApp {
        ngFileSelect
        [options]="options"
        (onUpload)="handleUpload($event)">
+
+<!-- drag & drop file example-->
+<style>
+  .file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+</style>
+<div ng2FileDrop
+     [options]="options"
+     (onUpload)="handleUpload($event)"
+     [ngClass]="{'file-over': hasBaseDropZoneOver}"
+     (onFileOver)="fileOverBase($event)">
+</div>
 
 <div>
 Response: {{ uploadFile | json }}

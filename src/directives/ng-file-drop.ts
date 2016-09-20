@@ -16,7 +16,7 @@ export class NgFileDropDirective {
   @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
-  @Output() fileOver:EventEmitter<any> = new EventEmitter();
+  @Output() onFileOver:EventEmitter<any> = new EventEmitter();
 
    _options:any;
 
@@ -114,12 +114,12 @@ export class NgFileDropDirective {
 
   @HostListener('dragover', ['$event'])
   public onDragOver():void {
-    this.fileOver.emit(true);
+    this.onFileOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
   public onDragLeave():any {
-    this.fileOver.emit(false);
+    this.onFileOver.emit(false);
   }
 
 }
