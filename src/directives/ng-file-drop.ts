@@ -12,10 +12,11 @@ import {Ng2Uploader} from '../services/ng2-uploader';
   selector: '[ngFileDrop]'
 })
 export class NgFileDropDirective {
-  
+
   @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
+  @Output() onFileOver:EventEmitter<any> = new EventEmitter();
 
    _options:any;
 
@@ -110,4 +111,15 @@ export class NgFileDropDirective {
       this.uploader.addFilesToQueue(this.files);
     }
   }
+
+  @HostListener('dragover', ['$event'])
+  public onDragOver():void {
+    this.onFileOver.emit(true);
+  }
+
+  @HostListener('dragleave', ['$event'])
+  public onDragLeave():any {
+    this.onFileOver.emit(false);
+  }
+
 }
