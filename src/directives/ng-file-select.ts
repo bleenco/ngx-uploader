@@ -50,7 +50,7 @@ export class NgFileSelectDirective {
     });
 
     setTimeout(() => {
-      if (this.events instanceof EventEmitter) {
+      if (this.events) {
         this.events.subscribe((data: string) => {
           if (data === 'startUpload') {
             this.uploader.uploadFilesInQueue();
