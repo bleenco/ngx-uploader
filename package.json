@@ -1,7 +1,7 @@
 {
   "name": "ng2-uploader",
   "description": "Angular2 File Uploader",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "license": "MIT",
   "main": "ng2-uploader.ts",
   "typings": "ng2-uploader.d.ts",
