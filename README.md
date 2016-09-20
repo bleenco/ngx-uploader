@@ -88,7 +88,7 @@ export class DemoApp {
 <style>
   .file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
 </style>
-<div ng2FileDrop
+<div ngFileDrop
      [options]="options"
      (onUpload)="handleUpload($event)"
      [ngClass]="{'file-over': hasBaseDropZoneOver}"
