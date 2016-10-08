@@ -20,6 +20,8 @@ npm install ng2-uploader --save
 | calculateSpeed | true/false |
 | data          | { userId: 12, isAdmin: true } |
 | customHeaders  | { 'custom-header': 'value' } |
+| fieldName      | 'user[avatar]'
+| fieldReset     | true/false
 | authToken      | 012313asdadklj123123 |
 | authTokenPrefix | 'Bearer' (default) |
 
