@@ -42,6 +42,9 @@ export class NgFileSelectDirective {
       this.onUpload.emit(data);
       if (data.done) {
         this.files = this.files.filter(f => f.name !== data.originalName);
+        if (this.uploader.fieldReset) {
+          this.el.nativeElement.value = '';
+        }
       }
     });
 
