@@ -6,7 +6,7 @@ import {
   Output,
   HostListener
 } from '@angular/core';
-import {Ng2Uploader, UploadRejected} from '../services/ng2-uploader';
+import { Ng2Uploader, UploadRejected } from '../services/ng2-uploader';
 
 @Directive({
   selector: '[ngFileDrop]'
