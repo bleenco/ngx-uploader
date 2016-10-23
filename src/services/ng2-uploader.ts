@@ -256,6 +256,15 @@ export class Ng2Uploader {
   }
 }
 
+export class UploadRejected{
+
+  public static get EXTENSION_NOT_ALLOWED():string { return "ExtensionNotAllowed"; }
+  public static get MAX_SIZE_EXCEEDED():string { return "MaxSizeExceeded"; }
+
+  file: any;
+  reason: string; 
+}
+
 function humanizeBytes(bytes: number): string {
   if (bytes === 0) {
     return '0 Byte';

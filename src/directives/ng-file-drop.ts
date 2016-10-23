@@ -6,7 +6,7 @@ import {
   Output,
   HostListener
 } from '@angular/core';
-import {Ng2Uploader} from '../services/ng2-uploader';
+import {Ng2Uploader, UploadRejected} from '../services/ng2-uploader';
 
 @Directive({
   selector: '[ngFileDrop]'
@@ -17,6 +17,7 @@ export class NgFileDropDirective {
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
   @Output() onFileOver:EventEmitter<any> = new EventEmitter();
+  @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
 
    _options:any;
 
@@ -95,6 +96,8 @@ export class NgFileDropDirective {
       if (this.options.allowedExtensions.indexOf(ext) !== -1 ) {
         return true;
       }
+
+      this.onUploadRejected.emit({file: f, reason: UploadRejected.EXTENSION_NOT_ALLOWED});
 
       return false;
     });
