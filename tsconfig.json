@@ -8,6 +8,13 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5"
+    "target": "es5",
+    "outDir": "./lib"
+  },
+  "files": [
+    "./ng2-uploader.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true
   }
 }
