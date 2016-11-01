@@ -65,6 +65,10 @@ export class NgFileDropDirective {
   }
 
   initEvents(): void {
+    if (typeof this.el.nativeElement.addEventListener === 'undefined') {
+      return;
+    }
+
     this.el.nativeElement.addEventListener('drop', (e: any) => {
       e.stopPropagation();
       e.preventDefault();
