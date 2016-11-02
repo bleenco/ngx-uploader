@@ -43,12 +43,12 @@ npm install ng2-uploader --save
 
 ````ts
 // app.module.ts
-import { UPLOAD_DIRECTIVES } from 'ng2-uploader/ng2-uploader';
+import { NgFileUploadModule } from 'ng2-uploader';
 ...
 @NgModule({
   ...
-  declarations: [
-    UPLOAD_DIRECTIVES
+  imports: [
+    NgFileUploadModule
   ],
   ...
 })
