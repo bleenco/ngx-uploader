@@ -120,12 +120,12 @@ export class NgFileDropDirective {
   }
 
   @HostListener('dragover', ['$event'])
-  public onDragOver():void {
+  public onDragOver(event:any):void {
     this.onFileOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
-  public onDragLeave():any {
+  public onDragLeave(event:any):any {
     this.onFileOver.emit(false);
   }
 
