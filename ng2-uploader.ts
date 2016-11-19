@@ -16,4 +16,5 @@ import { Ng2Uploader } from './src/services/ng2-uploader';
      NgFileSelectDirective
    ]
 })
-export class NgFileUploadModule{}
+export class Ng2UploaderModule{}
+

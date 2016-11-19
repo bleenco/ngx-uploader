@@ -43,12 +43,12 @@ npm install ng2-uploader --save
 
 ````ts
 // app.module.ts
-import { NgFileUploadModule } from 'ng2-uploader';
+import { Ng2UploaderModule } from 'ng2-uploader';
 ...
 @NgModule({
   ...
   imports: [
-    NgFileUploadModule
+    Ng2UploaderModule
   ],
   ...
 })
