@@ -12,19 +12,19 @@ import { Ng2Uploader, UploadRejected } from '../services/ng2-uploader';
   selector: '[ngFileSelect]'
 })
 export class NgFileSelectDirective {
-  
+
   @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
   @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
-  
+
   _options:any;
 
+  @Input()
   get options(): any {
     return this._options;
   }
 
-  @Input('options')
   set options(value: any) {
     this._options = value;
     this.uploader.setOptions(this.options);

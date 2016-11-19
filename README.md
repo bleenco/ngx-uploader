@@ -43,12 +43,12 @@ npm install ng2-uploader --save
 
 ````ts
 // app.module.ts
-import { UPLOAD_DIRECTIVES } from 'ng2-uploader/ng2-uploader';
+import { Ng2UploaderModule } from 'ng2-uploader';
 ...
 @NgModule({
   ...
-  declarations: [
-    UPLOAD_DIRECTIVES
+  imports: [
+    Ng2UploaderModule
   ],
   ...
 })
@@ -81,7 +81,7 @@ export class DemoApp {
 
 ````html
 <!-- app.component.html -->
-<input type="file" 
+<input type="file"
        ngFileSelect
        [options]="options"
        (onUpload)="handleUpload($event)">
@@ -182,9 +182,9 @@ const upload = {
       files.file.forEach((file) => {
         let fileData = fs.readFileSync(file.path);
         const originalName = file.originalFilename;
-        const generatedName = Md5(new Date().toString() + 
+        const generatedName = Md5(new Date().toString() +
           originalName) + path.extname(originalName);
-        const filePath = path.resolve(__dirname, 'uploads', 
+        const filePath = path.resolve(__dirname, 'uploads',
           generatedName);
 
         fs.writeFileSync(filePath, fileData);
@@ -230,14 +230,14 @@ const path = require('path');
 const app = express();
 app.use(cors());
 
-const upload = multer({ 
+const upload = multer({
   dest: 'uploads/',
   storage: multer.diskStorage({
     filename: (req, file, cb) => {
       let ext = path.extname(file.originalname);
       cb(null, `${Math.random().toString(36).substring(7)}${ext}`);
     }
-  }) 
+  })
 });
 
 app.post('/upload', upload.any(), (req, res) => {
@@ -258,7 +258,7 @@ app.listen(10050, () => {
 ### Backend example using plain PHP
 
 ````php
-<?php 
+<?php
 
 header("Access-Control-Allow-Origin: *");
 
@@ -274,7 +274,7 @@ if (isset($_FILES['file'])) {
   $ext = '.'.pathinfo($originalName, PATHINFO_EXTENSION);
   $generatedName = md5($_FILES['file']['tmp_name']).$ext;
   $filePath = $path.$generatedName;
-  
+
   if (!is_writable($path)) {
     echo json_encode(array(
       'status' => false,
