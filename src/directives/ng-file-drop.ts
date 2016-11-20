@@ -108,6 +108,10 @@ export class NgFileDropDirective {
   }
 
   @HostListener('change') onChange(): void {
+    if (!this.el.nativeElement.files || !this.el.nativeElement.files.length) {
+      return;
+    }
+
     this.files = Array.from(this.el.nativeElement.files);
 
     if (this.options.filterExtensions && this.options.allowedExtensions) {
