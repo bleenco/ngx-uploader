@@ -18,13 +18,13 @@ export class NgFileSelectDirective {
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
   @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
 
-  _options:any;
+  _options: any;
 
-  @Input()
   get options(): any {
     return this._options;
   }
 
+  @Input('options')
   set options(value: any) {
     this._options = value;
     this.uploader.setOptions(this.options);
@@ -82,6 +82,10 @@ export class NgFileSelectDirective {
   }
 
   @HostListener('change') onChange(): void {
+    if (!this.el.nativeElement.files) {
+      return;
+    }
+
     this.files = Array.from(this.el.nativeElement.files);
     if (this.options.filterExtensions && this.options.allowedExtensions) {
       this.filterFilesByExtension();
