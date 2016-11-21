@@ -207,6 +207,7 @@ export class Ng2Uploader {
   }
 
   addFilesToQueue(files: File[]): void {
+    this.clearQueue();
     files.forEach((file: File, i: number) => {
       if (this.isFile(file) && !this.inQueue(file)) {
         this._queue.push(file);
