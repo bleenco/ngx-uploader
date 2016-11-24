@@ -2,6 +2,11 @@
 **/*.js.map
 **/*.d.ts
 
+**/*.ngFactory.ts
+
+/compiled
+*.metadata.json
+
 /npm-debug.log
 
 /node_modules
