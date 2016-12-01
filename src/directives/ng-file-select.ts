@@ -6,7 +6,7 @@ import {
   Output,
   HostListener
 } from '@angular/core';
-import { Ng2Uploader, UploadRejected } from '../services/ng2-uploader';
+import { Ng2Uploader, UploadRejected, UploadedFile } from '../services/ng2-uploader';
 
 @Directive({
   selector: '[ngFileSelect]'
@@ -17,6 +17,7 @@ export class NgFileSelectDirective {
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
   @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
+  @Output() beforeUpload: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
 
   _options: any;
 
@@ -51,6 +52,10 @@ export class NgFileSelectDirective {
 
     this.uploader._previewEmitter.subscribe((data: any) => {
       this.onPreviewData.emit(data);
+    });
+
+    this.uploader._beforeEmitter.subscribe((uploadingFile: UploadedFile) => {
+      this.beforeUpload.emit(uploadingFile)
     });
 
     setTimeout(() => {

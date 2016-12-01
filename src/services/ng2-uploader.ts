@@ -84,6 +84,7 @@ export class Ng2Uploader {
   _queue: any[] = [];
   _emitter: EventEmitter<any> = new EventEmitter();
   _previewEmitter: EventEmitter<any> = new EventEmitter();
+  _beforeEmitter: EventEmitter<UploadedFile> = new EventEmitter();
 
   setOptions(options: any): void {
     this.url = options.url != null ? options.url : this.url;
@@ -203,7 +204,13 @@ export class Ng2Uploader {
       xhr.setRequestHeader('Authorization', `${this.authTokenPrefix} ${this.authToken}`);
     }
 
-    xhr.send(form);
+    this._beforeEmitter.emit(uploadingFile);
+
+    if (!uploadingFile.abort) {
+      xhr.send(form);
+    } else {
+      this.removeFileFromQueue(queueIndex);
+    }
   }
 
   addFilesToQueue(files: File[]): void {
