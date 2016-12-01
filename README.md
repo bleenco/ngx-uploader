@@ -65,6 +65,7 @@ export class DemoApp {
   options: Object = {
     url: 'http://localhost:10050/upload'
   };
+  sizeLimit = 2000000;
 
   handleUpload(data): void {
     if (data && data.response) {
@@ -76,6 +77,13 @@ export class DemoApp {
   fileOverBase(e:any):void {
     this.hasBaseDropZoneOver = e;
   }
+
+  beforeUpload(uploadingFile): void {
+    if (uploadingFile.size > this.sizeLimit) {
+      uploadingFile.setAbort();
+      alert('File is too large');
+    }
+  }
 }
 ````
 
@@ -84,7 +92,8 @@ export class DemoApp {
 <input type="file"
        ngFileSelect
        [options]="options"
-       (onUpload)="handleUpload($event)">
+       (onUpload)="handleUpload($event)"
+       (beforeUpload)="beforeUpload($event)">
 
 <!-- drag & drop file example-->
 <style>
@@ -94,7 +103,8 @@ export class DemoApp {
      [options]="options"
      (onUpload)="handleUpload($event)"
      [ngClass]="{'file-over': hasBaseDropZoneOver}"
-     (onFileOver)="fileOverBase($event)">
+     (onFileOver)="fileOverBase($event)"
+     (beforeUpload)="beforeUpload($event)">
 </div>
 
 <div>
