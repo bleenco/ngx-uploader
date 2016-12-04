@@ -84,7 +84,7 @@ export class Ng2Uploader {
   _queue: any[] = [];
   _emitter: EventEmitter<any> = new EventEmitter();
   _previewEmitter: EventEmitter<any> = new EventEmitter();
-  _beforeEmitter: EventEmitter<UploadedFile> = new EventEmitter();
+  _beforeEmitter: EventEmitter<any> = new EventEmitter();
 
   setOptions(options: any): void {
     this.url = options.url != null ? options.url : this.url;
