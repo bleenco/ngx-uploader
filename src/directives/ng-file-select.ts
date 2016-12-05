@@ -18,6 +18,7 @@ export class NgFileSelectDirective {
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
   @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
   @Output() beforeUpload: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
+  @Output() beforeAddFile: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
 
   _options: any;
 
@@ -56,6 +57,10 @@ export class NgFileSelectDirective {
 
     this.uploader._beforeEmitter.subscribe((uploadingFile: UploadedFile) => {
       this.beforeUpload.emit(uploadingFile)
+    });
+
+    this.uploader._beforeAddFileEmitter.subscribe((uploadingFile: UploadedFile) => {
+      this.beforeAddFile.emit(uploadingFile)
     });
 
     setTimeout(() => {
