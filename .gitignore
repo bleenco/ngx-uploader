@@ -2,6 +2,10 @@
 **/*.js.map
 **/*.d.ts
 
+/aot
+*.metadata.json
+**/*.ngFactory.ts
+
 /npm-debug.log
 
 /node_modules
