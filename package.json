@@ -33,9 +33,9 @@
     "@angular/platform-browser-dynamic": "^2.2.3",
     "@types/node": "6.0.51",
     "reflect-metadata": "^0.1.8",
-    "rxjs": "5.0.0-rc.4",
+    "rxjs": "5.0.0-beta.12",
     "typescript": "^2.0.10",
-    "zone.js": "^0.6.25"
+    "zone.js": "^0.6.26"
   },
   "dependencies": {
     "@types/core-js": "^0.9.34"
