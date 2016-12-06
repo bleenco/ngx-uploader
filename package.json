@@ -1,7 +1,7 @@
 {
   "name": "ng2-uploader",
   "description": "Angular2 File Uploader",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "license": "MIT",
   "main": "ng2-uploader.js",
   "typings": "ng2-uploader.d.ts",
@@ -28,16 +28,14 @@
     "@angular/compiler": "^2.2.3",
     "@angular/compiler-cli": "^2.2.3",
     "@angular/core": "^2.2.3",
-    "@angular/platform-server": "^2.2.3",
     "@angular/platform-browser": "^2.2.3",
     "@angular/platform-browser-dynamic": "^2.2.3",
-    "@types/node": "6.0.51",
+    "@angular/platform-server": "^2.2.3",
+    "@types/core-js": "^0.9.35",
+    "@types/node": "^6.0.51",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "typescript": "^2.0.10",
     "zone.js": "^0.6.26"
-  },
-  "dependencies": {
-    "@types/core-js": "^0.9.34"
   }
 }
