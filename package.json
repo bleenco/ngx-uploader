@@ -8,8 +8,8 @@
   "author": "Jan Kuri <jkuri88@gmail.com>",
   "scripts": {
     "clean": "./scripts/clean.sh",
-    "dev": "tsc --watch",
-    "prepublish": "tsc"
+    "dev": "ngc --watch",
+    "postinstall": "./node_modules/.bin/ngc -p tsconfig.json"
   },
   "repository": {
     "type": "git",
