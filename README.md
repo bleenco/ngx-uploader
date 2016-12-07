@@ -17,6 +17,7 @@ npm install ng2-uploader --save
 | url   	    | http://api.ng2-uploader.com:10050  	|
 | filterExtensions | true/false |
 | allowedExtensions | ['image/png', 'image/jpg'] or ['jpg', 'png'] |
+| maxSize | 1024000 |
 | calculateSpeed | true/false |
 | data          | { userId: 12, isAdmin: true } |
 | customHeaders  | { 'custom-header': 'value' } |
@@ -135,6 +136,7 @@ export class AppDemoComponent implements OnInit {
       url: 'http://api.ng2-uploader.com:10050/upload',
       filterExtensions: true,
       allowedExtensions: ['image/png', 'image/jpg'],
+      maxSize: 2097152,
       calculateSpeed: true,
       data: {
         userId: 12,
