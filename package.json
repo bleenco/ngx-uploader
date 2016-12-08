@@ -1,7 +1,7 @@
 {
   "name": "ng2-uploader",
   "description": "Angular2 File Uploader",
-  "version": "1.5.7",
+  "version": "1.6.0",
   "license": "MIT",
   "main": "ng2-uploader.js",
   "typings": "ng2-uploader.d.ts",
@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "./scripts/clean.sh",
     "dev": "ngc --watch",
-    "postinstall": "./node_modules/.bin/ngc -p tsconfig.json"
+    "prepublish": "./node_modules/.bin/ngc -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -34,8 +34,8 @@
     "@types/core-js": "^0.9.35",
     "@types/node": "^6.0.51",
     "reflect-metadata": "^0.1.8",
-    "rxjs": "5.0.0-beta.12",
-    "typescript": "^2.0.10",
-    "zone.js": "^0.6.26"
+    "rxjs": "5.0.0-rc.4",
+    "typescript": "2.1.4",
+    "zone.js": "^0.7.2"
   }
 }
