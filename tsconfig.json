@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "es2015",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -26,6 +25,7 @@
     "dist"
   ],
   "files": [
+    "index.ts",
     "ng2-uploader.ts"
   ],
   "angularCompilerOptions": {

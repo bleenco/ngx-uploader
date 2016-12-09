@@ -1,15 +1,16 @@
 {
   "name": "ng2-uploader",
   "description": "Angular2 File Uploader",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "license": "MIT",
-  "main": "ng2-uploader.js",
-  "typings": "ng2-uploader.d.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "author": "Jan Kuri <jkuri88@gmail.com>",
   "scripts": {
     "clean": "./scripts/clean.sh",
-    "dev": "ngc --watch",
-    "prepublish": "./node_modules/.bin/ngc -p tsconfig.json"
+    "dev": "tsc --watch",
+    "build": "./node_modules/.bin/ngc -p tsconfig.json",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
