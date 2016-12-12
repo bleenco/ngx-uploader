@@ -133,10 +133,6 @@ export class Ng2Uploader {
       payload = file;
     }
 
-    if (this.filenameHeader) {
-      xhr.setRequestHeader(this.filenameHeader, file.name);
-    }
-
     let uploadingFile = new UploadedFile(
       this.generateRandomIndex(),
       file.name,
@@ -205,6 +201,10 @@ export class Ng2Uploader {
 
     xhr.open(this.method, this.url, true);
     xhr.withCredentials = this.withCredentials;
+
+    if (this.filenameHeader) {
+      xhr.setRequestHeader(this.filenameHeader, file.name);
+    }
 
     if (this.customHeaders) {
       Object.keys(this.customHeaders).forEach((key) => {
