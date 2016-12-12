@@ -73,6 +73,7 @@ export class Ng2Uploader {
   multipart: boolean = true;
   method: string = 'POST';
   debug: boolean = false;
+  filenameHeader: string = null;
   customHeaders: any = {};
   encodeHeaders: boolean = true;
   authTokenPrefix: string = 'Bearer';
@@ -96,6 +97,7 @@ export class Ng2Uploader {
     this.autoUpload = options.autoUpload != null ? options.autoUpload : this.autoUpload;
     this.multipart = options.multipart != null ? options.multipart : this.multipart;
     this.method = options.method != null ? options.method : this.method;
+    this.filenameHeader = options.filenameHeader != null ? options.filenameHeader : this.filenameHeader;
     this.customHeaders = options.customHeaders != null ? options.customHeaders : this.customHeaders;
     this.encodeHeaders = options.encodeHeaders != null ? options.encodeHeaders : this.encodeHeaders;
     this.authTokenPrefix = options.authTokenPrefix != null ? options.authTokenPrefix : this.authTokenPrefix;
@@ -118,12 +120,22 @@ export class Ng2Uploader {
 
   uploadFile(file: any): void {
     let xhr = new XMLHttpRequest();
-    let form = new FormData();
-    form.append(this.fieldName, file, file.name);
+    let payload: any;
+    if (this.multipart) {
+      payload = new FormData();
+      payload.append(this.fieldName, file, file.name);
 
-    Object.keys(this.data).forEach(k => {
-      form.append(k, this.data[k]);
-    });
+      Object.keys(this.data).forEach(k => {
+        payload.append(k, this.data[k]);
+      });
+    }
+    else {
+      payload = file;
+    }
+
+    if (this.filenameHeader) {
+      xhr.setRequestHeader(this.filenameHeader, file.name);
+    }
 
     let uploadingFile = new UploadedFile(
       this.generateRandomIndex(),
@@ -207,7 +219,7 @@ export class Ng2Uploader {
     this._beforeEmitter.emit(uploadingFile);
 
     if (!uploadingFile.abort) {
-      xhr.send(form);
+      xhr.send(payload);
     } else {
       this.removeFileFromQueue(queueIndex);
     }
