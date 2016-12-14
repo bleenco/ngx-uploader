@@ -21,14 +21,14 @@ export class NgFileSelectDirective {
 
   _options: any;
 
-  get options(): any {
-    return this._options;
-  }
-
   @Input('options')
   set options(value: any) {
     this._options = value;
     this.uploader.setOptions(this.options);
+  }
+
+  get options(): any {
+    return this._options;
   }
 
   files: any[] = [];
