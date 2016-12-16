@@ -85,6 +85,7 @@ export class Ng2Uploader {
   _emitter: EventEmitter<any> = new EventEmitter();
   _previewEmitter: EventEmitter<any> = new EventEmitter();
   _beforeEmitter: EventEmitter<any> = new EventEmitter();
+  _beforeAddFileEmitter: EventEmitter<any> = new EventEmitter();
 
   setOptions(options: any): void {
     this.url = options.url != null ? options.url : this.url;
@@ -224,6 +225,8 @@ export class Ng2Uploader {
     if (this.previewUrl) {
       files.forEach(file => this.createFileUrl(file));
     }
+
+    files.forEach(file => this._beforeAddFileEmitter.emit(file));
 
     if (this.autoUpload) {
       this.uploadFilesInQueue();
