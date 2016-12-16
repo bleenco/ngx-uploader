@@ -4,7 +4,7 @@ export class UploadedFile {
   id: string;
   status: number;
   statusText: string;
-  progress: Object;
+  progress: FileUploadProgress;
   originalName: string;
   size: number;
   response: string;
@@ -36,7 +36,7 @@ export class UploadedFile {
     this.speedAverageHumanized = null;
   }
 
-  setProgres(progress: Object): void {
+  setProgres(progress: FileUploadProgress): void {
     this.progress = progress;
   }
 
@@ -271,6 +271,14 @@ export class UploadRejected {
   file: any;
   reason: string; 
 }
+
+export interface FileUploadProgress {
+  loaded: number; 
+  total: number; 
+  percent: number; 
+  speed?: number;
+  speedHumanized?: string | null;
+  }
 
 function humanizeBytes(bytes: number): string {
   if (bytes === 0) {
