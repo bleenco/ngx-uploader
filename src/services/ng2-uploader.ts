@@ -1,112 +1,25 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable, OnChanges, Provider } from '@angular/core';
+import { Ng2UploaderOptions } from '../classes/ng2-uploader-options.class';
+import { UploadedFile } from '../classes/uploaded-file.class';
+import { UploadRejected } from '../classes/upload-rejected.class';
 
-export class UploadedFile {
-  id: string;
-  status: number;
-  statusText: string;
-  progress: Object;
-  originalName: string;
-  size: number;
-  response: string;
-  done: boolean;
-  error: boolean;
-  abort: boolean;
-  startTime: number;
-  endTime: number;
-  speedAverage: number;
-  speedAverageHumanized: string;
+@Injectable()
+export class Ng2UploaderService {
+  _queue: any[];
+  _emitter: EventEmitter<any>;
+  _previewEmitter: EventEmitter<any>;
+  _beforeEmitter: EventEmitter<any>;
+  opts: Ng2UploaderOptions;
 
-  constructor(id: string, originalName: string, size: number) {
-    this.id = id;
-    this.originalName = originalName;
-    this.size = size;
-    this.progress = {
-      loaded: 0,
-      total: 0,
-      percent: 0,
-      speed: 0,
-      speedHumanized: null
-    };
-    this.done = false;
-    this.error = false;
-    this.abort = false;
-    this.startTime = new Date().getTime();
-    this.endTime = 0;
-    this.speedAverage = 0;
-    this.speedAverageHumanized = null;
+  constructor() {
+    this._queue = [];
+    this._emitter = new EventEmitter<any>();
+    this._previewEmitter = new EventEmitter<any>();
+    this._beforeEmitter = new EventEmitter<any>();
   }
 
-  setProgres(progress: Object): void {
-    this.progress = progress;
-  }
-
-  setError(): void {
-    this.error = true;
-    this.done = true;
-  }
-
-  setAbort(): void {
-    this.abort = true;
-    this.done = true;
-  }
-
-  onFinished(status: number, statusText: string, response: string): void {
-    this.endTime = new Date().getTime();
-    this.speedAverage = this.size / (this.endTime - this.startTime) * 1000;
-    this.speedAverage = parseInt(<any>this.speedAverage, 10);
-    this.speedAverageHumanized = humanizeBytes(this.speedAverage);
-    this.status = status;
-    this.statusText = statusText;
-    this.response = response;
-    this.done = true;
-  }
-}
-
-export class Ng2Uploader {
-  url: string;
-  cors: boolean = false;
-  withCredentials: boolean = false;
-  multiple: boolean = false;
-  maxUploads: number = 3;
-  data: { [index: string]: any } = {};
-  autoUpload: boolean = true;
-  multipart: boolean = true;
-  method: string = 'POST';
-  debug: boolean = false;
-  customHeaders: any = {};
-  encodeHeaders: boolean = true;
-  authTokenPrefix: string = 'Bearer';
-  authToken: string = undefined;
-  fieldName: string = 'file';
-  fieldReset: boolean = true;
-  previewUrl: boolean = false;
-  calculateSpeed: boolean = false;
-  _queue: any[] = [];
-  _emitter: EventEmitter<any> = new EventEmitter();
-  _previewEmitter: EventEmitter<any> = new EventEmitter();
-  _beforeEmitter: EventEmitter<any> = new EventEmitter();
-
-  setOptions(options: any): void {
-    this.url = options.url != null ? options.url : this.url;
-    this.cors = options.cors != null ? options.cors : this.cors;
-    this.withCredentials = options.withCredentials != null ? options.withCredentials : this.withCredentials;
-    this.multiple = options.multiple != null ? options.multiple : this.multiple;
-    this.maxUploads = options.maxUploads != null ? options.maxUploads : this.maxUploads;
-    this.data = options.data != null ? options.data : this.data;
-    this.autoUpload = options.autoUpload != null ? options.autoUpload : this.autoUpload;
-    this.multipart = options.multipart != null ? options.multipart : this.multipart;
-    this.method = options.method != null ? options.method : this.method;
-    this.customHeaders = options.customHeaders != null ? options.customHeaders : this.customHeaders;
-    this.encodeHeaders = options.encodeHeaders != null ? options.encodeHeaders : this.encodeHeaders;
-    this.authTokenPrefix = options.authTokenPrefix != null ? options.authTokenPrefix : this.authTokenPrefix;
-    this.authToken = options.authToken != null ? options.authToken : this.authToken;
-    this.fieldName = options.fieldName != null ? options.fieldName : this.fieldName;
-    this.fieldReset = options.fieldReset != null ? options.fieldReset : this.fieldReset;
-    this.previewUrl = options.previewUrl != null ? options.previewUrl : this.previewUrl;
-    this.calculateSpeed = options.calculateSpeed != null ? options.calculateSpeed : this.calculateSpeed;
-    if (!this.multiple) {
-      this.maxUploads = 1;
-    }
+  setOptions(opts: Ng2UploaderOptions) {
+    this.opts = opts;
   }
 
   uploadFilesInQueue(): void {
@@ -119,10 +32,10 @@ export class Ng2Uploader {
   uploadFile(file: any): void {
     let xhr = new XMLHttpRequest();
     let form = new FormData();
-    form.append(this.fieldName, file, file.name);
+    form.append(this.opts.fieldName, file, file.name);
 
-    Object.keys(this.data).forEach(k => {
-      form.append(k, this.data[k]);
+    Object.keys(this.opts.data).forEach(k => {
+      form.append(k, this.opts.data[k]);
     });
 
     let uploadingFile = new UploadedFile(
@@ -140,12 +53,12 @@ export class Ng2Uploader {
 
     xhr.upload.onprogress = (e: ProgressEvent) => {
       if (e.lengthComputable) {
-        if (this.calculateSpeed) {
+        if (this.opts.calculateSpeed) {
           time = new Date().getTime() - time;
           load = e.loaded - load;
           speed = load / time * 1000;
           speed = parseInt(<any>speed, 10);
-          speedHumanized = humanizeBytes(speed);
+          speedHumanized = this.humanizeBytes(speed);
         }
 
         let percent = Math.round(e.loaded / e.total * 100);
@@ -191,17 +104,17 @@ export class Ng2Uploader {
       }
     };
 
-    xhr.open(this.method, this.url, true);
-    xhr.withCredentials = this.withCredentials;
+    xhr.open(this.opts.method, this.opts.url, true);
+    xhr.withCredentials = this.opts.withCredentials;
 
-    if (this.customHeaders) {
-      Object.keys(this.customHeaders).forEach((key) => {
-        xhr.setRequestHeader(key, this.customHeaders[key]);
+    if (this.opts.customHeaders) {
+      Object.keys(this.opts.customHeaders).forEach((key) => {
+        xhr.setRequestHeader(key, this.opts.customHeaders[key]);
       });
     }
 
-    if (this.authToken) {
-      xhr.setRequestHeader('Authorization', `${this.authTokenPrefix} ${this.authToken}`);
+    if (this.opts.authToken) {
+      xhr.setRequestHeader('Authorization', `${this.opts.authTokenPrefix} ${this.opts.authToken}`);
     }
 
     this._beforeEmitter.emit(uploadingFile);
@@ -215,17 +128,17 @@ export class Ng2Uploader {
 
   addFilesToQueue(files: File[]): void {
     this.clearQueue();
-    files.forEach((file: File, i: number) => {
-      if (this.isFile(file) && !this.inQueue(file)) {
+    [].forEach.call(files, (file: File, i: number) => {
+      if (!this.inQueue(file)) {
         this._queue.push(file);
       }
     });
 
-    if (this.previewUrl) {
-      files.forEach(file => this.createFileUrl(file));
+    if (this.opts.previewUrl) {
+      [].forEach.call(files, (file: File) => this.createFileUrl(file));
     }
 
-    if (this.autoUpload) {
+    if (this.opts.autoUpload) {
       this.uploadFilesInQueue();
     }
   }
@@ -255,30 +168,22 @@ export class Ng2Uploader {
     return fileInQueue.length ? true : false;
   }
 
-  isFile(file: any): boolean {
-    return file !== null && (file instanceof Blob || (file.name && file.size));
-  }
-
   generateRandomIndex(): string {
     return Math.random().toString(36).substring(7);
   }
-}
 
-export class UploadRejected {
-  public static get EXTENSION_NOT_ALLOWED():string { return 'ExtensionNotAllowed'; }
-  public static get MAX_SIZE_EXCEEDED():string { return 'MaxSizeExceeded'; }
+  humanizeBytes(bytes: number): string {
+    if (bytes === 0) {
+      return '0 Byte';
+    }
+    let k = 1024;
+    const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    let i: number = Math.floor(Math.log(bytes) / Math.log(k));
 
-  file: any;
-  reason: string; 
-}
-
-function humanizeBytes(bytes: number): string {
-  if (bytes === 0) {
-    return '0 Byte';
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i] + '/s';
   }
-  let k = 1024;
-  const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-  let i: number = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i] + '/s';
 }
+
+export const Ng2UploaderServiceProvider: Provider = {
+  provide: Ng2UploaderService, useClass: Ng2UploaderService
+};

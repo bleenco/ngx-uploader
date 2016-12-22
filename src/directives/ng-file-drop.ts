@@ -4,15 +4,19 @@ import {
   EventEmitter,
   Input,
   Output,
-  HostListener
+  HostListener,
+  Inject,
+  OnChanges,
+  OnInit
 } from '@angular/core';
-import { Ng2Uploader, UploadRejected, UploadedFile } from '../services/ng2-uploader';
+import { Ng2UploaderService } from '../services/ng2-uploader';
+import { INg2UploaderOptions, Ng2UploaderOptions, UploadedFile, UploadRejected } from '../classes';
 
 @Directive({
   selector: '[ngFileDrop]'
 })
-export class NgFileDropDirective {
-
+export class NgFileDropDirective implements OnChanges, OnInit {
+  @Input() options: Ng2UploaderOptions;
   @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
@@ -20,27 +24,13 @@ export class NgFileDropDirective {
   @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
   @Output() beforeUpload: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
 
-   _options:any;
-
-  @Input('options')
-  set options(value: any) {
-    this._options = value;
-    this.uploader.setOptions(this.options);
-  }
-
-  get options(): any {
-    return this._options;
-  }
-
   files: any[] = [];
-  uploader: Ng2Uploader;
 
-  constructor(public el: ElementRef) {
-    this.uploader = new Ng2Uploader();
-    setTimeout(() => {
-      this.uploader.setOptions(this.options);
-    });
+  constructor(
+    @Inject(ElementRef) public el: ElementRef,
+    @Inject(Ng2UploaderService) public uploader: Ng2UploaderService) { }
 
+  ngOnInit() {
     this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
       if (data.done) {
@@ -69,6 +59,15 @@ export class NgFileDropDirective {
     this.initEvents();
   }
 
+  ngOnChanges() {
+    if (!this.options) {
+      return;
+    }
+
+    this.options = new Ng2UploaderOptions(this.options);
+    this.uploader.setOptions(this.options);
+  }
+
   initEvents(): void {
     if (typeof this.el.nativeElement.addEventListener === 'undefined') {
       return;
@@ -95,32 +94,28 @@ export class NgFileDropDirective {
     }, false);
   }
 
-  filterFilesByExtension(): void {
-    this.files = this.files.filter(f => {
-      if (this.options.allowedExtensions.indexOf(f.type) !== -1) {
-        return true;
-      }
-
-      let ext: string = f.name.split('.').pop();
-      if (this.options.allowedExtensions.indexOf(ext) !== -1 ) {
-        return true;
-      }
-
-      this.onUploadRejected.emit({file: f, reason: UploadRejected.EXTENSION_NOT_ALLOWED});
-
-      return false;
-    });
-  }
-
   @HostListener('change') onChange(): void {
-    if (!this.el.nativeElement.files || !this.el.nativeElement.files.length) {
+    this.files = this.el.nativeElement.files;
+    if (!this.files) {
+      console.log('return');
       return;
     }
 
-    this.files = Array.from(this.el.nativeElement.files);
-
     if (this.options.filterExtensions && this.options.allowedExtensions) {
-      this.filterFilesByExtension();
+      this.files = this.files.filter(f => {
+        if (this.options.allowedExtensions.indexOf(f.type) !== -1) {
+          return true;
+        }
+
+        let ext: string = f.name.split('.').pop();
+        if (this.options.allowedExtensions.indexOf(ext) !== -1 ) {
+          return true;
+        }
+
+        this.onUploadRejected.emit({file: f, reason: UploadRejected.EXTENSION_NOT_ALLOWED});
+
+        return false;
+      });
     }
 
     if (this.files.length) {
