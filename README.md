@@ -10,6 +10,10 @@ For demos please see [demos page](http://ng2-uploader.com).
 npm install ng2-uploader --save
 ```
 
+### API Docs
+
+[http://docs.ng2-uploader.com](http://docs.ng2-uploader.com)
+
 ### Available parameters
 
 |Parameter   	| Example Value
@@ -54,6 +58,7 @@ import { Ng2UploaderModule } from 'ng2-uploader';
 })
 // app.component.ts
 import { Component } from '@angular/core';
+import { Ng2UploaderOptions } from 'ng2-uploader';
 
 @Component({
   selector: 'demo-app',
@@ -62,7 +67,7 @@ import { Component } from '@angular/core';
 export class DemoApp {
   uploadFile: any;
   hasBaseDropZoneOver: boolean = false;
-  options: Object = {
+  options: Ng2UploaderOptions = {
     url: 'http://localhost:10050/upload'
   };
   sizeLimit = 2000000;
@@ -118,6 +123,7 @@ This example show how to use available options and progress.
 
 ```ts
 import { Component, OnInit, NgZone } from '@angular/core';
+import { Ng2UploaderOptions } from 'ng2-uploader';
 
 @Component({
   selector: 'app-component',
@@ -125,7 +131,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 })
 export class AppDemoComponent implements OnInit {
   private zone: NgZone;
-  private options: Object;
+  private options: Ng2UploaderOptions;
   private progress: number = 0;
   private response: any = {};
 
