@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { NgFileDropDirective } from './../directives/ng-file-drop';
 import { NgFileSelectDirective } from './../directives/ng-file-select';
-import { Ng2UploaderServiceProvider } from './../services/ng2-uploader';
+import { NgUploaderServiceProvider } from './../services/ngx-uploader';
 
 @NgModule({
    declarations: [
@@ -9,12 +9,12 @@ import { Ng2UploaderServiceProvider } from './../services/ng2-uploader';
      NgFileSelectDirective
    ],
    providers: [
-     Ng2UploaderServiceProvider
+     NgUploaderServiceProvider
    ],
    exports: [
      NgFileDropDirective,
      NgFileSelectDirective
    ]
 })
-export class Ng2UploaderModule{}
+export class NgUploaderModule {}
 

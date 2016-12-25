@@ -26,7 +26,7 @@
   ],
   "files": [
     "index.ts",
-    "ng2-uploader.ts"
+    "ngx-uploader.ts"
   ],
   "angularCompilerOptions": {
     "genDir": "aot",

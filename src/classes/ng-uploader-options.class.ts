@@ -1,4 +1,4 @@
-export interface INg2UploaderOptions {
+export interface INgUploaderOptions {
   url: string;
   cors?: boolean;
   withCredentials?: boolean;
@@ -20,7 +20,7 @@ export interface INg2UploaderOptions {
   allowedExtensions?: string[];
 }
 
-export class Ng2UploaderOptions implements INg2UploaderOptions {
+export class NgUploaderOptions implements INgUploaderOptions {
   url: string;
   cors?: boolean;
   withCredentials?: boolean;
@@ -41,7 +41,7 @@ export class Ng2UploaderOptions implements INg2UploaderOptions {
   filterExtensions?: boolean;
   allowedExtensions?: string[];
 
-  constructor(obj: INg2UploaderOptions) {
+  constructor(obj: INgUploaderOptions) {
     this.url = obj.url != null ? obj.url : '';
     this.cors = obj.cors != null ? obj.cors : true;
     this.withCredentials = obj.withCredentials != null ? obj.withCredentials : this.withCredentials;

@@ -1,24 +1,24 @@
-# ng2-uploader
+# ngx-uploader
 
-For demos please see [demos page](http://ng2-uploader.com).
+For demos please see [demos page](http://ngx-uploader.com).
 
 ## Angular2 File Uploader
 
 ### Installation
 
 ```
-npm install ng2-uploader --save
+npm install ngx-uploader --save
 ```
 
 ### API Docs
 
-[http://docs.ng2-uploader.com](http://docs.ng2-uploader.com)
+[http://docs.ngx-uploader.com](http://docs.ngx-uploader.com)
 
 ### Available parameters
 
 |Parameter   	| Example Value
 |---	       |---	|
-| url   	    | http://api.ng2-uploader.com:10050  	|
+| url   	    | http://api.ngx-uploader.com:10050  	|
 | filterExtensions | true/false |
 | allowedExtensions | ['image/png', 'image/jpg'] or ['jpg', 'png'] |
 | calculateSpeed | true/false |
@@ -34,31 +34,31 @@ npm install ng2-uploader --save
 
 #### Examples
 
-1. [Basic Example](https://github.com/jkuri/ng2-uploader#basic-example)
-2. [Advanced Example](https://github.com/jkuri/ng2-uploader#advanced-example)
+1. [Basic Example](https://github.com/jkuri/ngx-uploader#basic-example)
+2. [Advanced Example](https://github.com/jkuri/ngx-uploader#advanced-example)
 
 #### Backend Examples
 
-1. [NodeJS using HapiJS](https://github.com/jkuri/ng2-uploader#backend-example-using-hapijs)
-2. [NodeJS using express](https://github.com/jkuri/ng2-uploader#backend-example-using-express)
-3. [PHP (Plain)](https://github.com/jkuri/ng2-uploader#backend-example-using-plain-php)
+1. [NodeJS using HapiJS](https://github.com/jkuri/ngx-uploader#backend-example-using-hapijs)
+2. [NodeJS using express](https://github.com/jkuri/ngx-uploader#backend-example-using-express)
+3. [PHP (Plain)](https://github.com/jkuri/ngx-uploader#backend-example-using-plain-php)
 
 ### Basic Example
 
 ````ts
 // app.module.ts
-import { Ng2UploaderModule } from 'ng2-uploader';
+import { NgUploaderModule } from 'ngx-uploader';
 ...
 @NgModule({
   ...
   imports: [
-    Ng2UploaderModule
+    NgUploaderModule
   ],
   ...
 })
 // app.component.ts
 import { Component } from '@angular/core';
-import { Ng2UploaderOptions } from 'ng2-uploader';
+import { NgUploaderOptions } from 'ngx-uploader';
 
 @Component({
   selector: 'demo-app',
@@ -67,7 +67,7 @@ import { Ng2UploaderOptions } from 'ng2-uploader';
 export class DemoApp {
   uploadFile: any;
   hasBaseDropZoneOver: boolean = false;
-  options: Ng2UploaderOptions = {
+  options: NgUploaderOptions = {
     url: 'http://localhost:10050/upload'
   };
   sizeLimit = 2000000;
@@ -123,7 +123,7 @@ This example show how to use available options and progress.
 
 ```ts
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Ng2UploaderOptions } from 'ng2-uploader';
+import { NgUploaderOptions } from 'ngx-uploader';
 
 @Component({
   selector: 'app-component',
@@ -131,14 +131,14 @@ import { Ng2UploaderOptions } from 'ng2-uploader';
 })
 export class AppDemoComponent implements OnInit {
   private zone: NgZone;
-  private options: Ng2UploaderOptions;
+  private options: NgUploaderOptions;
   private progress: number = 0;
   private response: any = {};
 
   ngOnInit() {
     this.zone = new NgZone({ enableLongStackTrace: false });
     this.options = {
-      url: 'http://api.ng2-uploader.com:10050/upload',
+      url: 'http://api.ngx-uploader.com:10050/upload',
       filterExtensions: true,
       allowedExtensions: ['image/png', 'image/jpg'],
       calculateSpeed: true,
@@ -267,7 +267,7 @@ app.post('/upload', upload.any(), (req, res) => {
 });
 
 app.listen(10050, () => {
-  console.log('ng2-uploader server running on port 10050.');
+  console.log('ngx-uploader server running on port 10050.');
 });
 ````
 
@@ -319,7 +319,7 @@ else {
 
 ### Demos
 
-For more information, examples and usage examples please see [demos](http://ng2-uploader.com)
+For more information, examples and usage examples please see [demos](http://ngx-uploader.com)
 
 #### LICENCE
 

@@ -1,15 +1,15 @@
 import { EventEmitter, Injectable, OnChanges, Provider } from '@angular/core';
-import { Ng2UploaderOptions } from '../classes/ng2-uploader-options.class';
+import { NgUploaderOptions } from '../classes/ng-uploader-options.class';
 import { UploadedFile } from '../classes/uploaded-file.class';
 import { UploadRejected } from '../classes/upload-rejected.class';
 
 @Injectable()
-export class Ng2UploaderService {
+export class NgUploaderService {
   _queue: any[];
   _emitter: EventEmitter<any>;
   _previewEmitter: EventEmitter<any>;
   _beforeEmitter: EventEmitter<any>;
-  opts: Ng2UploaderOptions;
+  opts: NgUploaderOptions;
 
   constructor() {
     this._queue = [];
@@ -18,7 +18,7 @@ export class Ng2UploaderService {
     this._beforeEmitter = new EventEmitter<any>();
   }
 
-  setOptions(opts: Ng2UploaderOptions) {
+  setOptions(opts: NgUploaderOptions) {
     this.opts = opts;
   }
 
@@ -184,6 +184,6 @@ export class Ng2UploaderService {
   }
 }
 
-export const Ng2UploaderServiceProvider: Provider = {
-  provide: Ng2UploaderService, useClass: Ng2UploaderService
+export const NgUploaderServiceProvider: Provider = {
+  provide: NgUploaderService, useClass: NgUploaderService
 };

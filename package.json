@@ -1,6 +1,6 @@
 {
-  "name": "ng2-uploader",
-  "description": "Angular2 File Uploader",
+  "name": "ngx-uploader",
+  "description": "Angular File Uploader",
   "version": "2.0.0",
   "license": "MIT",
   "main": "index.js",
@@ -15,12 +15,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jkuri/ng2-uploader.git"
+    "url": "https://github.com/jkuri/ngx-uploader.git"
   },
   "keywords": [
-    "ng2",
+    "ngx",
     "angular",
-    "angular2",
     "file",
     "upload",
     "uploader"

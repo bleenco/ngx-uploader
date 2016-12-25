@@ -9,14 +9,14 @@ import {
   OnChanges,
   OnInit
 } from '@angular/core';
-import { Ng2UploaderService } from '../services/ng2-uploader';
-import { INg2UploaderOptions, Ng2UploaderOptions, UploadedFile, UploadRejected } from '../classes';
+import { NgUploaderService } from '../services/ngx-uploader';
+import { INgUploaderOptions, NgUploaderOptions, UploadedFile, UploadRejected } from '../classes';
 
 @Directive({
   selector: '[ngFileDrop]'
 })
 export class NgFileDropDirective implements OnChanges, OnInit {
-  @Input() options: Ng2UploaderOptions;
+  @Input() options: NgUploaderOptions;
   @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
@@ -28,7 +28,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
 
   constructor(
     @Inject(ElementRef) public el: ElementRef,
-    @Inject(Ng2UploaderService) public uploader: Ng2UploaderService) { }
+    @Inject(NgUploaderService) public uploader: NgUploaderService) { }
 
   ngOnInit() {
     this.uploader._emitter.subscribe((data: any) => {
@@ -64,7 +64,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
       return;
     }
 
-    this.options = new Ng2UploaderOptions(this.options);
+    this.options = new NgUploaderOptions(this.options);
     this.uploader.setOptions(this.options);
   }
 
