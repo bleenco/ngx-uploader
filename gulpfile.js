@@ -6,7 +6,7 @@ gulp.task('docs', () => {
     'index.ts',
     '!node_modules/**/*'])
     .pipe(typedoc({
-      name: 'ng2-uploader docs',
+      name: 'ngx-uploader docs',
       mode: 'file',
       out: 'docs',
       ignoreCompilerErrors: true,
