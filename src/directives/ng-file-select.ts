@@ -6,7 +6,8 @@ import {
   Output,
   HostListener,
   Inject,
-  OnChanges
+  OnChanges,
+  SimpleChange
 } from '@angular/core';
 import { NgUploaderService } from '../services/ngx-uploader';
 import { INgUploaderOptions, NgUploaderOptions, UploadedFile, UploadRejected } from '../classes';
@@ -28,7 +29,7 @@ export class NgFileSelectDirective implements OnChanges {
     @Inject(ElementRef) public el: ElementRef,
     @Inject(NgUploaderService) public uploader: NgUploaderService) { }
 
-  ngOnChanges() {
+  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
     if (!this.options) {
       return;
     }
