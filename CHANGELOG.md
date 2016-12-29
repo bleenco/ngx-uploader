@@ -1,0 +1,11 @@
+<a name="2.0.3"></a>
+## [2.0.3](https://github.com/jkuri/ngx-uploader/compare/v2.0.0...2.0.3) (2016-12-29)
+
+
+### Bug Fixes
+
+* **ngOnChanges:** add parameter ([8fc1ad9](https://github.com/jkuri/ngx-uploader/commit/8fc1ad9))
+* check on files.length before filter ([2fea156](https://github.com/jkuri/ngx-uploader/commit/2fea156))
+
+
+
