@@ -23,9 +23,9 @@ export class NgUploaderService {
   }
 
   uploadFilesInQueue(): void {
-    let newFiles = this._queue.filter((f) => { return !f.uploading; });
-    newFiles.forEach((f) => {
-      this.uploadFile(f);
+    this._queue.forEach((file) => {
+      if (file.uploading) { return; }
+      this.uploadFile(file);
     });
   };
 
