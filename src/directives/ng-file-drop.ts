@@ -35,7 +35,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
       if (data.done && this.files && this.files.length) {
-        this.files = Array.prototype.filter.call(this.files, (x: any) => x.name !== data.originalName)
+        this.files = [].filter.call(this.files, (x: any) => x.name !== data.originalName)
       }
     });
 
