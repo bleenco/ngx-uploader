@@ -8,6 +8,7 @@
     "noEmitHelpers": false,
     "noImplicitAny": true,
     "declaration": true,
+    "strictNullChecks": true,
     "skipLibCheck": true,
     "stripInternal": true,
     "lib": ["es6", "dom"],

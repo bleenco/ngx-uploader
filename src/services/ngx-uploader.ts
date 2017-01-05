@@ -49,7 +49,7 @@ export class NgUploaderService {
     let time: number = new Date().getTime();
     let load = 0;
     let speed = 0;
-    let speedHumanized: string = null;
+    let speedHumanized: string|null = null;
 
     xhr.upload.onprogress = (e: ProgressEvent) => {
       if (e.lengthComputable) {
