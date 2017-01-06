@@ -7,7 +7,7 @@ export interface INgUploaderOptions {
   data?: any;
   autoUpload?: boolean;
   multipart?: any;
-  method?: 'POST' | 'GET';
+  method?: 'POST' | 'GET' | 'PATCH' | 'PUT';
   customHeaders?: any;
   encodeHeaders?: boolean;
   authTokenPrefix?: string;
