@@ -48,7 +48,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
     this.multiple = obj.multiple != null ? obj.multiple : true;
     this.maxUploads = obj.maxUploads != null ? obj.maxUploads : 10;
     this.data = obj.data != null ? obj.data : {};
-    this.autoUpload = obj && obj.autoUpload ? obj.autoUpload : true;
+    this.autoUpload = obj.autoUpload != null ? obj.autoUpload : true;
     this.multipart = obj.multipart != null ? obj.multipart : false;
     this.method = obj.method != null ? obj.method : 'POST';
     this.customHeaders = obj.customHeaders != null ? obj.customHeaders : { };
