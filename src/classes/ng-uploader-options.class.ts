@@ -48,9 +48,9 @@ export class NgUploaderOptions implements INgUploaderOptions {
       return obj && source !== undefined ? source : defaultValue;
     }
 
-    this.url = use(obj.url, '');
+    this.url = use(obj.url, <string>'');
     this.cors = use(obj.cors, true);
-    this.withCredentials = use(obj.withCredentials, this.withCredentials);
+    this.withCredentials = use(obj.withCredentials, false);
     this.multiple = use(obj.multiple, true);
     this.maxUploads = use(obj.maxUploads, 10);
     this.data = use(obj.data, {});
