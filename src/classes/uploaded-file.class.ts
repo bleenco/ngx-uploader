@@ -12,7 +12,7 @@ export class UploadedFile {
   startTime: number;
   endTime: number;
   speedAverage: number;
-  speedAverageHumanized: string;
+  speedAverageHumanized: string|null;
 
   constructor(id: string, originalName: string, size: number) {
     this.id = id;

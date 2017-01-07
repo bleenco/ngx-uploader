@@ -1,3 +1,5 @@
+export type Method = 'POST' | 'GET' | 'PATCH' | 'PUT';
+
 export interface INgUploaderOptions {
   url: string;
   cors?: boolean;
@@ -7,7 +9,7 @@ export interface INgUploaderOptions {
   data?: any;
   autoUpload?: boolean;
   multipart?: any;
-  method?: 'POST' | 'GET' | 'PATCH' | 'PUT';
+  method?: Method;
   customHeaders?: any;
   encodeHeaders?: boolean;
   authTokenPrefix?: string;
@@ -22,44 +24,49 @@ export interface INgUploaderOptions {
 
 export class NgUploaderOptions implements INgUploaderOptions {
   url: string;
-  cors?: boolean;
-  withCredentials?: boolean;
-  multiple?: boolean;
+  cors: boolean;
+  withCredentials: boolean;
+  multiple: boolean;
   maxUploads?: number;
   data?: any;
-  autoUpload?: boolean;
+  autoUpload: boolean;
   multipart?: any;
-  method?: 'POST' | 'GET' | 'PATCH' | 'PUT';
-  customHeaders?: any;
-  encodeHeaders?: boolean;
-  authTokenPrefix?: string;
+  method: Method;
+  customHeaders: any;
+  encodeHeaders: boolean;
+  authTokenPrefix: string;
   authToken?: string;
-  fieldName?: string;
-  fieldReset?: boolean;
+  fieldName: string;
+  fieldReset: boolean;
   previewUrl?: string;
-  calculateSpeed?: boolean;
-  filterExtensions?: boolean;
-  allowedExtensions?: string[];
+  calculateSpeed: boolean;
+  filterExtensions: boolean;
+  allowedExtensions: string[];
 
   constructor(obj: INgUploaderOptions) {
-    this.url = obj.url != null ? obj.url : '';
-    this.cors = obj.cors != null ? obj.cors : true;
-    this.withCredentials = obj.withCredentials != null ? obj.withCredentials : this.withCredentials;
-    this.multiple = obj.multiple != null ? obj.multiple : true;
-    this.maxUploads = obj.maxUploads != null ? obj.maxUploads : 10;
-    this.data = obj.data != null ? obj.data : {};
-    this.autoUpload = obj.autoUpload != null ? obj.autoUpload : true;
-    this.multipart = obj.multipart != null ? obj.multipart : false;
-    this.method = obj.method != null ? obj.method : 'POST';
-    this.customHeaders = obj.customHeaders != null ? obj.customHeaders : { };
-    this.encodeHeaders = obj.encodeHeaders != null ? obj.encodeHeaders : false;
-    this.authTokenPrefix = obj.authTokenPrefix != null ? obj.authTokenPrefix : 'Bearer';
-    this.authToken = obj.authToken != null ? obj.authToken : null;
-    this.fieldName = obj.fieldName != null ? obj.fieldName : 'file';
-    this.fieldReset = obj.fieldReset != null ? obj.fieldReset : null;
-    this.previewUrl = obj.previewUrl != null ? obj.previewUrl : null;
-    this.calculateSpeed = obj.calculateSpeed != null ? obj.calculateSpeed : true;
-    this.filterExtensions = obj.filterExtensions != null ? obj.filterExtensions : false;
-    this.allowedExtensions = obj && obj.allowedExtensions ? obj.allowedExtensions : [];
+    function use<T>(source: T|undefined, defaultValue: T): T {
+      return obj && source !== undefined ? source : defaultValue;
+    }
+
+    this.url = use(obj.url, <string>'');
+    this.cors = use(obj.cors, true);
+    this.withCredentials = use(obj.withCredentials, false);
+    this.multiple = use(obj.multiple, true);
+    this.maxUploads = use(obj.maxUploads, 10);
+    this.data = use(obj.data, {});
+    this.autoUpload = use(obj.autoUpload, true);
+    this.multipart = use(obj.multipart, false);
+    this.method = use(obj.method, <Method>'POST');
+    this.customHeaders = use(obj.customHeaders, {});
+    this.encodeHeaders = use(obj.encodeHeaders, false);
+    this.authTokenPrefix = use(obj.authTokenPrefix, 'Bearer');
+    this.authToken = use(obj.authToken, undefined);
+    this.fieldName = use(obj.fieldName, 'file');
+    this.fieldReset = use(obj.fieldReset, false);
+    this.previewUrl = use(obj.previewUrl, undefined);
+    this.calculateSpeed = use(obj.calculateSpeed, true);
+    this.filterExtensions = use(obj.filterExtensions, false);
+    this.allowedExtensions = use(obj.allowedExtensions, []);
   }
+
 }
