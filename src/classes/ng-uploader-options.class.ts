@@ -1,4 +1,4 @@
-export type Method = 'POST'|'GET';
+export type Method = 'POST' | 'GET' | 'PATCH' | 'PUT';
 
 export interface INgUploaderOptions {
   url: string;
