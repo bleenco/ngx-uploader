@@ -77,7 +77,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     this.el.nativeElement.addEventListener('drop', (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-
+      this.onFileOver.emit(false);
       this.files = Array.from(e.dataTransfer.files);
       if (this.files.length) {
         this.uploader.addFilesToQueue(this.files);
