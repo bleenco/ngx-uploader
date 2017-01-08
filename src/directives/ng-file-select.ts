@@ -67,7 +67,7 @@ export class NgFileSelectDirective implements OnChanges {
     }
 
     if (this.options.filterExtensions && this.options.allowedExtensions && this.files && this.files.length) {
-      this.files = this.files.filter(f => {
+      this.files = [].filter.call(this.files, f => {
         if (this.options.allowedExtensions.indexOf(f.type) !== -1) {
           return true;
         }
