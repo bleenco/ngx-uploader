@@ -34,7 +34,7 @@ export class UploadedFile {
     this.speedAverageHumanized = null;
   }
 
-  setProgres(progress: Object): void {
+  setProgress(progress: Object): void {
     this.progress = progress;
   }
 

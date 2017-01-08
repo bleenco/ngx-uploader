@@ -63,13 +63,13 @@ export class NgUploaderService {
 
         let percent = Math.round(e.loaded / e.total * 100);
         if (speed === 0) {
-          uploadingFile.setProgres({
+          uploadingFile.setProgress({
             total: e.total,
             loaded: e.loaded,
             percent: percent
           });
         } else {
-          uploadingFile.setProgres({
+          uploadingFile.setProgress({
             total: e.total,
             loaded: e.loaded,
             percent: percent,
