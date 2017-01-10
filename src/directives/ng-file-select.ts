@@ -10,7 +10,7 @@ import {
   SimpleChange
 } from '@angular/core';
 import { NgUploaderService } from '../services/ngx-uploader';
-import { INgUploaderOptions, NgUploaderOptions, UploadedFile, UploadRejected } from '../classes';
+import { NgUploaderOptions, UploadedFile, UploadRejected } from '../classes';
 
 @Directive({
   selector: '[ngFileSelect]'

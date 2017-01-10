@@ -1,7 +1,6 @@
-import { EventEmitter, Injectable, OnChanges, Provider } from '@angular/core';
+import { EventEmitter, Injectable, Provider } from '@angular/core';
 import { NgUploaderOptions } from '../classes/ng-uploader-options.class';
 import { UploadedFile } from '../classes/uploaded-file.class';
-import { UploadRejected } from '../classes/upload-rejected.class';
 
 @Injectable()
 export class NgUploaderService {
