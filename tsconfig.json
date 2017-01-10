@@ -7,6 +7,7 @@
     "sourceMap": false,
     "noEmitHelpers": false,
     "noImplicitAny": true,
+    "noUnusedLocals": true,
     "declaration": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
