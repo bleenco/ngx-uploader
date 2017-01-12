@@ -103,8 +103,8 @@ export class NgUploaderService {
       }
     };
 
-    xhr.open(this.opts.method, this.opts.url, true);
-    xhr.withCredentials = this.opts.withCredentials;
+    xhr.open(<string>this.opts.method, this.opts.url, true);
+    xhr.withCredentials = <boolean>this.opts.withCredentials;
 
     if (this.opts.customHeaders) {
       Object.keys(this.opts.customHeaders).forEach((key) => {

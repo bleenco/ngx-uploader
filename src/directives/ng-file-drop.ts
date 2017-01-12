@@ -103,12 +103,13 @@ export class NgFileDropDirective implements OnChanges, OnInit {
 
     if (this.options.filterExtensions && this.options.allowedExtensions && this.files && this.files.length) {
       this.files = this.files.filter(f => {
-        if (this.options.allowedExtensions.indexOf(f.type) !== -1) {
+        let allowedExtensions = this.options.allowedExtensions || [];
+        if (allowedExtensions.indexOf(f.type) !== -1) {
           return true;
         }
 
         let ext: string = f.name.split('.').pop();
-        if (this.options.allowedExtensions.indexOf(ext) !== -1 ) {
+        if (allowedExtensions.indexOf(ext) !== -1 ) {
           return true;
         }
 

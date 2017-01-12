@@ -1,5 +1,3 @@
-export type Method = 'POST' | 'GET' | 'PATCH' | 'PUT';
-
 export interface INgUploaderOptions {
   url: string;
   cors?: boolean;
@@ -9,7 +7,7 @@ export interface INgUploaderOptions {
   data?: any;
   autoUpload?: boolean;
   multipart?: any;
-  method?: Method;
+  method?: string;
   customHeaders?: any;
   encodeHeaders?: boolean;
   authTokenPrefix?: string;
@@ -31,7 +29,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
   data?: any;
   autoUpload?: boolean;
   multipart?: any;
-  method?: Method;
+  method?: string;
   customHeaders?: any;
   encodeHeaders?: boolean;
   authTokenPrefix?: string;
@@ -44,7 +42,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
   allowedExtensions?: string[];
 
   constructor(obj: INgUploaderOptions) {
-    function use<T>(source: T|undefined, defaultValue: T): T {
+    function use<T>(source: T, defaultValue: T): T {
       return obj && source !== undefined ? source : defaultValue;
     }
 
@@ -56,7 +54,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
     this.data = use(obj.data, {});
     this.autoUpload = use(obj.autoUpload, true);
     this.multipart = use(obj.multipart, false);
-    this.method = use(obj.method, <Method>'POST');
+    this.method = use(obj.method, 'POST');
     this.customHeaders = use(obj.customHeaders, {});
     this.encodeHeaders = use(obj.encodeHeaders, false);
     this.authTokenPrefix = use(obj.authTokenPrefix, 'Bearer');
