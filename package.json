@@ -1,35 +1,47 @@
 {
-  "name": "ng2-uploader",
-  "description": "Angular2 File Uploader",
-  "version": "1.0.2",
+  "name": "ngx-uploader",
+  "description": "Angular File Uploader",
+  "version": "2.0.20",
   "license": "MIT",
-  "main": "ng2-uploader.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "author": "Jan Kuri <jkuri88@gmail.com>",
   "scripts": {
     "clean": "./scripts/clean.sh",
     "dev": "tsc --watch",
-    "prepublish": "tsc"
+    "build": "./node_modules/.bin/ngc -p tsconfig.json",
+    "prepublish": "npm run build",
+    "docs": "gulp docs",
+    "changelog": "gulp changelog"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jkuri/ng2-uploader.git"
+    "url": "https://github.com/jkuri/ngx-uploader.git"
   },
   "keywords": [
-    "ng2",
+    "ngx",
     "angular",
-    "angular2",
     "file",
     "upload",
     "uploader"
   ],
   "devDependencies": {
-    "@angular/common": "^2.0.0-rc.6",
-    "@angular/compiler": "^2.0.0-rc.6",
-    "@angular/core": "^2.0.0-rc.6",
-    "core-js": "^2.4.1",
-    "reflect-metadata": "^0.1.8",
-    "rxjs": "^5.0.0-beta.11",
-    "typescript": "^2.0.2",
-    "zone.js": "^0.6.17"
+    "@angular/common": "^2.4.2",
+    "@angular/compiler": "^2.4.2",
+    "@angular/compiler-cli": "^2.4.2",
+    "@angular/core": "^2.4.2",
+    "@angular/platform-browser": "^2.4.2",
+    "@angular/platform-browser-dynamic": "^2.4.2",
+    "@angular/platform-server": "^2.4.2",
+    "@types/core-js": "^0.9.35",
+    "@types/node": "^6.0.58",
+    "gulp": "^3.9.1",
+    "gulp-conventional-changelog": "^1.1.0",
+    "gulp-typedoc": "^2.0.1",
+    "reflect-metadata": "^0.1.9",
+    "rxjs": "5.0.3",
+    "typedoc": "^0.5.3",
+    "typescript": "2.1.4",
+    "zone.js": "^0.7.4"
   }
 }

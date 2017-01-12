@@ -1,25 +1,31 @@
-# ng2-uploader
+# ngx-uploader
 
-For demos please see [demos page](http://ng2-uploader.com).
+For demos please see [demos page](http://ngx-uploader.com).
 
 ## Angular2 File Uploader
 
 ### Installation
 
 ```
-npm install ng2-uploader --save
+npm install ngx-uploader --save
 ```
+
+### API Docs
+
+[http://docs.ngx-uploader.com](http://docs.ngx-uploader.com)
 
 ### Available parameters
 
 |Parameter   	| Example Value
 |---	       |---	|
-| url   	    | http://api.ng2-uploader.com:10050  	|
+| url   	    | http://api.ngx-uploader.com:10050  	|
 | filterExtensions | true/false |
 | allowedExtensions | ['image/png', 'image/jpg'] or ['jpg', 'png'] |
 | calculateSpeed | true/false |
 | data          | { userId: 12, isAdmin: true } |
 | customHeaders  | { 'custom-header': 'value' } |
+| fieldName      | 'user[avatar]'
+| fieldReset     | true/false
 | authToken      | 012313asdadklj123123 |
 | authTokenPrefix | 'Bearer' (default) |
 
@@ -28,30 +34,31 @@ npm install ng2-uploader --save
 
 #### Examples
 
-1. [Basic Example](https://github.com/jkuri/ng2-uploader#basic-example)
-2. [Advanced Example](https://github.com/jkuri/ng2-uploader#advanced-example)
+1. [Basic Example](https://github.com/jkuri/ngx-uploader#basic-example)
+2. [Advanced Example](https://github.com/jkuri/ngx-uploader#advanced-example)
 
 #### Backend Examples
 
-1. [NodeJS using HapiJS](https://github.com/jkuri/ng2-uploader#backend-example-using-hapijs)
-2. [NodeJS using express](https://github.com/jkuri/ng2-uploader#backend-example-using-express)
-3. [PHP (Plain)](https://github.com/jkuri/ng2-uploader#backend-example-using-plain-php)
+1. [NodeJS using HapiJS](https://github.com/jkuri/ngx-uploader#backend-example-using-hapijs)
+2. [NodeJS using express](https://github.com/jkuri/ngx-uploader#backend-example-using-express)
+3. [PHP (Plain)](https://github.com/jkuri/ngx-uploader#backend-example-using-plain-php)
 
 ### Basic Example
 
 ````ts
 // app.module.ts
-import { UPLOAD_DIRECTIVES } from 'ng2-uploader';
+import { NgUploaderModule } from 'ngx-uploader';
 ...
 @NgModule({
   ...
-  declarations: [
-    UPLOAD_DIRECTIVES
+  imports: [
+    NgUploaderModule
   ],
   ...
 })
 // app.component.ts
 import { Component } from '@angular/core';
+import { NgUploaderOptions } from 'ngx-uploader';
 
 @Component({
   selector: 'demo-app',
@@ -59,9 +66,11 @@ import { Component } from '@angular/core';
 })
 export class DemoApp {
   uploadFile: any;
-  options: Object = {
+  hasBaseDropZoneOver: boolean = false;
+  options: NgUploaderOptions = {
     url: 'http://localhost:10050/upload'
   };
+  sizeLimit = 2000000;
 
   handleUpload(data): void {
     if (data && data.response) {
@@ -69,15 +78,39 @@ export class DemoApp {
       this.uploadFile = data;
     }
   }
+
+  fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  beforeUpload(uploadingFile): void {
+    if (uploadingFile.size > this.sizeLimit) {
+      uploadingFile.setAbort();
+      alert('File is too large');
+    }
+  }
 }
 ````
 
 ````html
 <!-- app.component.html -->
-<input type="file" 
+<input type="file"
        ngFileSelect
        [options]="options"
-       (onUpload)="handleUpload($event)">
+       (onUpload)="handleUpload($event)"
+       (beforeUpload)="beforeUpload($event)">
+
+<!-- drag & drop file example-->
+<style>
+  .file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+</style>
+<div ngFileDrop
+     [options]="options"
+     (onUpload)="handleUpload($event)"
+     [ngClass]="{'file-over': hasBaseDropZoneOver}"
+     (onFileOver)="fileOverBase($event)"
+     (beforeUpload)="beforeUpload($event)">
+</div>
 
 <div>
 Response: {{ uploadFile | json }}
@@ -90,6 +123,7 @@ This example show how to use available options and progress.
 
 ```ts
 import { Component, OnInit, NgZone } from '@angular/core';
+import { NgUploaderOptions } from 'ngx-uploader';
 
 @Component({
   selector: 'app-component',
@@ -97,14 +131,14 @@ import { Component, OnInit, NgZone } from '@angular/core';
 })
 export class AppDemoComponent implements OnInit {
   private zone: NgZone;
-  private options: Object;
+  private options: NgUploaderOptions;
   private progress: number = 0;
   private response: any = {};
 
   ngOnInit() {
     this.zone = new NgZone({ enableLongStackTrace: false });
     this.options = {
-      url: 'http://api.ng2-uploader.com:10050/upload',
+      url: 'http://api.ngx-uploader.com:10050/upload',
       filterExtensions: true,
       allowedExtensions: ['image/png', 'image/jpg'],
       calculateSpeed: true,
@@ -164,9 +198,9 @@ const upload = {
       files.file.forEach((file) => {
         let fileData = fs.readFileSync(file.path);
         const originalName = file.originalFilename;
-        const generatedName = Md5(new Date().toString() + 
+        const generatedName = Md5(new Date().toString() +
           originalName) + path.extname(originalName);
-        const filePath = path.resolve(__dirname, 'uploads', 
+        const filePath = path.resolve(__dirname, 'uploads',
           generatedName);
 
         fs.writeFileSync(filePath, fileData);
@@ -212,14 +246,14 @@ const path = require('path');
 const app = express();
 app.use(cors());
 
-const upload = multer({ 
+const upload = multer({
   dest: 'uploads/',
   storage: multer.diskStorage({
     filename: (req, file, cb) => {
       let ext = path.extname(file.originalname);
       cb(null, `${Math.random().toString(36).substring(7)}${ext}`);
     }
-  }) 
+  })
 });
 
 app.post('/upload', upload.any(), (req, res) => {
@@ -233,14 +267,14 @@ app.post('/upload', upload.any(), (req, res) => {
 });
 
 app.listen(10050, () => {
-  console.log('ng2-uploader server running on port 10050.');
+  console.log('ngx-uploader server running on port 10050.');
 });
 ````
 
 ### Backend example using plain PHP
 
 ````php
-<?php 
+<?php
 
 header("Access-Control-Allow-Origin: *");
 
@@ -256,7 +290,7 @@ if (isset($_FILES['file'])) {
   $ext = '.'.pathinfo($originalName, PATHINFO_EXTENSION);
   $generatedName = md5($_FILES['file']['tmp_name']).$ext;
   $filePath = $path.$generatedName;
-  
+
   if (!is_writable($path)) {
     echo json_encode(array(
       'status' => false,
@@ -285,7 +319,7 @@ else {
 
 ### Demos
 
-For more information, examples and usage examples please see [demos](http://ng2-uploader.com)
+For more information, examples and usage examples please see [demos](http://ngx-uploader.com)
 
 #### LICENCE
 

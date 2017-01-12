@@ -1,13 +1,37 @@
 {
   "compilerOptions": {
-    "declaration": true,
+    "target": "es5",
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "sourceMap": false,
+    "noEmitHelpers": false,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "declaration": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "stripInternal": true,
     "lib": ["es6", "dom"],
     "rootDir": ".",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "target": "es5"
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "bundles",
+    "dist"
+  ],
+  "files": [
+    "index.ts",
+    "ngx-uploader.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "aot",
+    "skipMetadataEmit" : false
   }
 }
