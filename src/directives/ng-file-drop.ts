@@ -11,7 +11,7 @@ import {
   SimpleChange
 } from '@angular/core';
 import { NgUploaderService } from '../services/ngx-uploader';
-import { NgUploaderOptions, UploadedFile, UploadRejected } from '../classes';
+import { NgUploaderOptions, UploadedFile, UploadRejected } from '../classes/index';
 
 @Directive({
   selector: '[ngFileDrop]'

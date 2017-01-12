@@ -1,7 +1,7 @@
 {
   "name": "ngx-uploader",
   "description": "Angular File Uploader",
-  "version": "2.0.20",
+  "version": "2.0.21",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
