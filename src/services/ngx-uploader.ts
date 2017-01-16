@@ -31,11 +31,12 @@ export class NgUploaderService {
   uploadFile(file: any): void {
     let xhr = new XMLHttpRequest();
     let form = new FormData();
-    form.append(this.opts.fieldName, file, file.name);
 
     Object.keys(this.opts.data).forEach(k => {
       form.append(k, this.opts.data[k]);
     });
+
+    form.append(this.opts.fieldName, file, file.name);
 
     let uploadingFile = new UploadedFile(
       this.generateRandomIndex(),
