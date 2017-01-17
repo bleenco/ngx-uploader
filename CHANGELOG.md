@@ -1,3 +1,18 @@
+<a name="2.0.23"></a>
+## [2.0.23](https://github.com/jkuri/ngx-uploader/compare/v2.0.0...2.0.23) (2017-01-17)
+
+
+### Bug Fixes
+
+* **ngOnChanges:** add parameter ([8fc1ad9](https://github.com/jkuri/ngx-uploader/commit/8fc1ad9))
+* any ([6992551](https://github.com/jkuri/ngx-uploader/commit/6992551))
+* check on files.length before filter ([2fea156](https://github.com/jkuri/ngx-uploader/commit/2fea156))
+* Fire file not over event on file drop ([#174](https://github.com/jkuri/ngx-uploader/issues/174)) ([7857213](https://github.com/jkuri/ngx-uploader/commit/7857213))
+* fix spelling error ([#175](https://github.com/jkuri/ngx-uploader/issues/175)) ([d2f08cf](https://github.com/jkuri/ngx-uploader/commit/d2f08cf))
+* types ([b5bffcb](https://github.com/jkuri/ngx-uploader/commit/b5bffcb))
+
+
+
 <a name="2.0.10"></a>
 ## [2.0.10](https://github.com/jkuri/ngx-uploader/compare/v2.0.0...2.0.10) (2017-01-08)
 
