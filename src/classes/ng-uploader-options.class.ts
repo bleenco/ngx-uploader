@@ -14,7 +14,7 @@ export interface INgUploaderOptions {
   authToken?: string;
   fieldName?: string;
   fieldReset?: boolean;
-  previewUrl?: string;
+  previewUrl?: boolean;
   calculateSpeed?: boolean;
   filterExtensions?: boolean;
   allowedExtensions?: string[];
@@ -36,7 +36,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
   authToken?: string;
   fieldName?: string;
   fieldReset?: boolean;
-  previewUrl?: string;
+  previewUrl?: boolean;
   calculateSpeed?: boolean;
   filterExtensions?: boolean;
   allowedExtensions?: string[];
