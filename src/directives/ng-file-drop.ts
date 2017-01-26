@@ -14,7 +14,10 @@ import { NgUploaderService } from '../services/ngx-uploader';
 import { NgUploaderOptions, UploadedFile, UploadRejected } from '../classes/index';
 
 @Directive({
-  selector: '[ngFileDrop]'
+  selector: '[ngFileDrop]',
+  providers: [
+    NgUploaderService
+  ]
 })
 export class NgFileDropDirective implements OnChanges, OnInit {
   @Input() options: NgUploaderOptions;
