@@ -61,7 +61,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
     this.authToken = use(obj.authToken, undefined);
     this.fieldName = use(obj.fieldName, 'file');
     this.fieldReset = use(obj.fieldReset, false);
-    this.previewUrl = use(obj.previewUrl, undefined);
+    this.previewUrl = use(obj.previewUrl, false);
     this.calculateSpeed = use(obj.calculateSpeed, true);
     this.filterExtensions = use(obj.filterExtensions, false);
     this.allowedExtensions = use(obj.allowedExtensions, []);
