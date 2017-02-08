@@ -82,12 +82,12 @@ export class NgUploaderService {
       }
     };
 
-    xhr.upload.onabort = (e: Event) => {
+    xhr.upload.onabort = () => {
       uploadingFile.setAbort();
       this._emitter.emit(uploadingFile);
     };
 
-    xhr.upload.onerror = (e: Event) => {
+    xhr.upload.onerror = () => {
       uploadingFile.setError();
       this._emitter.emit(uploadingFile);
     };
@@ -128,7 +128,7 @@ export class NgUploaderService {
 
   addFilesToQueue(files: File[]): void {
     this.clearQueue();
-    [].forEach.call(files, (file: File, i: number) => {
+    [].forEach.call(files, (file: File) => {
       if (!this.inQueue(file)) {
         this._queue.push(file);
       }
