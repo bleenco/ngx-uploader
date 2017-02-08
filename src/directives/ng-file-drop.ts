@@ -24,7 +24,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
   @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
-  @Output() onFileOver:EventEmitter<any> = new EventEmitter();
+  @Output() onFileOver: EventEmitter<any> = new EventEmitter();
   @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
   @Output() beforeUpload: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
 
@@ -38,7 +38,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
       if (data.done && this.files && this.files.length) {
-        this.files = [].filter.call(this.files, (x: any) => x.name !== data.originalName)
+        this.files = [].filter.call(this.files, (x: any) => x.name !== data.originalName);
       }
     });
 
@@ -47,7 +47,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     });
 
     this.uploader._beforeEmitter.subscribe((uploadingFile: UploadedFile) => {
-      this.beforeUpload.emit(uploadingFile)
+      this.beforeUpload.emit(uploadingFile);
     });
 
     setTimeout(() => {
@@ -64,7 +64,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-    if (!this.options) {
+    if (!this.options || !changes) {
       return;
     }
 
@@ -128,12 +128,12 @@ export class NgFileDropDirective implements OnChanges, OnInit {
   }
 
   @HostListener('dragover', ['$event'])
-  public onDragOver(event:any):void {
+  public onDragOver() {
     this.onFileOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
-  public onDragLeave(event:any):any {
+  public onDragLeave() {
     this.onFileOver.emit(false);
   }
 

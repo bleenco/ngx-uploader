@@ -33,7 +33,7 @@ export class NgFileSelectDirective implements OnChanges {
     @Inject(NgUploaderService) public uploader: NgUploaderService) { }
 
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-    if (!this.options) {
+    if (!this.options || !changes) {
       return;
     }
 
@@ -42,7 +42,7 @@ export class NgFileSelectDirective implements OnChanges {
     this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
       if (data.done && this.files && this.files.length) {
-        this.files = [].filter.call(this.files, (x: any) => x.name !== data.originalName)
+        this.files = [].filter.call(this.files, (x: any) => x.name !== data.originalName);
       }
     });
 
@@ -51,7 +51,7 @@ export class NgFileSelectDirective implements OnChanges {
     });
 
     this.uploader._beforeEmitter.subscribe((uploadingFile: UploadedFile) => {
-      this.beforeUpload.emit(uploadingFile)
+      this.beforeUpload.emit(uploadingFile);
     });
 
     if (this.events instanceof EventEmitter) {

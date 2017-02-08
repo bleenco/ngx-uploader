@@ -143,7 +143,7 @@ export class NgUploaderService {
     }
   }
 
-  createFileUrl(file: File){
+  createFileUrl(file: File) {
     let reader: FileReader = new FileReader();
     reader.addEventListener('load', () => {
         this._previewEmitter.emit(reader.result);

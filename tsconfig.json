@@ -12,6 +12,7 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "stripInternal": true,
+    "noUnusedParameters": true,
     "lib": ["es6", "dom"],
     "rootDir": ".",
     "types": [
