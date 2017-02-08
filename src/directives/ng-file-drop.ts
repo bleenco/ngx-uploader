@@ -128,12 +128,14 @@ export class NgFileDropDirective implements OnChanges, OnInit {
   }
 
   @HostListener('dragover', ['$event'])
-  public onDragOver() {
+  public onDragOver(e: Event) {
+    if (!e) { return; }
     this.onFileOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
-  public onDragLeave() {
+  public onDragLeave(e: Event) {
+    if (!e) { return; }
     this.onFileOver.emit(false);
   }
 
