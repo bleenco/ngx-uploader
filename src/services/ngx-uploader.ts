@@ -28,16 +28,18 @@ export class NgUploaderService {
     });
   };
 
-  uploadFile(file: any): void {
+  uploadFile(file: File): void {
     let xhr = new XMLHttpRequest();
-    let payload: any;
+    let payload: FormData|File;
 
     if (this.opts.multipart) {
+      let form = new FormData();
       Object.keys(this.opts.data).forEach(k => {
-        payload.append(k, this.opts.data[k]);
+        form.append(k, this.opts.data[k]);
       });
 
-      payload.append(this.opts.fieldName, file, file.name);
+      form.append(this.opts.fieldName, file, file.name);
+      payload = form;
     }
     else {
       payload = file;
