@@ -26,7 +26,7 @@ export class NgFileSelectDirective implements OnChanges {
   @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
   @Output() beforeUpload: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
 
-  files: any[] = [];
+  files: File[] = [];
 
   constructor(
     @Inject(ElementRef) public el: ElementRef,
@@ -42,7 +42,7 @@ export class NgFileSelectDirective implements OnChanges {
     this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
       if (data.done && this.files && this.files.length) {
-        this.files = [].filter.call(this.files, (x: any) => x.name !== data.originalName);
+        this.files = [].filter.call(this.files, (f: File) => f.name !== data.originalName);
       }
     });
 
@@ -65,19 +65,19 @@ export class NgFileSelectDirective implements OnChanges {
 
   @HostListener('change') onChange(): void {
     this.files = this.el.nativeElement.files;
-    if (!this.files) {
+    if (!this.files || !this.files.length) {
       return;
     }
 
     if (this.options.filterExtensions && this.options.allowedExtensions && this.files && this.files.length) {
-      this.files = [].filter.call(this.files, (f: any) => {
+      this.files = [].filter.call(this.files, (f: File) => {
         let allowedExtensions = this.options.allowedExtensions || [];
         if (allowedExtensions.indexOf(f.type) !== -1) {
           return true;
         }
 
-        let ext: string = f.name.split('.').pop();
-        if (allowedExtensions.indexOf(ext) !== -1 ) {
+        let ext = f.name.split('.').pop();
+        if (ext && allowedExtensions.indexOf(ext) !== -1 ) {
           return true;
         }
 
@@ -88,7 +88,7 @@ export class NgFileSelectDirective implements OnChanges {
     }
 
     if (this.options.maxSize > 0) {
-      this.files = [].filter.call(this.files, (f: any) => {
+      this.files = [].filter.call(this.files, (f: File) => {
         if (f.size <= this.options.maxSize) {
           return true;
         }
@@ -98,7 +98,7 @@ export class NgFileSelectDirective implements OnChanges {
       });
     }
 
-    if (this.files.length) {
+    if (this.files && this.files.length) {
       this.uploader.addFilesToQueue(this.files);
     }
   }
