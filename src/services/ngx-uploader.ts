@@ -30,7 +30,7 @@ export class NgUploaderService {
 
   uploadFile(file: File): void {
     let xhr = new XMLHttpRequest();
-    let payload: FormData|File;
+    let payload: FormData | File;
 
     if (this.opts.multipart) {
       let form = new FormData();
@@ -40,8 +40,7 @@ export class NgUploaderService {
 
       form.append(this.opts.fieldName, file, file.name);
       payload = form;
-    }
-    else {
+    } else {
       payload = file;
     }
 
