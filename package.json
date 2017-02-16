@@ -1,7 +1,7 @@
 {
   "name": "ngx-uploader",
   "description": "Angular File Uploader",
-  "version": "2.1.11",
+  "version": "2.2.0",
   "license": "MIT",
   "main": "bundle/ngx-uploader.umd.js",
   "module": "ngx-uploader.js",
@@ -28,13 +28,13 @@
     "uploader"
   ],
   "devDependencies": {
-    "@angular/common": "^2.4.6",
-    "@angular/compiler": "^2.4.6",
-    "@angular/compiler-cli": "^2.4.6",
-    "@angular/core": "^2.4.6",
-    "@angular/platform-browser": "^2.4.6",
-    "@angular/platform-browser-dynamic": "^2.4.6",
-    "@angular/platform-server": "^2.4.6",
+    "@angular/common": "^2.4.7",
+    "@angular/compiler": "^2.4.7",
+    "@angular/compiler-cli": "^2.4.7",
+    "@angular/core": "^2.4.7",
+    "@angular/platform-browser": "^2.4.7",
+    "@angular/platform-browser-dynamic": "^2.4.7",
+    "@angular/platform-server": "^2.4.7",
     "@types/core-js": "^0.9.35",
     "@types/node": "^7.0.5",
     "codelyzer": "^2.0.0",
@@ -44,12 +44,11 @@
     "reflect-metadata": "^0.1.9",
     "rollup": "^0.41.4",
     "rollup-plugin-buble": "^0.15.0",
-    "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "rxjs": "^5.1.0",
+    "rxjs": "^5.1.1",
     "tslint": "^4.4.2",
-    "typedoc": "^0.5.5",
-    "typescript": "2.1.5",
-    "zone.js": "^0.7.6"
+    "typedoc": "^0.5.6",
+    "typescript": "2.1.6",
+    "zone.js": "^0.7.7"
   }
 }
