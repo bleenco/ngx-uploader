@@ -4,47 +4,41 @@ import {
   EventEmitter,
   Input,
   Output,
-  HostListener
+  HostListener,
+  Inject,
+  OnChanges,
+  OnInit,
+  SimpleChange
 } from '@angular/core';
-import { Ng2Uploader, UploadRejected, UploadedFile } from '../services/ng2-uploader';
+import { NgUploaderService } from '../services/ngx-uploader';
+import { NgUploaderOptions, UploadedFile, UploadRejected } from '../classes/index';
 
 @Directive({
-  selector: '[ngFileDrop]'
+  selector: '[ngFileDrop]',
+  providers: [
+    NgUploaderService
+  ]
 })
-export class NgFileDropDirective {
-
+export class NgFileDropDirective implements OnChanges, OnInit {
+  @Input() options: NgUploaderOptions;
   @Input() events: EventEmitter<any>;
   @Output() onUpload: EventEmitter<any> = new EventEmitter();
   @Output() onPreviewData: EventEmitter<any> = new EventEmitter();
-  @Output() onFileOver:EventEmitter<any> = new EventEmitter();
+  @Output() onFileOver: EventEmitter<any> = new EventEmitter();
   @Output() onUploadRejected: EventEmitter<UploadRejected> = new EventEmitter<UploadRejected>();
   @Output() beforeUpload: EventEmitter<UploadedFile> = new EventEmitter<UploadedFile>();
 
-   _options:any;
-
-  get options(): any {
-    return this._options;
-  }
-
-  @Input('options')
-  set options(value: any) {
-    this._options = value;
-    this.uploader.setOptions(this.options);
-  }
-
   files: any[] = [];
-  uploader: Ng2Uploader;
 
-  constructor(public el: ElementRef) {
-    this.uploader = new Ng2Uploader();
-    setTimeout(() => {
-      this.uploader.setOptions(this.options);
-    });
+  constructor(
+    @Inject(ElementRef) public el: ElementRef,
+    @Inject(NgUploaderService) public uploader: NgUploaderService) { }
 
+  ngOnInit() {
     this.uploader._emitter.subscribe((data: any) => {
       this.onUpload.emit(data);
-      if (data.done) {
-        this.files = this.files.filter(f => f.name !== data.originalName);
+      if (data.done && this.files && this.files.length) {
+        this.files = [].filter.call(this.files, (x: any) => x.name !== data.originalName);
       }
     });
 
@@ -53,7 +47,7 @@ export class NgFileDropDirective {
     });
 
     this.uploader._beforeEmitter.subscribe((uploadingFile: UploadedFile) => {
-      this.beforeUpload.emit(uploadingFile)
+      this.beforeUpload.emit(uploadingFile);
     });
 
     setTimeout(() => {
@@ -69,6 +63,15 @@ export class NgFileDropDirective {
     this.initEvents();
   }
 
+  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+    if (!this.options || !changes) {
+      return;
+    }
+
+    this.options = new NgUploaderOptions(this.options);
+    this.uploader.setOptions(this.options);
+  }
+
   initEvents(): void {
     if (typeof this.el.nativeElement.addEventListener === 'undefined') {
       return;
@@ -77,7 +80,7 @@ export class NgFileDropDirective {
     this.el.nativeElement.addEventListener('drop', (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-
+      this.onFileOver.emit(false);
       this.files = Array.from(e.dataTransfer.files);
       if (this.files.length) {
         this.uploader.addFilesToQueue(this.files);
@@ -95,47 +98,38 @@ export class NgFileDropDirective {
     }, false);
   }
 
-  filterFilesByExtension(): void {
-    this.files = this.files.filter(f => {
-      if (this.options.allowedExtensions.indexOf(f.type) !== -1) {
-        return true;
-      }
-
-      let ext: string = f.name.split('.').pop();
-      if (this.options.allowedExtensions.indexOf(ext) !== -1 ) {
-        return true;
-      }
-
-      this.onUploadRejected.emit({file: f, reason: UploadRejected.EXTENSION_NOT_ALLOWED});
-
-      return false;
-    });
-  }
-
-  filterFilesBySize(): void {
-    this.files = this.files.filter(f => {
-      if (f.size <= this.options.maxSize) {
-        return true;
-      }
-
-      this.onUploadRejected.emit({file: f, reason: UploadRejected.MAX_SIZE_EXCEEDED});
-      return false;
-    });
-  }
-
   @HostListener('change') onChange(): void {
-    if (!this.el.nativeElement.files || !this.el.nativeElement.files.length) {
+    this.files = this.el.nativeElement.files;
+    if (!this.files) {
       return;
     }
 
-    this.files = Array.from(this.el.nativeElement.files);
+    if (this.options.filterExtensions && this.options.allowedExtensions && this.files && this.files.length) {
+      this.files = this.files.filter(f => {
+        let allowedExtensions = this.options.allowedExtensions || [];
+        if (allowedExtensions.indexOf(f.type) !== -1) {
+          return true;
+        }
 
-    if (this.options.filterExtensions && this.options.allowedExtensions) {
-      this.filterFilesByExtension();
+        let ext: string = f.name.split('.').pop();
+        if (allowedExtensions.indexOf(ext) !== -1 ) {
+          return true;
+        }
+
+        this.onUploadRejected.emit({file: f, reason: UploadRejected.EXTENSION_NOT_ALLOWED});
+
+        return false;
+      });
     }
 
-    if (this.options.maxSize) {
-      this.filterFilesBySize();
+    if (this.options.maxSize > 0) {
+      this.files = this.files.filter(f => {
+        if (f.size <= this.options.maxSize)
+          return true;
+
+        this.onUploadRejected.emit({file: f, reason: UploadRejected.MAX_SIZE_EXCEEDED});
+        return false;
+      });
     }
 
     if (this.files.length) {
@@ -144,12 +138,14 @@ export class NgFileDropDirective {
   }
 
   @HostListener('dragover', ['$event'])
-  public onDragOver(event:any):void {
+  public onDragOver(e: any) {
+    if (!e) { return; }
     this.onFileOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
-  public onDragLeave(event:any):any {
+  public onDragLeave(e: any) {
+    if (!e) { return; }
     this.onFileOver.emit(false);
   }
 

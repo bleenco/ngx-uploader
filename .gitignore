@@ -2,6 +2,8 @@
 **/*.js.map
 **/*.d.ts
 
+/docs
+
 /aot
 *.metadata.json
 **/*.ngFactory.ts
@@ -10,3 +12,6 @@
 
 /node_modules
 /typings
+
+!gulpfile.js
+/.idea
