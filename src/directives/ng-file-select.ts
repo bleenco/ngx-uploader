@@ -88,7 +88,7 @@ export class NgFileSelectDirective implements OnChanges {
     }
 
     if (this.options.maxSize > 0) {
-      this.files = this.files.filter(f => {
+      this.files = [].filter.call(this.files, (f: any) => {
         if (f.size <= this.options.maxSize)
           return true;
 
