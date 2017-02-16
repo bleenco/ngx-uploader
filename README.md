@@ -121,6 +121,7 @@ export class AdvancedDemoComponent {
       url: 'http://api.ngx-uploader.com/upload',
       filterExtensions: true,
       allowedExtensions: ['jpg', 'png'],
+      maxSize: 2097152,
       data: { userId: 12 },
       autoUpload: false,
       fieldName: 'file',

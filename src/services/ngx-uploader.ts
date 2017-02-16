@@ -28,15 +28,21 @@ export class NgUploaderService {
     });
   };
 
-  uploadFile(file: any): void {
+  uploadFile(file: File): void {
     let xhr = new XMLHttpRequest();
-    let form = new FormData();
+    let payload: FormData | File;
 
-    Object.keys(this.opts.data).forEach(k => {
-      form.append(k, this.opts.data[k]);
-    });
+    if (this.opts.multipart) {
+      let form = new FormData();
+      Object.keys(this.opts.data).forEach(k => {
+        form.append(k, this.opts.data[k]);
+      });
 
-    form.append(this.opts.fieldName, file, file.name);
+      form.append(this.opts.fieldName, file, file.name);
+      payload = form;
+    } else {
+      payload = file;
+    }
 
     let uploadingFile = new UploadedFile(
       this.generateRandomIndex(),
@@ -107,6 +113,10 @@ export class NgUploaderService {
     xhr.open(<string>this.opts.method, this.opts.url, true);
     xhr.withCredentials = <boolean>this.opts.withCredentials;
 
+    if (this.opts.filenameHeader) {
+      xhr.setRequestHeader(this.opts.filenameHeader, file.name);
+    }
+
     if (this.opts.customHeaders) {
       Object.keys(this.opts.customHeaders).forEach((key) => {
         xhr.setRequestHeader(key, this.opts.customHeaders[key]);
@@ -120,7 +130,7 @@ export class NgUploaderService {
     this._beforeEmitter.emit(uploadingFile);
 
     if (!uploadingFile.abort) {
-      xhr.send(form);
+      xhr.send(payload);
     } else {
       this.removeFileFromQueue(queueIndex);
     }

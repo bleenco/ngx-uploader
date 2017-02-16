@@ -6,10 +6,11 @@ export interface INgUploaderOptions {
   maxUploads?: number;
   data?: any;
   autoUpload?: boolean;
-  multipart?: any;
+  multipart?: boolean;
   method?: string;
   customHeaders?: any;
   encodeHeaders?: boolean;
+  filenameHeader?: string;
   authTokenPrefix?: string;
   authToken?: string;
   fieldName?: string;
@@ -18,6 +19,7 @@ export interface INgUploaderOptions {
   calculateSpeed?: boolean;
   filterExtensions?: boolean;
   allowedExtensions?: string[];
+  maxSize?: number;
 }
 
 export class NgUploaderOptions implements INgUploaderOptions {
@@ -28,10 +30,11 @@ export class NgUploaderOptions implements INgUploaderOptions {
   maxUploads?: number;
   data?: any;
   autoUpload?: boolean;
-  multipart?: any;
+  multipart?: boolean;
   method?: string;
   customHeaders?: any;
   encodeHeaders?: boolean;
+  filenameHeader?: string;
   authTokenPrefix?: string;
   authToken?: string;
   fieldName?: string;
@@ -40,6 +43,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
   calculateSpeed?: boolean;
   filterExtensions?: boolean;
   allowedExtensions?: string[];
+  maxSize?: number;
 
   constructor(obj: INgUploaderOptions) {
     function use<T>(source: T, defaultValue: T): T {
@@ -53,10 +57,11 @@ export class NgUploaderOptions implements INgUploaderOptions {
     this.maxUploads = use(obj.maxUploads, 10);
     this.data = use(obj.data, {});
     this.autoUpload = use(obj.autoUpload, true);
-    this.multipart = use(obj.multipart, false);
+    this.multipart = use(obj.multipart, true);
     this.method = use(obj.method, 'POST');
     this.customHeaders = use(obj.customHeaders, {});
     this.encodeHeaders = use(obj.encodeHeaders, false);
+    this.filenameHeader = use(obj.filenameHeader, undefined);
     this.authTokenPrefix = use(obj.authTokenPrefix, 'Bearer');
     this.authToken = use(obj.authToken, undefined);
     this.fieldName = use(obj.fieldName, 'file');
@@ -65,6 +70,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
     this.calculateSpeed = use(obj.calculateSpeed, true);
     this.filterExtensions = use(obj.filterExtensions, false);
     this.allowedExtensions = use(obj.allowedExtensions, []);
+    this.maxSize = use(obj.maxSize, undefined);
   }
 
 }

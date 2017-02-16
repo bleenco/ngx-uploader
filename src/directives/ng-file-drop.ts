@@ -105,7 +105,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     }
 
     if (this.options.filterExtensions && this.options.allowedExtensions && this.files && this.files.length) {
-      this.files = this.files.filter(f => {
+      this.files = [].filter.call(this.files, (f: any) => {
         let allowedExtensions = this.options.allowedExtensions || [];
         if (allowedExtensions.indexOf(f.type) !== -1) {
           return true;
@@ -118,6 +118,17 @@ export class NgFileDropDirective implements OnChanges, OnInit {
 
         this.onUploadRejected.emit({file: f, reason: UploadRejected.EXTENSION_NOT_ALLOWED});
 
+        return false;
+      });
+    }
+
+    if (this.options.maxSize > 0) {
+      this.files = [].filter.call(this.files, (f: any) => {
+        if (f.size <= this.options.maxSize) {
+          return true;
+        }
+
+        this.onUploadRejected.emit({file: f, reason: UploadRejected.MAX_SIZE_EXCEEDED});
         return false;
       });
     }
