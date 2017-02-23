@@ -44,6 +44,10 @@ export class NgFileSelectDirective implements OnChanges {
       if (data.done && this.files && this.files.length) {
         this.files = [].filter.call(this.files, (f: File) => f.name !== data.originalName);
       }
+
+      if (data.done && this.uploader.opts.fieldReset) {
+        this.el.nativeElement.value = '';
+      }
     });
 
     this.uploader._previewEmitter.subscribe((data: any) => {
