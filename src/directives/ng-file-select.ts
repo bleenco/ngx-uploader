@@ -102,6 +102,11 @@ export class NgFileSelectDirective implements OnChanges {
       });
     }
 
+    if(this.options.maxUploads > 0 && this.files.length > this.options.maxUploads) {
+      this.onUploadRejected.emit({file: this.files.pop(), reason: UploadRejected.MAX_UPLOADS_EXCEEDED});
+      this.files = [];
+    }
+
     if (this.files && this.files.length) {
       this.uploader.addFilesToQueue(this.files);
     }
