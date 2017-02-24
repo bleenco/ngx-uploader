@@ -58,6 +58,8 @@ export class NgFileSelectDirective implements OnChanges {
       this.events.subscribe((data: string) => {
         if (data === 'startUpload') {
           this.uploader.uploadFilesInQueue();
+        } else if(data === 'updateOptions') {
+          this.uploader.setOptions(new NgUploaderOptions(this.options));
         }
       });
     }
