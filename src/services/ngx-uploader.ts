@@ -47,7 +47,8 @@ export class NgUploaderService {
     let uploadingFile = new UploadedFile(
       this.generateRandomIndex(),
       file.name,
-      file.size
+      file.size,
+      xhr
     );
 
     let queueIndex = this._queue.indexOf(file);
