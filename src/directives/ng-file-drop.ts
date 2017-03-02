@@ -77,29 +77,14 @@ export class NgFileDropDirective implements OnChanges, OnInit {
       return;
     }
 
-    this.el.nativeElement.addEventListener('drop', (e: any) => {
-      e.stopPropagation();
-      e.preventDefault();
-      this.onFileOver.emit(false);
-      this.files = Array.from<File>(e.dataTransfer.files);
-      if (this.files && this.files.length) {
-        this.uploader.addFilesToQueue(this.files);
-      }
-    }, false);
-
-    this.el.nativeElement.addEventListener('dragenter', (e: DragEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-    }, false);
-
-    this.el.nativeElement.addEventListener('dragover', (e: DragEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-    }, false);
+    this.el.nativeElement.addEventListener('drop', this.stopEvent, false);
+    this.el.nativeElement.addEventListener('dragenter', this.stopEvent, false);
+    this.el.nativeElement.addEventListener('dragover', this.stopEvent, false);
   }
 
-  @HostListener('change') onChange(): void {
-    this.files = this.el.nativeElement.files;
+  @HostListener('drop', ['$event']) onDrop(e: DragEvent): void {
+    this.onFileOver.emit(false);
+    this.files = Array.from<File>(e.dataTransfer.files);
     if (!this.files || !this.files.length) {
       return;
     }
@@ -133,6 +118,11 @@ export class NgFileDropDirective implements OnChanges, OnInit {
       });
     }
 
+    if(this.options.maxUploads > 0 && this.files.length > this.options.maxUploads) {
+      this.onUploadRejected.emit({file: this.files.pop(), reason: UploadRejected.MAX_UPLOADS_EXCEEDED});
+      this.files = [];
+    }
+
     if (this.files && this.files.length) {
       this.uploader.addFilesToQueue(this.files);
     }
@@ -148,6 +138,11 @@ export class NgFileDropDirective implements OnChanges, OnInit {
   public onDragLeave(e: any) {
     if (!e) { return; }
     this.onFileOver.emit(false);
+  }
+
+  private stopEvent(e: DragEvent): void {
+    e.stopPropagation();
+    e.preventDefault();
   }
 
 }
