@@ -60,9 +60,10 @@ export class NgUploaderService {
     xhr.upload.onprogress = (e: ProgressEvent) => {
       if (e.lengthComputable) {
         if (this.opts.calculateSpeed) {
-          time = new Date().getTime() - time;
+          const diff = new Date().getTime() - time;
+          time += diff;
           load = e.loaded - load;
-          speed = load / time * 1000;
+          speed = load / diff * 1000;
           speed = parseInt(<any>speed, 10);
           speedHumanized = this.humanizeBytes(speed);
         }
