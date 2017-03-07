@@ -36,7 +36,9 @@ export class NgFileSelectDirective implements OnChanges {
     if (!this.options || !changes) {
       return;
     }
-
+    if(this.options.allowedExtensions) {
+      this.options.allowedExtensions = this.options.allowedExtensions.map(ext => ext.toLowerCase());
+    }
     this.uploader.setOptions(new NgUploaderOptions(this.options));
 
     this.uploader._emitter.subscribe((data: any) => {
@@ -76,7 +78,7 @@ export class NgFileSelectDirective implements OnChanges {
     if (this.options.filterExtensions && this.options.allowedExtensions && this.files && this.files.length) {
       this.files = [].filter.call(this.files, (f: File) => {
         let allowedExtensions = this.options.allowedExtensions || [];
-        if (allowedExtensions.toLowerCase().indexOf(f.type.toLowerCase()) !== -1) {
+        if (allowedExtensions.indexOf(f.type.toLowerCase()) !== -1) {
           return true;
         }
 
