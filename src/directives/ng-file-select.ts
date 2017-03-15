@@ -83,7 +83,7 @@ export class NgFileSelectDirective implements OnChanges {
         }
 
         let ext = f.name.split('.').pop();
-        if (ext && allowedExtensions.indexOf(ext) !== -1 ) {
+        if (ext && allowedExtensions.indexOf(ext.toLowerCase()) !== -1 ) {
           return true;
         }
 
