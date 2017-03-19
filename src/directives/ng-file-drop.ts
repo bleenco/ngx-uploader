@@ -10,8 +10,8 @@ import {
   OnInit,
   SimpleChange
 } from '@angular/core';
-import {NgUploaderService} from '../services/ngx-uploader';
-import {NgUploaderOptions, UploadedFile, UploadRejected} from '../classes/index';
+import { NgUploaderService } from '../services/ngx-uploader';
+import { NgUploaderOptions, UploadedFile, UploadRejected } from '../classes/index';
 
 @Directive({
   selector: '[ngFileDrop]',
@@ -30,9 +30,9 @@ export class NgFileDropDirective implements OnChanges, OnInit {
 
   files: File[] = [];
 
-  constructor(@Inject(ElementRef) public el: ElementRef,
-              @Inject(NgUploaderService) public uploader: NgUploaderService) {
-  }
+  constructor(
+    @Inject(ElementRef) public el: ElementRef,
+    @Inject(NgUploaderService) public uploader: NgUploaderService) { }
 
   ngOnInit() {
     this.uploader._emitter.subscribe((data: any) => {
@@ -63,7 +63,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     this.initEvents();
   }
 
-  ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
     if (!this.options || !changes) {
       return;
     }
@@ -133,17 +133,13 @@ export class NgFileDropDirective implements OnChanges, OnInit {
 
   @HostListener('dragover', ['$event'])
   public onDragOver(e: any) {
-    if (!e) {
-      return;
-    }
+    if (!e) { return; }
     this.onFileOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
   public onDragLeave(e: any) {
-    if (!e) {
-      return;
-    }
+    if (!e) { return; }
     this.onFileOver.emit(false);
   }
 
