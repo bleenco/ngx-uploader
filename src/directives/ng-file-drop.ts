@@ -10,8 +10,8 @@ import {
   OnInit,
   SimpleChange
 } from '@angular/core';
-import { NgUploaderService } from '../services/ngx-uploader';
-import { NgUploaderOptions, UploadedFile, UploadRejected } from '../classes/index';
+import {NgUploaderService} from '../services/ngx-uploader';
+import {NgUploaderOptions, UploadedFile, UploadRejected} from '../classes/index';
 
 @Directive({
   selector: '[ngFileDrop]',
@@ -30,9 +30,9 @@ export class NgFileDropDirective implements OnChanges, OnInit {
 
   files: File[] = [];
 
-  constructor(
-    @Inject(ElementRef) public el: ElementRef,
-    @Inject(NgUploaderService) public uploader: NgUploaderService) { }
+  constructor(@Inject(ElementRef) public el: ElementRef,
+              @Inject(NgUploaderService) public uploader: NgUploaderService) {
+  }
 
   ngOnInit() {
     this.uploader._emitter.subscribe((data: any) => {
@@ -63,12 +63,12 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     this.initEvents();
   }
 
-  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+  ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     if (!this.options || !changes) {
       return;
     }
 
-    if(this.options.allowedExtensions) {
+    if (this.options.allowedExtensions) {
       this.options.allowedExtensions = this.options.allowedExtensions.map(ext => ext.toLowerCase());
     }
     this.options = new NgUploaderOptions(this.options);
@@ -85,7 +85,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     this.el.nativeElement.addEventListener('dragover', this.stopEvent, false);
   }
 
-  @HostListener('drop', ['$event']) onDrop(e: DragEvent): void {
+  @HostListener('drop', ['$event']) onDrop(e: Event | any): void {
     this.onFileOver.emit(false);
     this.files = Array.from<File>(e.dataTransfer.files);
     if (!this.files || !this.files.length) {
@@ -100,7 +100,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
         }
 
         let ext = f.name.split('.').pop();
-        if (ext && allowedExtensions.indexOf(ext) !== -1 ) {
+        if (ext && allowedExtensions.indexOf(ext) !== -1) {
           return true;
         }
 
@@ -121,7 +121,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
       });
     }
 
-    if(this.options.maxUploads > 0 && this.files.length > this.options.maxUploads) {
+    if (this.options.maxUploads > 0 && this.files.length > this.options.maxUploads) {
       this.onUploadRejected.emit({file: this.files.pop(), reason: UploadRejected.MAX_UPLOADS_EXCEEDED});
       this.files = [];
     }
@@ -133,17 +133,21 @@ export class NgFileDropDirective implements OnChanges, OnInit {
 
   @HostListener('dragover', ['$event'])
   public onDragOver(e: any) {
-    if (!e) { return; }
+    if (!e) {
+      return;
+    }
     this.onFileOver.emit(true);
   }
 
   @HostListener('dragleave', ['$event'])
   public onDragLeave(e: any) {
-    if (!e) { return; }
+    if (!e) {
+      return;
+    }
     this.onFileOver.emit(false);
   }
 
-  private stopEvent(e: DragEvent): void {
+  private stopEvent(e: Event): void {
     e.stopPropagation();
     e.preventDefault();
   }
