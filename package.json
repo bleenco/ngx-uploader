@@ -1,7 +1,7 @@
 {
   "name": "ngx-uploader",
   "description": "Angular File Uploader",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "license": "MIT",
   "main": "bundle/ngx-uploader.umd.js",
   "module": "ngx-uploader.js",

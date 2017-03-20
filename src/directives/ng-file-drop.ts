@@ -85,7 +85,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     this.el.nativeElement.addEventListener('dragover', this.stopEvent, false);
   }
 
-  @HostListener('drop', ['$event']) onDrop(e: DragEvent): void {
+  @HostListener('drop', ['$event']) onDrop(e: any): void {
     this.onFileOver.emit(false);
     this.files = Array.from<File>(e.dataTransfer.files);
     if (!this.files || !this.files.length) {
@@ -143,7 +143,7 @@ export class NgFileDropDirective implements OnChanges, OnInit {
     this.onFileOver.emit(false);
   }
 
-  private stopEvent(e: DragEvent): void {
+  private stopEvent(e: any): void {
     e.stopPropagation();
     e.preventDefault();
   }
