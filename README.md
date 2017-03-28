@@ -1,5 +1,7 @@
 # ngx-uploader fork (version 2.2.5) with plainJson option
 
+Use option.plainJson = true for sending file as encoded string (i.e. base64) in plain json struct in option.data. See advanced example.
+
 For demos please see [demos page](http://ngx-uploader.com).
 
 ## Angular2 File Uploader
