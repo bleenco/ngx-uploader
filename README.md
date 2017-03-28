@@ -120,7 +120,7 @@ export class AdvancedDemoComponent {
     this.options = new NgUploaderOptions({
       url: 'http://api.ngx-uploader.com/upload',
       filterExtensions: true,
-      allowedExtensions: ['jpg', 'png'],
+      allowedExtensions: ['txt', 'pdf'],
       maxSize: 2097152,
       data:{
                 '@type': "File",
@@ -136,6 +136,7 @@ export class AdvancedDemoComponent {
           'Accept':'application/json'
       },
       autoUpload: false,
+      plainJson: true,
       fieldName: 'file',
       fieldReset: true,
       maxUploads: 2,
