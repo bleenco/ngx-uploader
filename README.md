@@ -116,7 +116,7 @@ export class AdvancedDemoComponent {
   sizeLimit: number = 1000000; // 1MB
   previewData: any;
   errorMessage: string;
-  inputUploadEvents: EventEmitter<string>;
+  startUploadEvent: EventEmitter<string>;
 
   constructor(@Inject(NgZone) private zone: NgZone) {
     this.options = new NgUploaderOptions({
@@ -147,11 +147,12 @@ export class AdvancedDemoComponent {
       withCredentials: false
     });
 
-    this.inputUploadEvents = new EventEmitter<string>();
+    this.startUploadEvent = new EventEmitter<string>();
   }
 
   startUpload() {
-    this.inputUploadEvents.emit('startUpload');
+    //this.inputUploadEvents.emit('startUpload');
+    this.startUploadEvent.emit("startUpload");
   }
 
   beforeUpload(uploadingFile: UploadedFile): void {
@@ -159,6 +160,20 @@ export class AdvancedDemoComponent {
       uploadingFile.setAbort();
       this.errorMessage = 'File is too large!';
     }
+    let file: File =  ev.target['files'][0];
+    let myReader: FileReader = new FileReader();
+
+    myReader.onloadend = (e) => {
+        let tmpB64String = myReader.result.split(',');
+        
+        this.options['data']['file']['data'] = tmpB64String[1] ;
+        this.options['data']['file']['filename'] = file.name;
+        this.options['data']['title'] = file.name;
+
+        startUpload();
+        
+    }
+    myReader.readAsDataURL(file);
   }
 
   handleUpload(data: any) {
@@ -186,7 +201,7 @@ export class AdvancedDemoComponent {
            class="hidden"
            ngFileSelect
            [options]="options"
-           [events]="inputUploadEvents"
+           [events]="startUploadEvent"
            (onUpload)="handleUpload($event)"
            (onPreviewData)="handlePreviewData($event)"
            (beforeUpload)="beforeUpload($event)">
