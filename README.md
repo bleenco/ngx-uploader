@@ -1,4 +1,4 @@
-# ngx-uploader
+# ngx-uploader fork
 
 For demos please see [demos page](http://ngx-uploader.com).
 
