@@ -20,6 +20,8 @@ export interface INgUploaderOptions {
   filterExtensions?: boolean;
   allowedExtensions?: string[];
   maxSize?: number;
+  plainJson?: boolean;
+  
 }
 
 export class NgUploaderOptions implements INgUploaderOptions {
@@ -44,6 +46,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
   filterExtensions?: boolean;
   allowedExtensions?: string[];
   maxSize?: number;
+  plainJson?: boolean;
 
   constructor(obj: INgUploaderOptions) {
     function use<T>(source: T, defaultValue: T): T {
@@ -71,6 +74,7 @@ export class NgUploaderOptions implements INgUploaderOptions {
     this.filterExtensions = use(obj.filterExtensions, false);
     this.allowedExtensions = use(obj.allowedExtensions, []);
     this.maxSize = use(obj.maxSize, undefined);
+    this.plainJson =  use(obj.plainJson, false);
   }
 
 }
