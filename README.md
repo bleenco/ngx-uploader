@@ -129,7 +129,7 @@ export class AdvancedDemoComponent {
                     "data": "TG9yZW0gSXBzdW0u",
                     "encoding": "base64",
                     "filename": "lorem.txt",
-                    "content-type": "plain/txt"}
+                    "content-type": "text/plain"}
                },
        customHeaders: {
           'Content-Type':'application/json',
