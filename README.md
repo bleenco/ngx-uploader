@@ -122,7 +122,19 @@ export class AdvancedDemoComponent {
       filterExtensions: true,
       allowedExtensions: ['jpg', 'png'],
       maxSize: 2097152,
-      data: { userId: 12 },
+      data:{
+                '@type': "File",
+                "title": "My lorem.txt file",
+                "file": {
+                    "data": "TG9yZW0gSXBzdW0u",
+                    "encoding": "base64",
+                    "filename": "lorem.txt",
+                    "content-type": "plain/txt"}
+               },
+       customHeaders: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+      },
       autoUpload: false,
       fieldName: 'file',
       fieldReset: true,
