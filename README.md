@@ -1,4 +1,4 @@
-# ngx-uploader fork
+# ngx-uploader fork (version 2.2.5) with plainJson option
 
 For demos please see [demos page](http://ngx-uploader.com).
 
