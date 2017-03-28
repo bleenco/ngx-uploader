@@ -64,11 +64,8 @@ export class AdvancedDemoComponent {
     this.startUploadEvent.emit("startUpload");
   }
 
-  beforeUpload(uploadingFile: UploadedFile): void {
-    if (uploadingFile.size > this.sizeLimit) {
-      uploadingFile.setAbort();
-      this.errorMessage = 'File is too large!';
-    }
+  beforeUpload(ev : Event): void {
+   
     let file: File =  ev.target['files'][0];
     let myReader: FileReader = new FileReader();
 
