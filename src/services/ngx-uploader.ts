@@ -30,9 +30,12 @@ export class NgUploaderService {
 
   uploadFile(file: File): void {
     let xhr = new XMLHttpRequest();
-    let payload: FormData | File;
-
-    if (this.opts.multipart) {
+    let payload: FormData | File | {};
+    
+    if (this.opts.plainJson) {
+      payload = JSON.stringify(this.opts.data)
+    }
+    else if (this.opts.multipart) {
       let form = new FormData();
       Object.keys(this.opts.data).forEach(k => {
         form.append(k, this.opts.data[k]);
