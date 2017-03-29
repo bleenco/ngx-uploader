@@ -33,11 +33,8 @@ export class NgUploaderService {
     let payload: FormData | File | {};
     
     if (this.opts.plainJson) {
-      let plainObj = {};
-      Object.keys(this.opts.data).forEach(k => {
-        plainObj[k] = this.opts.data[k];
-      });
-      payload = JSON.stringify(plainObj)}
+      payload = JSON.stringify(this.opts.data)
+    }
     else if (this.opts.multipart) {
       let form = new FormData();
       Object.keys(this.opts.data).forEach(k => {
