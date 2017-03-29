@@ -18,7 +18,7 @@ npm install ngx-uploader --save
 
 - [Basic Example](https://github.com/jkuri/ngx-uploader#basic-example)
 - [Advanced Example](https://github.com/jkuri/ngx-uploader#advanced-example)
-- [Advanced Example with plain JSON](https://github.com/jkuri/ngx-uploader#Advanced Example with plain JSON)
+- [Advanced Example with plain JSON](https://github.com/jkuri/ngx-uploader#advanced-example-json)
 
 --------
 
