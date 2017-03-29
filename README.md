@@ -1,7 +1,3 @@
-# ngx-uploader fork (version 2.2.5) with plainJson option
-
-Use option.plainJson = true for sending file as encoded string (i.e. base64) in plain json struct in option.data. See advanced example.
-
 # ngx-uploader
 
 For demos please see [demos page](http://ngx-uploader.com).
@@ -22,7 +18,7 @@ npm install ngx-uploader --save
 
 - [Basic Example](https://github.com/jkuri/ngx-uploader#basic-example)
 - [Advanced Example](https://github.com/jkuri/ngx-uploader#advanced-example)
-- [Advanced Example2](https://github.com/jkuri/ngx-uploader#advanced-example2)
+- [Advanced Example with plain JSON](https://github.com/jkuri/ngx-uploader#Advanced Example with plain JSON)
 
 --------
 
@@ -205,7 +201,7 @@ export class AdvancedDemoComponent {
 </div>
 ```
 
-#### Advanced Example2
+#### Advanced Example with plain JSON
 
 ```ts
 // advanced-demo.component.ts
@@ -231,17 +227,18 @@ export class AdvancedDemoComponent {
       allowedExtensions: ['txt', 'pdf'],
       maxSize: 2097152,
       data:{
-                '@type': "File",
-                "title": "My lorem.txt file",
-                "file": {
-                    "data": "TG9yZW0gSXBzdW0u",
-                    "encoding": "base64",
-                    "filename": "lorem.txt",
-                    "content-type": "text/plain"}
-               },
+        '@type': "File",
+        "title": "My lorem.txt file",
+        "file": {
+          "data": "TG9yZW0gSXBzdW0u",
+          "encoding": "base64",
+          "filename": "lorem.txt",
+          "content-type": "text/plain"
+          }
+        },
        customHeaders: {
-          'Content-Type':'application/json',
-          'Accept':'application/json'
+         'Content-Type':'application/json',
+         'Accept':'application/json'
       },
       autoUpload: false,
       plainJson: true,
@@ -257,7 +254,6 @@ export class AdvancedDemoComponent {
   }
 
   startUpload() {
-    //this.inputUploadEvents.emit('startUpload');
     this.startUploadEvent.emit("startUpload");
   }
 
@@ -267,14 +263,10 @@ export class AdvancedDemoComponent {
     let myReader: FileReader = new FileReader();
 
     myReader.onloadend = (e) => {
-        let tmpB64String = myReader.result.split(',');
-        
-        this.options['data']['file']['data'] = tmpB64String[1] ;
-        this.options['data']['file']['filename'] = file.name;
-        this.options['data']['title'] = file.name;
-
-        startUpload();
-        
+      let tmpB64String = myReader.result.split(',');
+      this.options['data']['file']['data'] = tmpB64String[1] ;
+      this.options['data']['file']['filename'] = file.name;
+      this.options['data']['title'] = file.name;   
     }
     myReader.readAsDataURL(file);
   }
