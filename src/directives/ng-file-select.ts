@@ -93,10 +93,14 @@ export class NgFileSelectDirective implements OnChanges {
       });
     }
 
-    if (this.options.maxSize > 0) {
+    let maxSize = typeof this.options.maxSize !== 'undefined' ? this.options.maxSize : null;
+
+    if (maxSize !== null && maxSize > 0) {
       this.files = [].filter.call(this.files, (f: File) => {
-        if (f.size <= this.options.maxSize) {
-          return true;
+        if (maxSize) {
+          if (f.size <= maxSize) {
+            return true;
+          }
         }
 
         this.onUploadRejected.emit({file: f, reason: UploadRejected.MAX_SIZE_EXCEEDED});
@@ -104,7 +108,9 @@ export class NgFileSelectDirective implements OnChanges {
       });
     }
 
-    if(this.options.maxUploads > 0 && this.files.length > this.options.maxUploads) {
+    let maxUploads = typeof this.options.maxUploads !== 'undefined' ? this.options.maxUploads : null;
+
+    if (maxUploads !== null && (maxUploads > 0 && this.files.length > maxUploads)) {
       this.onUploadRejected.emit({file: this.files.pop(), reason: UploadRejected.MAX_UPLOADS_EXCEEDED});
       this.files = [];
     }
