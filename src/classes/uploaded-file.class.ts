@@ -1,5 +1,5 @@
 export class UploadedFile {
-  private _xhr: XMLHttpRequest | undefined;
+  xhr: XMLHttpRequest | undefined;
   id: string;
   status: number;
   statusText: string;
@@ -16,7 +16,7 @@ export class UploadedFile {
   speedAverageHumanized: string|null;
 
   constructor(id: string, originalName: string, size: number, xhr?: XMLHttpRequest) {
-    this._xhr = xhr;
+    this.xhr = xhr;
     this.id = id;
     this.originalName = originalName;
     this.size = size;
@@ -37,8 +37,8 @@ export class UploadedFile {
   }
 
   abortUpload(){
-    if (this._xhr) {
-      this._xhr.abort();
+    if (this.xhr) {
+      this.xhr.abort();
     }
   }
 
