@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { UploadOutput, UploadFile, humanizeBytes } from '../../../ngx-uploader/services/ngx-uploader';
+import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from '../../../ngx-uploader/services/ngx-uploader';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +39,15 @@ export class AppHomeComponent {
   }
 
   startUpload(): void {
-    this.uploadInput.emit({ type: 'uploadAll', url: 'http://api.ngx-uploader.com', method: 'POST' });
+    const event: UploadInput = {
+      type: 'uploadAll',
+      url: 'http://api.ngx-uploader.com',
+      method: 'POST',
+      data: { foo: 'bla!' },
+      concurrency: 1
+    }
+
+    this.uploadInput.emit(event);
   }
 
   cancelUpload(id: string): void {

@@ -8,16 +8,24 @@ import { ServerAppModule } from './app/server-app.module';
 import { universalExpressEngine } from './universal';
 import { ROUTES } from './routes';
 import { enableProdMode } from '@angular/core';
+import { uploadRouter } from './api';
+import * as cors from 'cors';
+import * as bodyParser from 'body-parser';
+const config = require('../config.json');
 
 enableProdMode();
 
 const app = express();
-const port = 8000;
+const port = config.port;
 
+app.use(cors());
+app.use(bodyParser.json());
 app.engine('html', universalExpressEngine({
   ngModule: ServerAppModule
 }));
 
+app.use(cors());
+app.use(bodyParser.json());
 app.set('view engine', 'html');
 app.set('views', 'dist');
 
@@ -30,6 +38,8 @@ ROUTES.forEach(route => {
     console.timeEnd(`GET: ${ req.originalUrl }`);
   });
 });
+
+app.use(uploadRouter);
 
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
