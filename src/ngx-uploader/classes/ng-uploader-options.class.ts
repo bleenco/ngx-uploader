@@ -21,7 +21,6 @@ export interface INgUploaderOptions {
   allowedExtensions?: string[];
   maxSize?: number;
   plainJson?: boolean;
-  
 }
 
 export class NgUploaderOptions implements INgUploaderOptions {

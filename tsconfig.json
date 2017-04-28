@@ -1,38 +1,29 @@
 {
   "compilerOptions": {
-    "target": "es5",
     "module": "es2015",
     "moduleResolution": "node",
+    "target": "es5",
+    "noImplicitAny": false,
+    "sourceMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "noEmitHelpers": false,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "declaration": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true,
-    "stripInternal": true,
-    "noUnusedParameters": true,
-    "lib": ["es6", "dom"],
-    "rootDir": ".",
-    "types": [
-      "node"
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "outDir": "lib",
+    "typeRoots": [
+      "node_modules/@types"
     ]
   },
   "include": [
     "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "bundles",
-    "dist"
-  ],
-  "files": [
-    "ngx-uploader.ts"
+    "src/main.ts"
   ],
   "angularCompilerOptions": {
-    "genDir": "aot",
-    "skipMetadataEmit" : false
+    "genDir": "./src/ngfactory",
+    "entryModule": "src/app/app.module#AppModule"
   }
 }

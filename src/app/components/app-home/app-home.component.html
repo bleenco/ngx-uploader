@@ -1,0 +1,72 @@
+<div class="hero is-fullheight">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-multiline">
+        <div class="column is-8 is-offset-2">
+          <div class="drop-container">
+            <h1>Drag & Drop</h1>
+            <label class="upload-button">
+              <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+              or choose file
+            </label>
+          </div>
+        </div>
+        <div class="column is-8 is-offset-2">
+          <table class="table" *ngIf="files && files.length">
+            <thead>
+              <tr>
+                <th>File name</th>
+                <th>Size</th>
+                <th>Progress</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let f of files; let i = index;">
+                <td>{{ f.name }}</td>
+                <td>{{ humanizeBytes(f.size) }}</td>
+                <td>
+                  <div class="progress-bar-container">
+                    <div class="bar" [style.width]="f.progress.data.percentage + '%'" [ngClass]="{ 'green': f.progress.data.percentage === 100 }"></div>
+                  </div>
+                </td>
+                <td *ngIf="f.progress.data">
+                  <span class="circle cancel" *ngIf="f.progress.data.percentage !== 100">
+                    <svg width="20px" height="20px" viewBox="0 0 42 42" (click)="cancelUpload(f.id)">
+                      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g transform="translate(-29.000000, 0.000000)" fill-rule="nonzero" fill="#000000">
+                          <path d="M70,37.2 C71.1,38.3 71.1,40.1 70,41.2 C68.9,42.3 67.1,42.3 66,41.2 L50,25.2 L34,41.2 C32.9,42.3 31.1,42.3 30,41.2 C28.9,40.1 28.9,38.3 30,37.2 L46.1,21.1 L30,5 C28.9,3.9 28.9,2.1 30,1 C31.1,-0.1 32.9,-0.1 34,1 L50,17 L66,1 C67.1,-0.1 68.9,-0.1 70,1 C71.1,2.1 71.1,3.9 70,5 L53.9,21.1 L70,37.2 Z" id="Shape"></path>
+                        </g>
+                      </g>
+                    </svg>
+                  </span>
+                  <span class="circle green" *ngIf="f.progress.data.percentage === 100">
+                    <svg width="5121px" height="3848px" viewBox="0 0 5121 3848" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="noun_950960_cc" transform="translate(-853.000000, 0.000000)" fill="#000000">
+                          <path d="M2638,2531 L1829,1722 C1564,1457 1343,1396 1182,1447 C1117,1467 1060,1506 1013,1556 C964,1608 926,1673 899,1744 C825,1938 838,2171 968,2301 L2169,3502 C2399,3732 2555,3848 2698,3848 L2698,3848 C2842,3848 2997,3733 3227,3503 L5859,871 C5989,741 6002,509 5928,314 C5901,243 5862,178 5814,126 C5767,76 5710,38 5645,17 C5483,-34 5263,27 4998,292 L2759,2531 L2699,2591 L2639,2531 L2638,2531 Z" id="Shape"></path>
+                        </g>
+                      </g>
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="column is-6 is-offset-3" *ngIf="files.length">
+          <button type="button" class="start-upload-btn" (click)="startUpload()">
+            Start Upload
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="hero-foot">
+    <div class="container">
+      <div class="column is-8 is-offset-2">
+        <p class="log" *ngIf="files && files.length">{{ files | json }}</p>
+      </div>
+    </div>
+  </div>-->
+</div>

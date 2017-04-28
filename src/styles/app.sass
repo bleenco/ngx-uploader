@@ -1,0 +1,130 @@
+@charset 'utf8'
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,300,400,600,700')
+@import '../../node_modules/bulma/sass/utilities/all'
+@import '../../node_modules/bulma/sass/base/all'
+@import '../../node_modules/bulma/sass/grid/columns'
+@import '../../node_modules/bulma/sass/layout/hero'
+
+$blue: #96D3ED
+$red: #ed145b
+$green: #14ec84
+$grey: #7e9494
+$light: #9cb7be
+$text: #efeff0
+
+html, body
+  background: #303143
+  font-family: 'Raleway', sans-serif
+
+.hero
+  background: #303143
+
+  .drop-container
+    padding: 20px 0 60px 0
+    border: 3px dashed $grey
+    border-radius: 10px
+    margin-bottom: 50px
+    h1
+      color: $text
+      font-size: 40px
+      padding: 20px 0 40px 0
+      text-align: center
+      font-weight: 600
+
+.folder-icon
+  display: block
+  width: 300px
+  margin: 0 auto
+  g
+    g
+      fill: $light
+
+.table
+  background: transparent
+  color: $light
+  thead
+    th
+      font-size: 28px
+      color: $text
+      border-bottom: 2px solid $light
+      padding: 10px 0
+  tbody
+    tr
+      border-bottom: 1px solid $light
+      td
+        padding: 20px 0
+        font-size: 20px
+
+.progress-bar-container
+  width: 100%
+  height: 10px
+  border-radius: 10px
+  background: $grey
+  margin: 10px 0
+  position: relative
+  .bar
+    border-radius: 10px
+    position: absolute
+    top: 0
+    left: 0
+    height: 10px
+    width: 65%
+    background: $red
+    &.green
+      background: $green
+
+.circle
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 40px
+  height: 40px
+  background: $grey
+  border-radius: 50%
+  margin: -5px auto 0 auto
+  cursor: pointer
+  svg
+    display: block
+    margin: 8px auto
+    height: 16px
+    g
+      g
+        fill: #303143
+  &.green
+    background: $green
+
+
+.file-over
+  background: rgba($white, 0.4)
+
+.upload-button, .start-upload-btn
+  width: 300px
+  display: block
+  margin: 10px auto
+  border-radius: 40px
+  background: $blue
+  outline: none
+  font-size: 32px
+  text-align: center
+  padding: 10px 30px
+  cursor: pointer
+  color: #303143
+  border: none
+  font-weight: 200
+  input
+    display: none
+
+  &.start-upload-btn
+    background: $green
+    padding: 10px
+    width: 200px
+    font-size: 18px
+
+
+.log
+  font-size: 10px
+  color: $light
+  text-align: center
+  padding-bottom: 50px
+
