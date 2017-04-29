@@ -18,7 +18,6 @@ let upload: multer.Instance = multer({ storage: storage });
 export let uploadRouter = express.Router();
 
 uploadRouter.post('/upload', upload.any(), (req: express.Request, res: express.Response) => {
-  console.log(req.body);
   rimraf.sync('uploads/**/*');
   res.status(200).json(req.files);
 });

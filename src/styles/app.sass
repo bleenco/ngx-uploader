@@ -1,10 +1,12 @@
 @charset 'utf8'
 
-@import url('https://fonts.googleapis.com/css?family=Raleway:100,300,400,600,700')
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600,700')
+@import '../../node_modules/bulma/sass/base/minireset'
 @import '../../node_modules/bulma/sass/utilities/all'
 @import '../../node_modules/bulma/sass/base/all'
 @import '../../node_modules/bulma/sass/grid/columns'
 @import '../../node_modules/bulma/sass/layout/hero'
+@import '../../node_modules/bulma/sass/components/nav'
 
 $blue: #96D3ED
 $red: #ed145b
@@ -12,19 +14,61 @@ $green: #14ec84
 $grey: #7e9494
 $light: #9cb7be
 $text: #efeff0
+$background: #303143
 
 html, body
-  background: #303143
-  font-family: 'Raleway', sans-serif
+  width: 100%
+  background: $background
+  font-family: 'Open Sans', sans-serif
+
+.label, .checkbox
+  font-size: 16px
+  font-weight: $weight-normal
+  color: $white
+  margin: 0 10px
+  &:hover
+    color: $white
+
+.label
+  display: block
+  float: left
+
+input[type="text"]
+  height: 50px
+  background: $background
+  border: 1px solid $grey
+  width: 50px
+  color: $white
+  display: block
+  float: left
+  margin: -10px 15px 0 15px
+  text-align: center
+  border-radius: 4px
+  outline: none
+  font-size: 16px
+
+  &:hover, &:focus
+    border: 1px solid $grey
+
+.verbose-data
+  color: $white
+  font-size: 12px
 
 .hero
-  background: #303143
+  background: $background
+
+  .hero-head
+    h1
+      color: $grey
+      font-size: 24px
+      margin-top: 50px
 
   .drop-container
     padding: 20px 0 60px 0
     border: 3px dashed $grey
     border-radius: 10px
     margin-bottom: 50px
+    margin-top: 20px
     h1
       color: $text
       font-size: 40px
@@ -105,7 +149,7 @@ html, body
   border-radius: 40px
   background: $blue
   outline: none
-  font-size: 32px
+  font-size: 26px
   text-align: center
   padding: 10px 30px
   cursor: pointer
@@ -127,4 +171,3 @@ html, body
   color: $light
   text-align: center
   padding-bottom: 50px
-

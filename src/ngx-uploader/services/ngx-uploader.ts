@@ -47,7 +47,7 @@ export interface UploadInput {
   id?: string;
   fileIndex?: number;
   file?: UploadFile;
-  data?: { [key: string]: string | number };
+  data?: { [key: string]: string | Blob };
   headers?: { [key: string]: string };
   concurrency?: number;
 }
@@ -116,30 +116,20 @@ export class NgUploaderService {
           this.uploads.push({ file: event.file, sub: sub });
         break;
         case 'uploadAll':
-          const concurrency = event.concurrency || Number.NEGATIVE_INFINITY;
+          let concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
 
-          if (concurrency === Number.NEGATIVE_INFINITY) { // parallel
-            this.files.forEach(file => {
-              const subscription = this.uploadFile(file, event).subscribe(data => {
-                this.serviceEvents.emit(data);
-              });
+          const subscriber = Subscriber.create((data: UploadOutput) => {
+            this.serviceEvents.emit(data);
+          });
 
-              this.uploads.push({ file: file, sub: subscription });
-            });
-          } else if (Number.isInteger(concurrency)) { // sequential
-            const subscriber = Subscriber.create((data: UploadOutput) => {
-              this.serviceEvents.emit(data);
-            });
+          this.uploads = this.uploads.concat(this.files.map(file => {
+            return { file: file, sub: null };
+          }));
 
-            this.uploads = this.uploads.concat(this.files.map(file => {
-              return { file: file, sub: null };
-            }));
-
-            const subscription = Observable.from(this.files.map(file => this.uploadFile(file, event)))
-              .mergeAll(concurrency)
-              .combineLatest(data => data)
-              .subscribe(subscriber);
-          }
+          const subscription = Observable.from(this.files.map(file => this.uploadFile(file, event)))
+            .mergeAll(concurrency)
+            .combineLatest(data => data)
+            .subscribe(subscriber);
         break;
         case 'cancel':
           const id = event.id || null;
@@ -155,19 +145,13 @@ export class NgUploaderService {
 
             this.serviceEvents.emit({ type: 'cancelled', file: this.uploads[index].file });
             this.uploads[index].file.progress.status = UploadStatus.Canceled;
-            // this.uploads.splice(index, 1);
-            // this.fileList = [].filter.call(this.fileList, (file: File, i: number) => i !== index);
-            // this.files.splice(index, 1);
           }
         break;
         case 'cancelAll':
           this.uploads.forEach(upload => {
-            upload.sub.unsubscribe();
+            upload.file.progress.status = UploadStatus.Canceled;
             this.serviceEvents.emit({ type: 'cancelled', file: upload.file });
           });
-          this.uploads = [];
-          this.fileList = null;
-          this.files = [];
         break;
       }
     });

@@ -1,4 +1,9 @@
-<div class="hero is-fullheight">
+<div class="hero">
+  <div class="hero-head">
+    <div class="container has-text-centered">
+      <h1>ngx-uploader</h1>
+    </div>
+  </div>
   <div class="hero-body">
     <div class="container">
       <div class="columns is-multiline">
@@ -7,9 +12,28 @@
             <h1>Drag & Drop</h1>
             <label class="upload-button">
               <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
-              or choose file
+              or choose file(s)
             </label>
           </div>
+        </div>
+        <div class="column is-8 is-offset-2">
+          <div class="columns">
+            <div class="column is-12">
+              <label class="label">Concurrent Uploads</label>
+              <input class="input" type="text" name="concurrency" [(ngModel)]="formData.concurrency">
+              <label class="checkbox">
+                <input type="checkbox" name="autoUpload" [(ngModel)]="formData.autoUpload">
+                Auto Upload
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" name="verbose" [(ngModel)]="formData.verbose">
+                Show Live Data
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="column is-8 is-offset-2" *ngIf="formData.verbose">
+          <p class="verbose-data">{{ files | json }}</p>
         </div>
         <div class="column is-8 is-offset-2">
           <table class="table" *ngIf="files && files.length">
@@ -62,11 +86,4 @@
       </div>
     </div>
   </div>
-  <!--<div class="hero-foot">
-    <div class="container">
-      <div class="column is-8 is-offset-2">
-        <p class="log" *ngIf="files && files.length">{{ files | json }}</p>
-      </div>
-    </div>
-  </div>-->
 </div>
