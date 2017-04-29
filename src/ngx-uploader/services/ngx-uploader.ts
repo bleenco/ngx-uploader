@@ -1,6 +1,4 @@
 import { EventEmitter, Injectable, Provider } from '@angular/core';
-import { NgUploaderOptions } from '../classes/ng-uploader-options.class';
-import { UploadedFile } from '../classes/uploaded-file.class';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';

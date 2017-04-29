@@ -1,6 +1,8 @@
 {
   "name": "ngx-uploader",
   "version": "3.0.0",
+  "main": "bundles/ngx-uploader.umd.js",
+  "module": "index.ts",
   "scripts": {
     "start": "webpack-dev-server --env.client --env.serve --progress",
     "start:aot": "webpack-dev-server --env.client --env.serve --env.aot --progress",
