@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable, Provider } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
@@ -30,17 +30,18 @@ export interface UploadFile {
   name: string;
   size: number;
   type: string;
-  progress: UploadProgress
+  progress: UploadProgress;
+  response?: any;
 }
 
 export interface UploadOutput {
-  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'removed' | 'start' | 'cancelled';
+  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'removed' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop';
   file?: UploadFile;
 }
 
 export interface UploadInput {
   type: 'uploadAll' | 'uploadFile' | 'cancel' | 'cancelAll';
-  url: string;
+  url?: string;
   method?: string;
   id?: string;
   fileIndex?: number;
@@ -62,7 +63,6 @@ export function humanizeBytes(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-@Injectable()
 export class NgUploaderService {
   fileList: FileList;
   files: UploadFile[];
@@ -75,8 +75,9 @@ export class NgUploaderService {
     this.uploads = [];
   }
 
-  handleFiles = (files: FileList) => {
+  handleFiles(files: FileList): void {
     this.fileList = files;
+
     this.files = [].map.call(files, (file: File, i: number) => {
       const uploadFile: UploadFile = {
         fileIndex: i,
@@ -100,7 +101,7 @@ export class NgUploaderService {
     });
 
     this.serviceEvents.emit({ type: 'allAddedToQueue' });
-  };
+  }
 
   initInputEvents(input: EventEmitter<UploadInput>): void {
     input.subscribe((event: UploadInput) => {
@@ -188,21 +189,34 @@ export class NgUploaderService {
         }
       }, false);
 
-      xhr.upload.addEventListener('load', (e: Event) => {
-        file.progress = {
-          status: UploadStatus.Done,
-          data: {
-            percentage: 100,
-            speed: null,
-            speedHuman: null
-          }
-        };
-
-        observer.next({ type: 'done', file: file });
+      xhr.upload.addEventListener('error', (e: Event) => {
+        observer.error(e);
         observer.complete();
-      }, false);
+      });
 
-      xhr.open(method, url);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          file.progress = {
+            status: UploadStatus.Done,
+            data: {
+              percentage: 100,
+              speed: null,
+              speedHuman: null
+            }
+          };
+
+          try {
+            file.response = JSON.parse(xhr.response);
+          } catch (e) {
+            file.response = xhr.response;
+          }
+
+          observer.next({ type: 'done', file: file });
+          observer.complete();
+        }
+      };
+
+      xhr.open(method, url, true);
 
       const form = new FormData();
       try {
@@ -234,7 +248,3 @@ export class NgUploaderService {
     return Math.random().toString(36).substring(7);
   }
 }
-
-export const NgUploaderServiceProvider: Provider = {
-  provide: NgUploaderService, useClass: NgUploaderService
-};

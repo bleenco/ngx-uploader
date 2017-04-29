@@ -3,13 +3,15 @@
     <div class="container">
       <div class="columns is-multiline">
         <div class="column is-6 is-offset-3">
-          <div class="drop-container">
+          <div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
             <h1>Drag & Drop</h1>
-            <label class="upload-button">
-              <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
-              or choose file(s)
-            </label>
           </div>
+        </div>
+        <div class="column is-6 is-offset-3">
+          <label class="upload-button">
+            <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+            or choose file(s)
+          </label>
         </div>
         <div class="column is-6 is-offset-3">
           <div class="columns">

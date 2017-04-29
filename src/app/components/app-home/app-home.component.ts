@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from '../../../ngx-uploader/services/ngx-uploader';
+import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from '../../../../';
 
 interface FormData {
   concurrency: number;
@@ -14,8 +14,9 @@ interface FormData {
 export class AppHomeComponent {
   formData: FormData;
   files: UploadFile[];
-  uploadInput: EventEmitter<any>;
+  uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
+  dragOver: boolean;
 
 
   constructor() {
@@ -26,7 +27,7 @@ export class AppHomeComponent {
     };
 
     this.files = [];
-    this.uploadInput = new EventEmitter<any>();
+    this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
   }
 
@@ -35,7 +36,6 @@ export class AppHomeComponent {
 
     if (output.type === 'allAddedToQueue') {
       if (this.formData.autoUpload) {
-        console.log('yes');
         const event: UploadInput = {
           type: 'uploadAll',
           url: '/upload',
@@ -53,6 +53,12 @@ export class AppHomeComponent {
       this.files[index] = output.file;
     } else if (output.type === 'removed') {
       this.files = this.files.filter((file: UploadFile) => file !== output.file);
+    } else if (output.type === 'dragOver') {
+      this.dragOver = true;
+    } else if (output.type === 'dragOut') {
+      this.dragOver = false;
+    } else if (output.type === 'drop') {
+      this.dragOver = false;
     }
   }
 
