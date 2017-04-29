@@ -1,6 +1,6 @@
 {
   "name": "ngx-uploader",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "bundles/ngx-uploader.umd.js",
   "module": "index.ts",
   "scripts": {
@@ -18,7 +18,8 @@
     "server": "node dist/server.js",
     "dev": "webpack --env.client --progress --hide-modules --watch & webpack --env.server --progress --hide-modules --watch",
     "dev:aot": "webpack --env.client --env.aot --progress --hide-modules --watch & webpack --env.server --env.aot --progress --hide-modules --watch",
-    "watch": "nodemon ./dist/server.js"
+    "watch": "nodemon ./dist/server.js",
+		"prepublish": "webpack --config webpack.dist.js"
   },
   "repository": {
     "type": "git",
