@@ -1,173 +1,159 @@
 @charset 'utf8'
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600,700')
-@import '../../node_modules/bulma/sass/base/minireset'
-@import '../../node_modules/bulma/sass/utilities/all'
-@import '../../node_modules/bulma/sass/base/all'
-@import '../../node_modules/bulma/sass/grid/columns'
-@import '../../node_modules/bulma/sass/layout/hero'
-@import '../../node_modules/bulma/sass/components/nav'
-
-$blue: #96D3ED
-$red: #ed145b
-$green: #14ec84
-$grey: #7e9494
-$light: #9cb7be
-$text: #efeff0
-$background: #303143
+@import '../../node_modules/rash/rash'
 
 html, body
   width: 100%
-  background: $background
   font-family: 'Open Sans', sans-serif
+  -webkit-font-smoothing: antialiased
 
-.label, .checkbox
-  font-size: 16px
-  font-weight: $weight-normal
-  color: $white
-  margin: 0 10px
-  &:hover
-    color: $white
+.drop-container
+  padding: 20px 0 60px 0
+  border: 2px dashed $blue
+  border-radius: 10px
+  margin-bottom: 50px
+  margin-top: 20px
+  background: lighten($blue, 50)
+  h1
+    color: $text
+    font-size: 28px
+    padding: 20px 0 40px 0
+    text-align: center
+    font-weight: 600
 
-.label
+  &.is-drop-over
+    background: lighten($blue, 45)
+
+.upload-button, .start-upload-btn
+  width: 200px
   display: block
-  float: left
-
-input[type="text"]
-  height: 50px
-  background: $background
-  border: 1px solid $grey
-  width: 50px
-  color: $white
-  display: block
-  float: left
-  margin: -10px 15px 0 15px
-  text-align: center
-  border-radius: 4px
+  margin: 10px auto
+  border-radius: 30px
+  background: $blue
   outline: none
-  font-size: 16px
-
-  &:hover, &:focus
-    border: 1px solid $grey
-
-.verbose-data
+  font-size: 18px
+  text-align: center
+  padding: 10px 30px
+  cursor: pointer
   color: $white
-  font-size: 12px
+  border: none
+  font-weight: 200
+  transition: all 250ms linear
+  input
+    display: none
 
-.hero
-  background: $background
+  &:hover
+    background: $blue-dark
 
-  .hero-head
-    h1
-      color: $grey
-      font-size: 24px
-      margin-top: 50px
-
-  .drop-container
-    padding: 20px 0 60px 0
-    border: 3px dashed $grey
-    border-radius: 10px
-    margin-bottom: 50px
-    margin-top: 20px
-    h1
-      color: $text
-      font-size: 40px
-      padding: 20px 0 40px 0
-      text-align: center
-      font-weight: 600
-
-.folder-icon
-  display: block
-  width: 300px
-  margin: 0 auto
-  g
-    g
-      fill: $light
-
-.table
-  background: transparent
-  color: $light
-  thead
-    th
-      font-size: 28px
-      color: $text
-      border-bottom: 2px solid $light
-      padding: 10px 0
-  tbody
-    tr
-      border-bottom: 1px solid $light
-      td
-        padding: 20px 0
-        font-size: 20px
+  &.start-upload-btn
+    background: $blue-dark
+    padding: 10px
+    width: 200px
+    font-size: 18px
 
 .progress-bar-container
   width: 100%
-  height: 10px
+  height: 40px
   border-radius: 10px
-  background: $grey
+  background: $white
   margin: 10px 0
   position: relative
+  border: 1px dashed $blue
+  display: flex
+  justify-content: center
+  align-items: center
+  color: $text
+  font-size: 14px
+  text-align: center
   .bar
+    z-index: 1
+    padding: 0
+    margin: 0
     border-radius: 10px
     position: absolute
     top: 0
     left: 0
-    height: 10px
-    width: 65%
+    height: 38px
     background: $red
     &.green
-      background: $green
+      background: lighten($blue, 45)
+  span
+    z-index: 2
 
 .circle
   display: flex
   justify-content: center
   align-items: center
-  width: 40px
-  height: 40px
-  background: $grey
+  width: 20px
+  height: 20px
+  background: $blue
   border-radius: 50%
-  margin: -5px auto 0 auto
+  margin: 5px auto 0 auto
   cursor: pointer
   svg
     display: block
     margin: 8px auto
-    height: 16px
+    height: 8px
     g
       g
-        fill: #303143
+        fill: $white
   &.green
-    background: $green
+    background: $blue
 
+.verbose-data
+  color: $text
+  padding-bottom: 20px
+  pre
+    code
+      background: lighten($blue, 50)
+      border: 2px dashed $blue
+      border-radius: 5px
+      font-size: 11px
 
-.file-over
-  background: rgba($white, 0.4)
+.label
+  margin: 5px 10px 0 0
 
-.upload-button, .start-upload-btn
-  width: 300px
-  display: block
-  margin: 10px auto
-  border-radius: 40px
-  background: $blue
-  outline: none
-  font-size: 26px
+.input-field
+  width: 60px
+  height: 30px
+  font-size: 12px
+  padding: 3px
   text-align: center
-  padding: 10px 30px
-  cursor: pointer
-  color: #303143
-  border: none
-  font-weight: 200
-  input
-    display: none
+  border: 1px solid #333
+  font-weight: $weight-semibold
 
-  &.start-upload-btn
-    background: $green
-    padding: 10px
-    width: 200px
-    font-size: 18px
+  &:hover, &:focus
+    border: 1px solid #333
 
+.slideOne
+  border: 1px solid #333
+  width: 50px
+  height: 10px
+  background: $light
+  margin: 20px 0
+  position: relative
+  border-radius: 50px
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2)
+  label
+    display: block
+    width: 16px
+    height: 16px
+    position: absolute
+    top: -3px
+    left: -3px
+    cursor: pointer
+    background: #fcfff4
+    background: linear-gradient(to bottom, $black 0%, $grey-darker 40%, $grey-dark 100%)
+    border-radius: 50px
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3)
+    transition: all 0.4s ease
 
-.log
-  font-size: 10px
-  color: $light
-  text-align: center
-  padding-bottom: 50px
+  input[type=checkbox]
+    visibility: hidden
+    &:checked + label
+      left: 37px;
+
+.centered
+  display: flex
+  align-items: center
