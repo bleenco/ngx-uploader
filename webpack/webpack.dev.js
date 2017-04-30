@@ -36,7 +36,7 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.ts$/, use: [ { loader: 'ng-router-loader', options: { loader: 'async-import', genDir: './src/ngfactory', aot: false } }, { loader: 'awesome-typescript-loader', options: { configFileName: './src/tsconfig.browser.json' } }, { loader: 'angular2-template-loader' } ] }
+      { test: /\.ts$/, loader: '@ngtools/webpack' }
     ]
   }
 }
