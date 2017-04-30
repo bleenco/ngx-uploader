@@ -1,4 +1,7 @@
-dist
+dist/
+bundles/
 .DS_Store
-node_modules
-typings
+node_modules/
+lib/
+*.ngsummary.json
+*.ngfactory.ts

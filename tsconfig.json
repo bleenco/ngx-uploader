@@ -16,14 +16,10 @@
       "node_modules/@types"
     ]
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/main.ts"
+  "files": [
+    "ngx-uploader.ts"
   ],
   "angularCompilerOptions": {
-    "genDir": "./src/ngfactory",
-    "entryModule": "src/app/app.module#AppModule"
+    "skipMetadataEmit": true
   }
 }

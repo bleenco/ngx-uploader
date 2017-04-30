@@ -1,8 +1,9 @@
 {
   "name": "ngx-uploader",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "main": "bundles/ngx-uploader.umd.js",
-  "module": "index.ts",
+  "module": "index.js",
+  "esnext": "index.js",
   "scripts": {
     "start": "webpack-dev-server --env.client --env.serve --progress",
     "start:aot": "webpack-dev-server --env.client --env.serve --env.aot --progress",
@@ -19,7 +20,7 @@
     "dev": "webpack --env.client --progress --hide-modules --watch & webpack --env.server --progress --hide-modules --watch",
     "dev:aot": "webpack --env.client --env.aot --progress --hide-modules --watch & webpack --env.server --env.aot --progress --hide-modules --watch",
     "watch": "nodemon ./dist/server.js",
-		"prepublish": "webpack --config webpack.dist.js"
+    "prepublish": "ngc && webpack --config webpack.dist.js -p"
   },
   "repository": {
     "type": "git",
@@ -52,8 +53,6 @@
     "@types/multer": "^0.0.33",
     "@types/node": "^7.0.14",
     "add-asset-html-webpack-plugin": "^2.0.1",
-    "angular2-template-loader": "^0.6.2",
-    "awesome-typescript-loader": "^3.1.2",
     "codelyzer": "^3.0.1",
     "compression-webpack-plugin": "^0.4.0",
     "copy-webpack-plugin": "^4.0.1",
