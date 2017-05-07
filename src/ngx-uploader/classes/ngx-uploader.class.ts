@@ -44,6 +44,8 @@ export interface UploadInput {
   url?: string;
   method?: string;
   id?: string;
+  //modified
+  fieldName?: string;
   fileIndex?: number;
   file?: UploadFile;
   data?: { [key: string]: string | Blob };
@@ -225,8 +227,8 @@ export class NgUploaderService {
         if (this.uploads[uploadIndex].file.progress.status === UploadStatus.Canceled) {
           observer.complete();
         }
-
-        form.append('file', uploadFile, uploadFile.name);
+        //modified
+        form.append( event.fieldName || 'file', uploadFile, uploadFile.name);
 
         Object.keys(data).forEach(key => form.append(key, data[key]));
         Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));
