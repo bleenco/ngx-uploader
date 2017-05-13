@@ -3,29 +3,34 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600,700')
 @import '../../node_modules/rash/rash'
 
-html, body
+$blue: #1991EB
+
+html, body, .hero
   width: 100%
   font-family: 'Open Sans', sans-serif
   -webkit-font-smoothing: antialiased
+  background: #1D2838
 
 .drop-container
   padding: 40px 0
-  border: 2px dashed $blue
   border-radius: 10px
   margin-bottom: 10px
+  border: 1px solid #313D4F
   margin-top: 20px
-  background: lighten($blue, 50)
-  display: flex
-  justify-content: center
-  align-items: center
+  background: #273142
+  svg
+    width: 100px
+    margin: 20px auto
+    display: block
   h1
-    color: $text
-    font-size: 28px
+    display: block
+    color: $white
+    font-size: 22px
     text-align: center
     font-weight: 600
 
   &.is-drop-over
-    background: lighten($blue, 45)
+    background: lighten(#273142, 45)
 
 .upload-button, .start-upload-btn
   width: 200px
@@ -40,7 +45,7 @@ html, body
   cursor: pointer
   color: $white
   border: none
-  font-weight: 200
+  font-weight: 400
   transition: all 250ms linear
   input
     display: none
@@ -56,12 +61,12 @@ html, body
 
 .progress-bar-container
   width: 100%
-  height: 40px
+  height: 4px
   border-radius: 10px
-  background: $white
-  margin: 10px 0
+  background: #414E63
+  margin: 30px 0
   position: relative
-  border: 1px dashed $blue
+  border: none
   display: flex
   justify-content: center
   align-items: center
@@ -76,85 +81,78 @@ html, body
     position: absolute
     top: 0
     left: 0
-    height: 38px
-    background: $red
+    height: 4px
+    background: $blue
     &.green
-      background: lighten($blue, 45)
+      background: $blue
   span
     z-index: 2
-
-.circle
-  display: flex
-  justify-content: center
-  align-items: center
-  width: 20px
-  height: 20px
-  background: $blue
-  border-radius: 50%
-  margin: 5px auto 0 auto
-  cursor: pointer
-  svg
-    display: block
-    margin: 8px auto
-    height: 8px
-    g
-      g
-        fill: $white
-  &.green
-    background: $blue
 
 .verbose-data
   color: $text
   padding-bottom: 20px
   pre
     code
-      background: lighten($blue, 50)
-      border: 2px dashed $blue
+      background: #273142
+      border: 1px solid #313D4F
       border-radius: 5px
       font-size: 11px
+      color: $white
 
 .label
   margin: 5px 10px 0 0
+  color: #7F8FA4
 
 .input-field
+  background: #222C3C
   width: 60px
   height: 30px
   font-size: 12px
   padding: 3px
   text-align: center
-  border: 1px solid #333
+  border: 1px solid #313D4F
   font-weight: $weight-semibold
+  color: $white
 
   &:hover, &:focus
-    border: 1px solid #333
+    border: 1px solid $blue
 
-.slideOne
-  border: 1px solid #333
-  width: 50px
-  height: 10px
-  background: $light
-  margin: 20px 0
+.checkbox
+  width: 25px
+  margin: 20px 100px
   position: relative
-  border-radius: 50px
-  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2)
-  label
-    display: block
-    width: 16px
-    height: 16px
-    position: absolute
-    top: -3px
-    left: -3px
-    cursor: pointer
-    background: #fcfff4
-    background: linear-gradient(to bottom, $black 0%, $grey-darker 40%, $grey-dark 100%)
-    border-radius: 50px
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3)
-    transition: all 0.4s ease
 
-  input[type=checkbox]
-    visibility: hidden
-    &:checked + label
-      left: 37px;
+  label
+    cursor: pointer
+    position: absolute
+    width: 25px
+    height: 25px
+    top: 0
+    left: 0
+    background: #1B2431
+    border: 1px solid #313D4F
+    border-radius: 4px
+
+    &:after
+      opacity: 0
+      content: ''
+      position: absolute
+      width: 12px
+      height: 7px
+      background: transparent
+      top: 7px
+      left: 6px
+      border: 3px solid $white
+      border-top: none
+      border-right: none
+      transform: rotate(-45deg)
+
+    &:hover
+      &::after
+        opacity: 0.2
+
+  input[type="checkbox"]:checked + label:after
+    opacity: 1
 
 .centered
   display: flex
