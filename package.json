@@ -15,7 +15,7 @@
     "build:prod": "npm run build:client:prod && npm run build:server:prod",
     "prebuild": "npm run clean",
     "prebuild:prod": "npm run clean",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist ./**/*.ngsummary.*",
     "server": "node dist/server.js",
     "dev": "webpack --env.client --progress --hide-modules --watch & webpack --env.server --progress --hide-modules --watch",
     "dev:aot": "webpack --env.client --env.aot --progress --hide-modules --watch & webpack --env.server --env.aot --progress --hide-modules --watch",
