@@ -13,7 +13,7 @@ export class NgFileSelectDirective implements OnInit, OnDestroy {
   isServer: boolean = isPlatformServer(this.platform_id);
   el: HTMLInputElement;
 
-  constructor(@Inject(PLATFORM_ID) private platform_id, private elementRef: ElementRef) {
+  constructor(@Inject(PLATFORM_ID) private platform_id: Object, private elementRef: ElementRef) {
     this.upload = new NgUploaderService();
     this.uploadOutput = new EventEmitter<UploadOutput>();
   }
