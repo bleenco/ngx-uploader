@@ -50,6 +50,7 @@ export interface UploadInput {
   data?: { [key: string]: string | Blob };
   headers?: { [key: string]: string };
   concurrency?: number;
+  withCredentials?: boolean;
 }
 
 export function humanizeBytes(bytes: number): string {
@@ -218,6 +219,7 @@ export class NgUploaderService {
       };
 
       xhr.open(method, url, true);
+      xhr.withCredentials = event.withCredentials ? true : false;
 
       const form = new FormData();
       try {
