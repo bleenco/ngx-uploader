@@ -1,6 +1,6 @@
 {
   "name": "ngx-uploader",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "main": "bundles/ngx-uploader.umd.js",
   "module": "index.js",
   "esnext": "index.js",
@@ -53,7 +53,6 @@
     "@types/multer": "^0.0.33",
     "@types/node": "^7.0.18",
     "add-asset-html-webpack-plugin": "^2.0.1",
-    "codelyzer": "^3.0.1",
     "compression-webpack-plugin": "^0.4.0",
     "copy-webpack-plugin": "^4.0.1",
     "core-js": "^2.4.1",
@@ -86,7 +85,6 @@
     "style-loader": "^0.17.0",
     "to-string-loader": "^1.1.5",
     "ts-node": "^3.0.4",
-    "tslint": "^5.2.0",
     "typescript": "^2.3.2",
     "webpack": "^2.5.0",
     "webpack-dev-server": "^2.4.5",
