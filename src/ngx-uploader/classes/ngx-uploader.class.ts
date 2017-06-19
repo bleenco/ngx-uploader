@@ -68,7 +68,7 @@ export function humanizeBytes(bytes: number): string {
 export class NgUploaderService {
   fileList: FileList;
   files: UploadFile[];
-  uploads: { file?: UploadFile, files?: UploadFile[], sub: Subscription }[];
+  uploads: { file?: UploadFile, files?: UploadFile[], sub: {instance: Subscription} }[];
   serviceEvents: EventEmitter<UploadOutput>;
 
   constructor() {
@@ -110,11 +110,14 @@ export class NgUploaderService {
       switch (event.type) {
         case 'uploadFile':
           this.serviceEvents.emit({ type: 'start', file: event.file });
-          const sub = this.uploadFile(event.file, event).subscribe(data => {
-            this.serviceEvents.emit(data);
-          });
+
+          let sub: {instance: Subscription} = {instance: null};
 
           this.uploads.push({ file: event.file, sub: sub });
+
+          sub.instance = this.uploadFile(event.file, event).subscribe(data => {
+            this.serviceEvents.emit(data);
+          });
         break;
         case 'uploadAll':
           let concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
@@ -140,8 +143,8 @@ export class NgUploaderService {
 
           const index = this.uploads.findIndex(upload => upload.file.id === id);
           if (index !== -1) {
-            if (this.uploads[index].sub) {
-              this.uploads[index].sub.unsubscribe();
+            if (this.uploads[index].sub && this.uploads[index].sub.instance) {
+              this.uploads[index].sub.instance.unsubscribe();
             }
 
             this.serviceEvents.emit({ type: 'cancelled', file: this.uploads[index].file });
