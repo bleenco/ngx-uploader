@@ -120,7 +120,7 @@ export class NgUploaderService {
           });
         break;
         case 'uploadAll':
-          let concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
+          const concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
 
           const subscriber = Subscriber.create((data: UploadOutput) => {
             this.serviceEvents.emit(data);
