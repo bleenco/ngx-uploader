@@ -14,7 +14,7 @@ module.exports = function (options, webpackOptions) {
 
   config = webpackMerge({}, config, {
     entry: getEntry(options),
-    resolve: { extensions: ['.ts', '.js'] },
+    resolve: { extensions: ['.ts', '.js', '.json'] },
     output: {
       path: root('dist')
     },
@@ -27,61 +27,48 @@ module.exports = function (options, webpackOptions) {
       ]
     },
     plugins: [
-      new copy([{ context: './public', from: '**/*' }])
+      new copy([{ context: './src/assets/public', from: '**/*' }])
     ]
   });
 
-  if (options.client) {
-    config = webpackMerge({}, config, {
-      output: {
-        filename: 'app.js'
-      },
-      target: 'web',
-      plugins: [
-        new html({ template: root('src/index.html'), output: root('dist') })
-      ],
-      devServer: {
-        historyApiFallback: true,
-        port: 8000,
-        open: true,
-        hot: false,
-        inline: true,
-        stats: { colors: true, chunks: false },
-        watchOptions: {
-          aggregateTimeout: 300,
-          poll: 1000
-        }
+  config = webpackMerge({}, config, {
+    output: {
+      filename: 'js/app.js'
+    },
+    target: 'web',
+    plugins: [
+      new html({ template: root('src/index.html'), output: root('dist') })
+    ],
+    devServer: {
+      historyApiFallback: true,
+      port: 8000,
+      open: true,
+      hot: false,
+      inline: true,
+      stats: { colors: true, chunks: false },
+      watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000
       }
-    });
-  } else if (options.server) {
-    config = webpackMerge({}, config, {
-      output: { filename: 'server.js' },
-      target: 'node'
-    });
-  }
+    }
+  });
 
   if (webpackOptions.p) {
-    if (!options.server) {
-      config = webpackMerge({}, config, getProductionPlugins());
-      config = webpackMerge({}, config, getProdStylesConfig());
-    }
+    config = webpackMerge({}, config, getProductionPlugins());
+    config = webpackMerge({}, config, getProdStylesConfig());
   } else {
-    if (!options.server) {
-      config = webpackMerge({}, config, getDevStylesConfig());
-    }
+    config = webpackMerge({}, config, getDevStylesConfig());
   }
 
   if (options.aot) {
-    console.log(`Running build for ${options.client ? 'client' : 'server'} with AoT compilation...`)
+    console.log(`Running build for with AoT compilation...`)
 
     config = webpackMerge({}, config, {
       module: {
         rules: [{ test: /\.ts$/, loader: '@ngtools/webpack' }]
       },
       plugins: [
-        new AoTPlugin({
-          tsConfigPath: options.client ? root('src/tsconfig.browser.json') : root('src/tsconfig.server.json')
-        })
+        new AoTPlugin({ tsConfigPath: root('src/tsconfig.json') })
       ]
     });
   } else {
@@ -91,7 +78,7 @@ module.exports = function (options, webpackOptions) {
       },
       plugins: [
         new AoTPlugin({
-          tsConfigPath: options.client ? root('src/tsconfig.browser.json') : root('src/tsconfig.server.json'),
+          tsConfigPath: root('src/tsconfig.json'),
           skipCodeGeneration: true
         })
       ]
@@ -113,18 +100,10 @@ function root(path) {
 }
 
 function getEntry(options) {
-  if (options.client) {
-    if (options.aot) {
-      return { app: root('src/main.browser.aot.ts') };
-    } else {
-      return { app: root('src/main.browser.ts') };
-    }
-  } else if (options.server) {
-    if (options.aot) {
-      return { app: root('src/main.server.aot.ts') };
-    } else {
-      return { app: root('src/main.server.ts') };
-    }
+  if (options.aot) {
+    return { app: root('src/main.aot.ts') };
+  } else {
+    return { app: root('src/main.ts') };
   }
 }
 
@@ -140,7 +119,7 @@ function getDevStylesConfig() {
   return {
     module: {
       rules: [
-        { test: /\.css$/, use: ['style-loader', 'css-loader'], exclude: [root('src/app')] },
+        { test: /\.css$/, use: ['style-loader', 'css-loader'], exclude: [root('src')] },
         { test: /\.css$/, use: ['to-string-loader', 'css-loader'], exclude: [root('src/styles')] },
         { test: /\.scss$|\.sass$/, use: ['style-loader', 'css-loader', 'sass-loader'], include: [root('src/styles') ] },
         { test: /\.scss$|\.sass$/, use: ['to-string-loader', 'css-loader', 'sass-loader'], exclude: [root('src/styles')] },
@@ -152,7 +131,7 @@ function getDevStylesConfig() {
 function getProdStylesConfig() {
   return {
     plugins: [
-      new extract('[name].css')
+      new extract('css/[name].css')
     ],
     module: {
       rules: [

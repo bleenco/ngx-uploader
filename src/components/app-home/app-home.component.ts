@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from '../../../../';
+import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from '../../../';
 
 interface FormData {
   concurrency: number;
@@ -17,7 +17,6 @@ export class AppHomeComponent {
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
   dragOver: boolean;
-
 
   constructor() {
     this.formData = {

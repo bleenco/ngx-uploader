@@ -1,25 +1,19 @@
 {
   "compilerOptions": {
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
-    "noImplicitAny": true,
     "sourceMap": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "lib": [
       "es2015",
       "dom"
     ],
-    "outDir": "lib",
+    "outDir": "dist/api",
     "typeRoots": [
       "node_modules/@types"
     ]
   },
   "files": [
-    "ngx-uploader.ts"
-  ],
-  "angularCompilerOptions": {
-    "skipMetadataEmit": true
-  }
+    "src/api/index.ts"
+  ]
 }

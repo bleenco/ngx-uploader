@@ -7,20 +7,12 @@
   "scripts": {
     "start": "webpack-dev-server --env.client --env.serve --progress",
     "start:aot": "webpack-dev-server --env.client --env.serve --env.aot --progress",
-    "build:client": "webpack --env.client --env.aot --progress --hide-modules",
-    "build:client:prod": "webpack --env.client --env.aot -p --progress --hide-modules",
-    "build:server": "webpack --env.server --progress --hide-modules",
-    "build:server:prod": "webpack --env.server --env.aot -p --progress --hide-modules",
-    "build": "npm run build:client && npm run build:server",
-    "build:prod": "npm run build:client:prod && npm run build:server:prod",
+    "build": "tsc && webpack --env.client --env.aot --progress --hide-modules",
+    "build:prod": "tsc && webpack --env.client --env.aot -p --progress --hide-modules",
     "prebuild": "npm run clean",
     "prebuild:prod": "npm run clean",
     "clean": "rimraf dist ./**/*.ngsummary.*",
-    "server": "node dist/server.js",
-    "dev": "webpack --env.client --progress --hide-modules --watch & webpack --env.server --progress --hide-modules --watch",
-    "dev:aot": "webpack --env.client --env.aot --progress --hide-modules --watch & webpack --env.server --env.aot --progress --hide-modules --watch",
-    "watch": "nodemon ./dist/server.js",
-    "prepublish": "ngc && webpack --config webpack.dist.js -p"
+    "prepublish": "ngc -p tsconfig.bundle.json && webpack --config webpack.dist.js -p"
   },
   "repository": {
     "type": "git",
