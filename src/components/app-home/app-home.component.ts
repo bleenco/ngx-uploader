@@ -22,7 +22,7 @@ export class AppHomeComponent {
     this.formData = {
       concurrency: 0,
       autoUpload: false,
-      verbose: false
+      verbose: true
     };
 
     this.files = [];

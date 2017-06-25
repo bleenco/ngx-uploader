@@ -9,7 +9,8 @@ html, body, .hero
   width: 100%
   font-family: 'Open Sans', sans-serif
   -webkit-font-smoothing: antialiased
-  background: #1D2838
+  background: #00bf8f
+  background: linear-gradient(to bottom, #001510, #00bf8f)
 
 .drop-container
   padding: 40px 0
@@ -17,14 +18,14 @@ html, body, .hero
   margin-bottom: 10px
   border: 1px solid #313D4F
   margin-top: 20px
-  background: #273142
+  background: $white
   svg
     width: 100px
     margin: 20px auto
     display: block
   h1
     display: block
-    color: $white
+    color: $black
     font-size: 22px
     text-align: center
     font-weight: 600
@@ -37,13 +38,13 @@ html, body, .hero
   display: block
   margin: 10px auto
   border-radius: 30px
-  background: $blue
+  background: $white
   outline: none
   font-size: 18px
   text-align: center
   padding: 10px 30px
   cursor: pointer
-  color: $white
+  color: $black
   border: none
   font-weight: 400
   transition: all 250ms linear
@@ -51,10 +52,10 @@ html, body, .hero
     display: none
 
   &:hover
-    background: $blue-dark
+    background: $white
 
   &.start-upload-btn
-    background: $blue-dark
+    background: $white
     padding: 10px
     width: 200px
     font-size: 18px
@@ -70,7 +71,7 @@ html, body, .hero
   display: flex
   justify-content: center
   align-items: center
-  color: $text
+  color: $black
   font-size: 14px
   text-align: center
   .bar
@@ -82,29 +83,30 @@ html, body, .hero
     top: 0
     left: 0
     height: 4px
-    background: $blue
+    background: $white
     &.green
-      background: $blue
+      background: $white
   span
     z-index: 2
 
 .verbose-data
-  color: $text
+  color: $black
   padding-bottom: 20px
   pre
     code
-      background: #273142
+      background: $white
       border: 1px solid #313D4F
       border-radius: 5px
       font-size: 11px
-      color: $white
+      color: $black
 
 .label
   margin: 5px 10px 0 0
-  color: #7F8FA4
+  color: $black
+  display: block
 
 .input-field
-  background: #222C3C
+  background: $white
   width: 60px
   height: 30px
   font-size: 12px
@@ -112,14 +114,14 @@ html, body, .hero
   text-align: center
   border: 1px solid #313D4F
   font-weight: $weight-semibold
-  color: $white
+  color: $black
 
   &:hover, &:focus
-    border: 1px solid $blue
+    border: 1px solid $black
 
 .checkbox
   width: 25px
-  margin: 20px 100px
+  margin: 0
   position: relative
 
   label
@@ -129,7 +131,7 @@ html, body, .hero
     height: 25px
     top: 0
     left: 0
-    background: #1B2431
+    background: $white
     border: 1px solid #313D4F
     border-radius: 4px
 
@@ -142,7 +144,7 @@ html, body, .hero
       background: transparent
       top: 7px
       left: 6px
-      border: 3px solid $white
+      border: 3px solid $black
       border-top: none
       border-right: none
       transform: rotate(-45deg)

@@ -1,8 +1,8 @@
-<div class="hero">
+<div class="hero is-fullheight">
   <div class="hero-body">
     <div class="container">
       <div class="columns is-multiline">
-        <div class="column is-6 is-offset-3">
+        <div class="column is-10 is-offset-1">
           <div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
             <svg width="121px" height="61px" viewBox="0 0 121 61" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <g id="Source-Sans---Dark-Screens" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -10,8 +10,8 @@
                   <g id="Step-3" transform="translate(280.000000, 171.000000)">
                     <g id="Item-1" transform="translate(134.000000, 183.000000)">
                       <g id="Illustration---Upload" transform="translate(15.000000, 0.000000)">
-                        <path d="M53.96875,8 L69,23.0625 C69,23.0625 69,23.6105 69,24.139 L69,50 C69,51.1045 68.1045,52 67,52 L37,52 C35.8955,52 35,51.1045 35,50 L35,10 C35,8.8955 35.8955,8 37,8 L53.089,8 L53.96875,8 Z M37,50 L67,50 L67,26 L52.953,26 C51.8485,26 51,25.0645 51,23.96 L51,10 L37,10 L37,50 Z M66.9955,24 L53.089,10 L53,10 L53,24 L66.9955,24 Z M35,18 L35,24 L37,24 L37,18 L35,18 Z M35,20 L37,20 L37,22 L35,22 L35,20 Z" id="File-Icon" fill="#FFFFFF"></path>
-                        <path d="M55.9994705,39.1247502 C55.9994705,39.7095768 55.5255495,40.183739 54.9406938,40.183739 C54.3558382,40.183739 53.8819172,39.7095768 53.8819172,39.1244855 L53.8819172,37.6156526 L49.8081808,41.6897163 C49.6011382,41.8964838 49.3300236,42 49.058909,42 C48.7880592,42 48.5169446,41.8964838 48.3101667,41.6897163 C47.8966111,41.2761811 47.8966111,40.6058412 48.3101667,40.1923061 L52.3841679,36.1179776 L50.8747306,36.1179776 C50.289875,36.1179776 49.8156892,35.6438154 49.8156892,35.0589888 C49.8156892,34.4741622 50.289875,34 50.8747306,34 L54.9409586,34 C55.2218693,34 55.4911306,34.1114586 55.6899656,34.310019 C55.8885359,34.5085794 56,34.778092 56,35.0589888 L55.9994705,39.1247502 Z" id="Arrow" fill="#FFFFFF" transform="translate(52.000000, 38.000000) rotate(-45.000000) translate(-52.000000, -38.000000) "></path>
+                        <path d="M53.96875,8 L69,23.0625 C69,23.0625 69,23.6105 69,24.139 L69,50 C69,51.1045 68.1045,52 67,52 L37,52 C35.8955,52 35,51.1045 35,50 L35,10 C35,8.8955 35.8955,8 37,8 L53.089,8 L53.96875,8 Z M37,50 L67,50 L67,26 L52.953,26 C51.8485,26 51,25.0645 51,23.96 L51,10 L37,10 L37,50 Z M66.9955,24 L53.089,10 L53,10 L53,24 L66.9955,24 Z M35,18 L35,24 L37,24 L37,18 L35,18 Z M35,20 L37,20 L37,22 L35,22 L35,20 Z" id="File-Icon" fill="#000000"></path>
+                        <path d="M55.9994705,39.1247502 C55.9994705,39.7095768 55.5255495,40.183739 54.9406938,40.183739 C54.3558382,40.183739 53.8819172,39.7095768 53.8819172,39.1244855 L53.8819172,37.6156526 L49.8081808,41.6897163 C49.6011382,41.8964838 49.3300236,42 49.058909,42 C48.7880592,42 48.5169446,41.8964838 48.3101667,41.6897163 C47.8966111,41.2761811 47.8966111,40.6058412 48.3101667,40.1923061 L52.3841679,36.1179776 L50.8747306,36.1179776 C50.289875,36.1179776 49.8156892,35.6438154 49.8156892,35.0589888 C49.8156892,34.4741622 50.289875,34 50.8747306,34 L54.9409586,34 C55.2218693,34 55.4911306,34.1114586 55.6899656,34.310019 C55.8885359,34.5085794 56,34.778092 56,35.0589888 L55.9994705,39.1247502 Z" id="Arrow" fill="#000000" transform="translate(52.000000, 38.000000) rotate(-45.000000) translate(-52.000000, -38.000000) "></path>
                         <g id="Cloud">
                           <path d="M37.8972124,51.9980018 C37.8409423,51.9993317 37.7845693,52 37.7281043,52 L17.987462,52 C14.4453919,52 11.298506,49.388477 11.0929572,45.912962 C10.9391271,43.3222895 12.3448157,41.0574058 14.4666099,39.8975976 C14.9784927,39.6174193 15.3033924,39.0766098 15.2291296,38.5058279 C15.0633645,37.2430705 15.2211729,35.7040442 16.8881074,33.998214 C17.8681111,32.9934814 19.342758,32.4539751 20.7590556,32.4539751 C21.9141073,32.4552783 22.9776566,32.8084333 23.8608534,33.4052784 C24.4668909,33.813166 25.3129563,33.7193388 25.7160972,33.1159779 C27.3047906,30.7416292 30.1811477,29.2755796 33.3717957,29.682164 C33.9330957,29.7540002 34.4783528,29.8893726 35,30.0807311 L35,48.9925801 C35,50.6173799 36.2872703,51.9397978 37.8972124,51.9980018 Z" fill="#48556B"></path>
                           <path d="M114.399595,11.5509785 C114.648296,9.82515917 114.445588,7.95872988 113.486558,5.99688672 C112.011389,2.98381701 109.088307,0.764188992 105.713816,0.332315667 C101.615368,-0.189949749 97.9206324,1.69321882 95.8799256,4.74311493 C95.3620835,5.51814342 94.2752964,5.63866621 93.4968298,5.11472686 C92.3623467,4.34806802 90.9961974,3.89443363 89.5125115,3.8927597 C87.6932504,3.8927597 85.7990384,4.58576574 84.5402051,5.87636393 C82.398996,8.06753518 82.1962881,10.0444437 82.4092166,11.6664795 C82.5046085,12.3996598 82.0872687,13.0943398 81.4297454,13.4542342 C78.7042606,14.9440298 76.8986268,17.853316 77.0962245,21.1810841 C77.3602558,25.6454491 81.4024906,29 85.9523469,29 L111.309577,29 C115.50512,29 119.305468,26.1275402 119.969805,22.0565483 C120.59837,18.1931233 118.509967,14.7665935 115.300709,13.2433194 C114.653406,12.9353167 114.299093,12.2523542 114.399595,11.5509785 Z" fill="#8D9AB0"></path>
@@ -27,45 +27,46 @@
             <h1>Drag & Drop</h1>
           </div>
         </div>
-        <div class="column is-6 is-offset-3">
+        <div class="column is-10 is-offset-1">
           <label class="upload-button">
             <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
             or choose file(s)
           </label>
         </div>
-        <div class="column is-6 is-offset-3">
+        <div class="column is-10 is-offset-1">
           <div class="columns">
-            <div class="column is-4 centered">
-              <label class="label">Concurrent</label>
+            <div class="column is-2">
+              <label class="label">Concurrency</label>
               <input class="input input-field" type="text" name="concurrency" [(ngModel)]="formData.concurrency">
             </div>
-            <div class="column is-4 centered">
+            <div class="column is-2">
               <label class="label">Auto Upload</label>
               <div class="checkbox">
                 <input type="checkbox" value="None" id="autoUpload" name="autoUpload" [(ngModel)]="formData.autoUpload" />
                 <label for="autoUpload"></label>
               </div>
             </div>
-            <div class="column is-4 centered">
+            <div class="column is-2">
               <label class="label">Verbose</label>
               <div class="checkbox">
                 <input type="checkbox" value="None" id="verbose" name="verbose" [(ngModel)]="formData.verbose" />
                 <label for="verbose"></label>
               </div>
             </div>
+            <div class="column is-6"></div>
           </div>
         </div>
-        <div class="column is-6 is-offset-3" *ngIf="files && files.length">
+        <div class="column is-10 is-offset-1" *ngIf="files && files.length">
           <div class="upload-file" *ngFor="let f of files; let i = index;">
             <div class="progress-bar-container">
               <div class="bar" [style.width]="f.progress.data.percentage + '%'" [ngClass]="{ 'green': f.progress.data.percentage === 100 }"></div>
             </div>
           </div>
         </div>
-        <div class="column is-6 is-offset-3" *ngIf="formData.verbose">
+        <div class="column is-10 is-offset-1" *ngIf="formData.verbose">
           <div class="verbose-data"><pre><code>{{ files | json }}</code></pre></div>
         </div>
-        <div class="column is-6 is-offset-3" *ngIf="files.length">
+        <div class="column is-10 is-offset-1" *ngIf="files.length">
           <button type="button" class="start-upload-btn" (click)="startUpload()">
             Start Upload
           </button>
