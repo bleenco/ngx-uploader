@@ -20,6 +20,8 @@ export interface UploadProgress {
     percentage: number;
     speed: number;
     speedHuman: string;
+    startTime: number | null;
+    endTime: number | null;
   };
 }
 
@@ -92,7 +94,9 @@ export class NgUploaderService {
           data: {
             percentage: 0,
             speed: null,
-            speedHuman: null
+            speedHuman: null,
+            startTime: null,
+            endTime: null
           }
         },
         lastModifiedDate: file.lastModifiedDate
@@ -171,22 +175,22 @@ export class NgUploaderService {
       const reader = new FileReader();
       const xhr = new XMLHttpRequest();
       let time: number = new Date().getTime();
-      let load = 0;
+      let speed = 0;
 
       xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
         if (e.lengthComputable) {
           const percentage = Math.round((e.loaded * 100) / e.total);
           const diff = new Date().getTime() - time;
-          time += diff;
-          load = e.loaded - load;
-          const speed = parseInt((load / diff * 1000) as any, 10);
+          speed = Math.round(e.loaded / diff * 1000);
 
           file.progress = {
             status: UploadStatus.Uploading,
             data: {
               percentage: percentage,
               speed: speed,
-              speedHuman: `${humanizeBytes(speed)}/s`
+              speedHuman: `${humanizeBytes(speed)}/s`,
+              startTime: file.progress.data.startTime || new Date().getTime(),
+              endTime: null
             }
           };
 
@@ -201,12 +205,15 @@ export class NgUploaderService {
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+          const speedAverage = Math.round(file.size / (new Date().getTime() - file.progress.data.startTime) * 1000);
           file.progress = {
             status: UploadStatus.Done,
             data: {
               percentage: 100,
-              speed: null,
-              speedHuman: null
+              speed: speedAverage,
+              speedHuman: `${humanizeBytes(speedAverage)}/s`,
+              startTime: file.progress.data.startTime,
+              endTime: new Date().getTime()
             }
           };
 

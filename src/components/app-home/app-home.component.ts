@@ -64,7 +64,7 @@ export class AppHomeComponent {
   startUpload(): void {
     const event: UploadInput = {
       type: 'uploadAll',
-      url: '/upload',
+      url: 'http://ngx-uploader.com/upload',
       method: 'POST',
       data: { foo: 'bar' },
       concurrency: this.formData.concurrency
