@@ -58,9 +58,15 @@
         </div>
         <div class="column is-10 is-offset-1" *ngIf="files && files.length">
           <div class="upload-file" *ngFor="let f of files; let i = index;">
-            <div class="progress-bar-container">
-              <div class="bar" [style.width]="f.progress.data.percentage + '%'" [ngClass]="{ 'green': f.progress.data.percentage === 100 }"></div>
-            </div>
+            <div class="columns">
+              <div class="column is-11">
+                <div class="progress-bar-container">
+                  <div class="bar" [style.width]="f.progress.data.percentage + '%'" [ngClass]="{ 'green': f.progress.data.percentage === 100 }"></div>
+                </div>
+              </div>
+              <div class="column is-1 centered">
+                <button type="button" class="button" (click)="cancelUpload(f.id)">Cancel</button>
+              </div>
           </div>
         </div>
         <div class="column is-10 is-offset-1" *ngIf="formData.verbose">

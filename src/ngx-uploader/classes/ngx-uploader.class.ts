@@ -2,10 +2,8 @@ import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
-import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/mergeAll';
-import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/merge';
 
 export enum UploadStatus {
   Queue,
@@ -125,19 +123,18 @@ export class NgUploaderService {
         break;
         case 'uploadAll':
           const concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
-
-          const subscriber = Subscriber.create((data: UploadOutput) => {
-            this.serviceEvents.emit(data);
-          });
-
           this.uploads = this.uploads.concat(this.files.map(file => {
-            return { file: file, sub: null };
+            return { file: file, sub: { instance: null } };
           }));
 
-          const subscription = Observable.from(this.files.map(file => this.uploadFile(file, event)))
-            .mergeAll(concurrency)
-            .combineLatest(data => data)
-            .subscribe(subscriber);
+          Observable.from(this.files.map(file => this.uploadFile(file, event)))
+            .merge(concurrency)
+            .subscribe((uploadInstance: Observable<UploadOutput>) => {
+              const index = this.uploads.findIndex(u => u.sub.instance === null);
+              this.uploads[index].sub.instance = uploadInstance.subscribe((data: UploadOutput) => {
+                this.serviceEvents.emit(data);
+              });
+            });
         break;
         case 'cancel':
           const id = event.id || null;
