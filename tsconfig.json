@@ -1,29 +1,19 @@
 {
   "compilerOptions": {
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
-    "noImplicitAny": false,
     "sourceMap": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "lib": [
       "es2015",
       "dom"
     ],
-    "outDir": "lib",
+    "outDir": "dist/api",
     "typeRoots": [
       "node_modules/@types"
     ]
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/main.ts"
-  ],
-  "angularCompilerOptions": {
-    "genDir": "./src/ngfactory",
-    "entryModule": "src/app/app.module#AppModule"
-  }
+  "files": [
+    "src/api/index.ts"
+  ]
 }

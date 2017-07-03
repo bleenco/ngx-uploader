@@ -4,7 +4,7 @@ Angular 2+ File Uploader
 
 http://ngx-uploader.com
 
-*This module has been completely rewritten from scratch with the version `3.0.0`.*
+**This module has been completely rewritten from scratch with the version `3.0.0`.**
 
 If you are looking for documentation for version prior to `3.0.0`, please check [2.x.x](https://github.com/jkuri/ngx-uploader/tree/2.x.x) branch.
 
@@ -70,17 +70,19 @@ export interface UploadInput {
   url?: string; // URL to upload file to
   method?: string; // method (POST | PUT)
   id?: string; // unique id of uploaded file
+  fieldName?: string; // field name (default 'file')
   fileIndex?: number; // fileIndex in internal ngx-uploader array of files
   file?: UploadFile; // uploading file
   data?: { [key: string]: string | Blob }; // custom data sent with the file
   headers?: { [key: string]: string }; // custom headers
   concurrency?: number; // concurrency of how many files can be uploaded in parallel (default is 0 which means unlimited)
+  withCredentials?: boolean; // apply withCredentials option
 }
 ```
 
 ## Example
 
-*You can always run working example by cloning this repository, building project with `yarn build:prod` and running server with `node ./dist/server.js`.*
+**You can always run working example by cloning this repository, building project with `yarn build:prod` and running server with `node ./dist/server.js`.**
 
 ### Component Code
 
@@ -158,6 +160,7 @@ export class AppHomeComponent {
 
 For whole template code please check [here](https://github.com/jkuri/ngx-uploader/tree/master/src/app/components/app-home/app-home.component.html).
 
+```html
 <div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
   <h1>Drag & Drop</h1>
 </div>
@@ -170,6 +173,7 @@ For whole template code please check [here](https://github.com/jkuri/ngx-uploade
 <button type="button" class="start-upload-btn" (click)="startUpload()">
   Start Upload
 </button>
+```
 
 ### LICENCE
 

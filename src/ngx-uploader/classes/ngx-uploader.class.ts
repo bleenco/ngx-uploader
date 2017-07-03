@@ -20,6 +20,8 @@ export interface UploadProgress {
     percentage: number;
     speed: number;
     speedHuman: string;
+    startTime: number | null;
+    endTime: number | null;
   };
 }
 
@@ -44,11 +46,13 @@ export interface UploadInput {
   url?: string;
   method?: string;
   id?: string;
+  fieldName?: string;
   fileIndex?: number;
   file?: UploadFile;
   data?: { [key: string]: string | Blob };
   headers?: { [key: string]: string };
   concurrency?: number;
+  withCredentials?: boolean;
 }
 
 export function humanizeBytes(bytes: number): string {
@@ -66,7 +70,7 @@ export function humanizeBytes(bytes: number): string {
 export class NgUploaderService {
   fileList: FileList;
   files: UploadFile[];
-  uploads: { file?: UploadFile, files?: UploadFile[], sub: Subscription }[];
+  uploads: { file?: UploadFile, files?: UploadFile[], sub: {instance: Subscription} }[];
   serviceEvents: EventEmitter<UploadOutput>;
 
   constructor() {
@@ -90,7 +94,9 @@ export class NgUploaderService {
           data: {
             percentage: 0,
             speed: null,
-            speedHuman: null
+            speedHuman: null,
+            startTime: null,
+            endTime: null
           }
         },
         lastModifiedDate: file.lastModifiedDate
@@ -108,14 +114,17 @@ export class NgUploaderService {
       switch (event.type) {
         case 'uploadFile':
           this.serviceEvents.emit({ type: 'start', file: event.file });
-          const sub = this.uploadFile(event.file, event).subscribe(data => {
-            this.serviceEvents.emit(data);
-          });
+
+          let sub: {instance: Subscription} = {instance: null};
 
           this.uploads.push({ file: event.file, sub: sub });
+
+          sub.instance = this.uploadFile(event.file, event).subscribe(data => {
+            this.serviceEvents.emit(data);
+          });
         break;
         case 'uploadAll':
-          let concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
+          const concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
 
           const subscriber = Subscriber.create((data: UploadOutput) => {
             this.serviceEvents.emit(data);
@@ -138,8 +147,8 @@ export class NgUploaderService {
 
           const index = this.uploads.findIndex(upload => upload.file.id === id);
           if (index !== -1) {
-            if (this.uploads[index].sub) {
-              this.uploads[index].sub.unsubscribe();
+            if (this.uploads[index].sub && this.uploads[index].sub.instance) {
+              this.uploads[index].sub.instance.unsubscribe();
             }
 
             this.serviceEvents.emit({ type: 'cancelled', file: this.uploads[index].file });
@@ -166,22 +175,22 @@ export class NgUploaderService {
       const reader = new FileReader();
       const xhr = new XMLHttpRequest();
       let time: number = new Date().getTime();
-      let load = 0;
+      let speed = 0;
 
       xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
         if (e.lengthComputable) {
           const percentage = Math.round((e.loaded * 100) / e.total);
           const diff = new Date().getTime() - time;
-          time += diff;
-          load = e.loaded - load;
-          const speed = parseInt((load / diff * 1000) as any, 10);
+          speed = Math.round(e.loaded / diff * 1000);
 
           file.progress = {
             status: UploadStatus.Uploading,
             data: {
               percentage: percentage,
               speed: speed,
-              speedHuman: `${humanizeBytes(speed)}/s`
+              speedHuman: `${humanizeBytes(speed)}/s`,
+              startTime: file.progress.data.startTime || new Date().getTime(),
+              endTime: null
             }
           };
 
@@ -196,12 +205,15 @@ export class NgUploaderService {
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+          const speedAverage = Math.round(file.size / (new Date().getTime() - file.progress.data.startTime) * 1000);
           file.progress = {
             status: UploadStatus.Done,
             data: {
               percentage: 100,
-              speed: null,
-              speedHuman: null
+              speed: speedAverage,
+              speedHuman: `${humanizeBytes(speedAverage)}/s`,
+              startTime: file.progress.data.startTime,
+              endTime: new Date().getTime()
             }
           };
 
@@ -217,6 +229,7 @@ export class NgUploaderService {
       };
 
       xhr.open(method, url, true);
+      xhr.withCredentials = event.withCredentials ? true : false;
 
       const form = new FormData();
       try {
@@ -226,7 +239,7 @@ export class NgUploaderService {
           observer.complete();
         }
 
-        form.append('file', uploadFile, uploadFile.name);
+        form.append(event.fieldName || 'file', uploadFile, uploadFile.name);
 
         Object.keys(data).forEach(key => form.append(key, data[key]));
         Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));

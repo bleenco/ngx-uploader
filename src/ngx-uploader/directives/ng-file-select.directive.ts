@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Input, Output, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 import { NgUploaderService, UploadOutput, UploadInput, UploadFile } from '../classes/ngx-uploader.class';
 
@@ -10,19 +10,14 @@ export class NgFileSelectDirective implements OnInit, OnDestroy {
   @Output() uploadOutput: EventEmitter<UploadOutput>;
 
   upload: NgUploaderService;
-  isServer: boolean = isPlatformServer(this.platform_id);
   el: HTMLInputElement;
 
-  constructor(@Inject(PLATFORM_ID) private platform_id, private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef) {
     this.upload = new NgUploaderService();
     this.uploadOutput = new EventEmitter<UploadOutput>();
   }
 
   ngOnInit() {
-    if (this.isServer) {
-      return;
-    }
-
     this.el = this.elementRef.nativeElement;
     this.el.addEventListener('change', this.fileListener, false);
 
@@ -36,12 +31,12 @@ export class NgFileSelectDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.isServer) {
-      return;
-    }
-
     this.el.removeEventListener('change', this.fileListener, false);
-    this.uploadInput.unsubscribe();
+    
+    if (this.uploadInput)
+    {
+      this.uploadInput.unsubscribe();
+    }
   }
 
   fileListener = () => {
