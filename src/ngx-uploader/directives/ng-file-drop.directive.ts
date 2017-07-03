@@ -35,7 +35,7 @@ export class NgFileDropDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.uploadInput) {
+    if (this.uploadInput) {
       this.uploadInput.unsubscribe();
     }
   }
