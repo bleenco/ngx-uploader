@@ -31,7 +31,6 @@ export class NgFileDropDirective implements OnInit, OnDestroy {
     this.el.addEventListener('drop', this.stopEvent, false);
     this.el.addEventListener('dragenter', this.stopEvent, false);
     this.el.addEventListener('dragover', this.stopEvent, false);
-    this.el.addEventListener('dragover', this.stopEvent, false);
   }
 
   ngOnDestroy() {
