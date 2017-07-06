@@ -215,9 +215,11 @@ export class NgUploaderService {
           };
 
           try {
-            file.response = JSON.parse(xhr.response);
+            file.response.data= JSON.parse(xhr.response);
+            file.response.result = "success";
           } catch (e) {
-            file.response = xhr.response;
+            file.response.data = xhr.response;
+            file.response.result = "failure";
           }
 
           observer.next({ type: 'done', file: file });
