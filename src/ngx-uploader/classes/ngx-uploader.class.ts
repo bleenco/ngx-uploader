@@ -37,6 +37,7 @@ export interface UploadFile {
 export interface UploadOutput {
   type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'removed' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop';
   file?: UploadFile;
+  nativeFile?: File;
 }
 
 export interface UploadInput {
@@ -100,7 +101,7 @@ export class NgUploaderService {
         lastModifiedDate: file.lastModifiedDate
       };
 
-      this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
+      this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile, nativeFile: file });
       return uploadFile;
     }));
 
