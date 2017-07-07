@@ -31972,6 +31972,7 @@ var NgUploaderService = (function () {
                             endTime: new Date().getTime()
                         }
                     };
+                    file.response = {};
                     try {
                         file.response.data = JSON.parse(xhr.response);
                         file.response.result = "success";
