@@ -4,4 +4,3 @@ node_modules/
 lib/
 *.ngsummary.json
 *.ngfactory.ts
-dist/*
