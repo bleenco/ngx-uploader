@@ -31922,6 +31922,7 @@ var NgUploaderService = (function () {
                         upload.file.progress.status = UploadStatus.Canceled;
                         _this.serviceEvents.emit({ type: 'cancelled', file: upload.file });
                     });
+                    _this.uploads = []; /* Remove uploads since we are cancelling them*/
                     break;
             }
         });

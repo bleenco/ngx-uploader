@@ -157,6 +157,7 @@ export class NgUploaderService {
             upload.file.progress.status = UploadStatus.Canceled;
             this.serviceEvents.emit({ type: 'cancelled', file: upload.file });
           });
+          this.uploads = []; /* Remove uploads since we are cancelling them*/
         break;
       }
     });
