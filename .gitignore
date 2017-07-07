@@ -1,7 +1,7 @@
-dist/
 bundles/
 .DS_Store
 node_modules/
 lib/
 *.ngsummary.json
 *.ngfactory.ts
+dist/*
