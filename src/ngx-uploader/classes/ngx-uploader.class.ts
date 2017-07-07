@@ -215,7 +215,7 @@ export class NgUploaderService {
           };
           file.response = {};
           file.response.result = (xhr.status === 200) ? "success" : "failure";
-          file.response.code = xhr.status;
+          file.response.code = xhr.status;  
           try {
             file.response.data= JSON.parse(xhr.response);
           } catch (e) {
