@@ -214,14 +214,13 @@ export class NgUploaderService {
             }
           };
           file.response = {};
+          file.response.result = (xhr.status === 200) ? "success" : "failure";
           try {
             file.response.data= JSON.parse(xhr.response);
-            file.response.result = "success";
           } catch (e) {
             file.response.data = xhr.response;
             file.response.result = "failure";
           }
-
           observer.next({ type: 'done', file: file });
           observer.complete();
         }
