@@ -158,6 +158,7 @@ export class NgUploaderService {
             upload.file.progress.status = UploadStatus.Canceled;
             this.serviceEvents.emit({ type: 'cancelled', file: upload.file });
           });
+          this.uploads = []; /* Remove uploads since we are cancelling them*/
         break;
       }
     });
@@ -214,13 +215,15 @@ export class NgUploaderService {
               endTime: new Date().getTime()
             }
           };
-
+          file.response = {};
+          file.response.result = (xhr.status === 200) ? "success" : "failure";
+          
           try {
-            file.response = JSON.parse(xhr.response);
+            file.response.data= JSON.parse(xhr.response);
           } catch (e) {
-            file.response = xhr.response;
+            file.response.data = xhr.response;
+            file.response.result = "failure";
           }
-
           observer.next({ type: 'done', file: file });
           observer.complete();
         }
