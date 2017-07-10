@@ -184,11 +184,16 @@ export class NgUploaderService {
     return new Observable(observer => {
       /* New base64 reader */
       const freader = new FileReader();
-      const uploadFile = this.fileList.item(file.fileIndex);
-      freader.addEventListener("load", function(fre:FileReaderEvent) {
-        observer.next({ type: 'base64', file : file, str : fre.target.result });
-      });
-      freader.readAsDataURL( uploadFile );
+      try {
+        const uploadFile = this.fileList.item(file.fileIndex);
+        freader.addEventListener("load", function(fre:FileReaderEvent) {
+          observer.next({ type: 'base64', file : file, str : fre.target.result });
+        });
+        freader.readAsDataURL( uploadFile );
+      } catch (e) {
+        observer.complete();
+      }
+      
     });
   } 
 

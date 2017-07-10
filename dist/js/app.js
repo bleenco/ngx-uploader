@@ -25747,11 +25747,16 @@ var NgUploaderService = (function () {
         return new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["Observable"](function (observer) {
             /* New base64 reader */
             var freader = new FileReader();
-            var uploadFile = _this.fileList.item(file.fileIndex);
-            freader.addEventListener("load", function (fre) {
-                observer.next({ type: 'base64', file: file, str: fre.target.result });
-            });
-            freader.readAsDataURL(uploadFile);
+            try {
+                var uploadFile = _this.fileList.item(file.fileIndex);
+                freader.addEventListener("load", function (fre) {
+                    observer.next({ type: 'base64', file: file, str: fre.target.result });
+                });
+                freader.readAsDataURL(uploadFile);
+            }
+            catch (e) {
+                observer.complete();
+            }
         });
     };
     NgUploaderService.prototype.uploadFile = function (file, event) {
