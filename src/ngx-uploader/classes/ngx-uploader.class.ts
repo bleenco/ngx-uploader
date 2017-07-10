@@ -35,12 +35,13 @@ export interface UploadFile {
 }
 
 export interface UploadOutput {
-  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'removed' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop';
+  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'removed' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop' | 'base64';
   file?: UploadFile;
+  str?: string;
 }
 
 export interface UploadInput {
-  type: 'uploadAll' | 'uploadFile' | 'cancel' | 'cancelAll';
+  type: 'uploadAll' | 'uploadFile' | 'cancel' | 'cancelAll' | 'getdataString';
   url?: string;
   method?: string;
   id?: string;
@@ -51,6 +52,15 @@ export interface UploadInput {
   headers?: { [key: string]: string };
   concurrency?: number;
   withCredentials?: boolean;
+}
+
+interface FileReaderEventTarget extends EventTarget {
+    result:string
+}
+
+interface FileReaderEvent extends Event {
+    target: FileReaderEventTarget;
+    getMessage():string;
 }
 
 export function humanizeBytes(bytes: number): string {
@@ -121,6 +131,13 @@ export class NgUploaderService {
             this.serviceEvents.emit(data);
           });
         break;
+        case 'getdataString':
+          this.serviceEvents.emit({type : 'start', file : event.file });
+          /* Add observer for this type */
+          this.convertToBase64(event.file, event).subscribe(data=> {
+            this.serviceEvents.emit(data);
+          });
+          break;
         case 'uploadAll':
           const concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
           this.uploads = this.uploads.concat(this.files.map(file => {
@@ -162,6 +179,18 @@ export class NgUploaderService {
       }
     });
   }
+
+  convertToBase64(file : UploadFile, event: UploadInput) : Observable<UploadOutput> {
+    return new Observable(observer => {
+      /* New base64 reader */
+      const freader = new FileReader();
+      const uploadFile = this.fileList.item(file.fileIndex);
+      freader.addEventListener("load", function(fre:FileReaderEvent) {
+        observer.next({ type: 'base64', file : file, str : fre.target.result });
+      });
+      freader.readAsDataURL( uploadFile );
+    });
+  } 
 
   uploadFile(file: UploadFile, event: UploadInput): Observable<UploadOutput> {
     return new Observable(observer => {
