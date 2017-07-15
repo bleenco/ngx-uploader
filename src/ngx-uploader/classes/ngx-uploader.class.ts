@@ -155,6 +155,9 @@ export class NgUploaderService {
         break;
         case 'cancelAll':
           this.uploads.forEach(upload => {
+            if (upload.sub && upload.sub.instance) {
+              upload.sub.instance.unsubscribe();
+            }
             upload.file.progress.status = UploadStatus.Canceled;
             this.serviceEvents.emit({ type: 'cancelled', file: upload.file });
           });
