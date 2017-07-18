@@ -2,7 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
-import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/mergeAll';
 
 export enum UploadStatus {
@@ -123,7 +123,7 @@ export class NgUploaderService {
         break;
         case 'uploadAll':
           const concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
-          Observable.merge(this.files.map(file => this.uploadFile(file, event)))
+          Observable.from(this.files.map(file => this.uploadFile(file, event)))
             .mergeAll(concurrency)
             .subscribe((data: UploadOutput) => this.serviceEvents.emit(data));
         break;
