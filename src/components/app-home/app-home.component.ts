@@ -31,8 +31,6 @@ export class AppHomeComponent {
   }
 
   onUploadOutput(output: UploadOutput): void {
-    console.log(output);
-
     if (output.type === 'allAddedToQueue') {
       if (this.formData.autoUpload) {
         const event: UploadInput = {
@@ -75,5 +73,13 @@ export class AppHomeComponent {
 
   cancelUpload(id: string): void {
     this.uploadInput.emit({ type: 'cancel', id: id });
+  }
+
+  removeFile(id: string): void {
+    this.uploadInput.emit({ type: 'remove', id: id });
+  }
+
+  removeAllFiles(): void {
+    this.uploadInput.emit({ type: 'removeAll' });
   }
 }
