@@ -35,7 +35,7 @@ export interface UploadFile {
 }
 
 export interface UploadOutput {
-  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'removed' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop' | 'removed';
+  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop' | 'removed';
   file?: UploadFile;
   nativeFile?: File;
 }
@@ -157,10 +157,10 @@ export class NgUploaderService {
             return;
           }
 
-          const i = this.uploads.findIndex(upload => upload.file.id === event.id);
+          const i = this.files.findIndex(file => file.id === event.id);
           if (i !== -1) {
-            const file = this.uploads[i].file;
-            this.uploads.splice(i, 1);
+            const file = this.files[i];
+            this.files.splice(i, 1);
             this.serviceEvents.emit({ type: 'removed', file: file });
           }
         break;
