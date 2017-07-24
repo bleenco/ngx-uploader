@@ -30,6 +30,7 @@ export interface UploadFile {
   name: string;
   size: number;
   type: string;
+  originalFile: File;
   progress: UploadProgress;
   response?: any;
 }
@@ -67,7 +68,6 @@ export function humanizeBytes(bytes: number): string {
 }
 
 export class NgUploaderService {
-  fileList: FileList;
   files: UploadFile[];
   uploads: { file?: UploadFile, files?: UploadFile[], sub: {instance: Subscription} }[];
   serviceEvents: EventEmitter<UploadOutput>;
@@ -79,8 +79,6 @@ export class NgUploaderService {
   }
 
   handleFiles(files: FileList): void {
-    this.fileList = files;
-
     this.files.push(...[].map.call(files, (file: File, i: number) => {
       const uploadFile: UploadFile = {
         fileIndex: i,
@@ -88,6 +86,7 @@ export class NgUploaderService {
         name: file.name,
         size: file.size,
         type: file.type,
+        originalFile: file,
         progress: {
           status: UploadStatus.Queue,
           data: {
@@ -242,7 +241,7 @@ export class NgUploaderService {
 
       const form = new FormData();
       try {
-        const uploadFile = this.fileList.item(file.fileIndex);
+        const uploadFile = file.originalFile;
         const uploadIndex = this.uploads.findIndex(upload => upload.file.size === uploadFile.size);
         if (this.uploads[uploadIndex].file.progress.status === UploadStatus.Canceled) {
           observer.complete();
