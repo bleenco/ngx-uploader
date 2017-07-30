@@ -124,8 +124,12 @@ export class NgUploaderService {
         break;
         case 'uploadAll':
           const concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
-          const files = this.files.filter(file => file.progress.status !== UploadStatus.Done);
-          Observable.from(files.map(file => this.uploadFile(file, event)))
+          const files = this.files.filter(file => file.progress.status === UploadStatus.Queue);
+          if (!files.length) {
+            return;
+          }
+
+          Observable.from(files.map(file => file.sub = this.uploadFile(file, event)))
             .mergeAll(concurrency)
             .subscribe((data: UploadOutput) => this.serviceEvents.emit(data));
         break;

@@ -66,7 +66,7 @@ export class AppHomeComponent {
       method: 'POST',
       data: { foo: 'bar' },
       concurrency: this.formData.concurrency
-    }
+    };
 
     this.uploadInput.emit(event);
   }
