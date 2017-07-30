@@ -32,6 +32,8 @@ export interface UploadFile {
   type: string;
   progress: UploadProgress;
   response?: any;
+  sub?: Subscription | any;
+  nativeFile?: File;
 }
 
 export interface UploadOutput {
@@ -75,7 +77,6 @@ export class NgUploaderService {
   constructor() {
     this.files = [];
     this.serviceEvents = new EventEmitter<any>();
-    this.uploads = [];
   }
 
   handleFiles(files: FileList): void {
@@ -98,12 +99,12 @@ export class NgUploaderService {
             endTime: null
           }
         },
-        lastModifiedDate: file.lastModifiedDate
+        lastModifiedDate: file.lastModifiedDate,
+        sub: Subscription,
+        nativeFile: file
       };
 
-      this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile, nativeFile: file });
-      this.uploads.push({ file: uploadFile, sub: { instance: null } });
-
+      this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
       return uploadFile;
     }));
 
@@ -114,16 +115,17 @@ export class NgUploaderService {
     input.subscribe((event: UploadInput) => {
       switch (event.type) {
         case 'uploadFile':
-          const uploadFileIndex = this.uploads.findIndex(upload => upload.file === event.file);
+          const uploadFileIndex = this.files.findIndex(file => file === event.file);
           if (uploadFileIndex !== -1) {
-            this.uploads[uploadFileIndex].sub.instance = this.uploadFile(event.file, event).subscribe(data => {
+            this.files[uploadFileIndex].sub = this.uploadFile(event.file, event).subscribe(data => {
               this.serviceEvents.emit(data);
             });
           }
         break;
         case 'uploadAll':
           const concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
-          Observable.from(this.files.map(file => this.uploadFile(file, event)))
+          const files = this.files.filter(file => file.progress.status !== UploadStatus.Done);
+          Observable.from(files.map(file => this.uploadFile(file, event)))
             .mergeAll(concurrency)
             .subscribe((data: UploadOutput) => this.serviceEvents.emit(data));
         break;
@@ -133,23 +135,24 @@ export class NgUploaderService {
             return;
           }
 
-          const index = this.uploads.findIndex(upload => upload.file.id === id);
+          const index = this.files.findIndex(file => file.id === id);
           if (index !== -1) {
-            if (this.uploads[index].sub && this.uploads[index].sub.instance) {
-              this.uploads[index].sub.instance.unsubscribe();
+            if (this.files[index].sub) {
+              this.files[index].sub.unsubscribe();
             }
 
-            this.serviceEvents.emit({ type: 'cancelled', file: this.uploads[index].file });
-            this.uploads[index].file.progress.status = UploadStatus.Canceled;
+            this.serviceEvents.emit({ type: 'cancelled', file: this.files[index] });
+            this.files[index].progress.status = UploadStatus.Canceled;
           }
         break;
         case 'cancelAll':
-          this.uploads.forEach(upload => {
-            if (upload.sub && upload.sub.instance) {
-              upload.sub.instance.unsubscribe();
+          this.files.forEach(file => {
+            if (file.sub) {
+              file.sub.unsubscribe();
             }
-            upload.file.progress.status = UploadStatus.Canceled;
-            this.serviceEvents.emit({ type: 'cancelled', file: upload.file });
+
+            file.progress.status = UploadStatus.Canceled;
+            this.serviceEvents.emit({ type: 'cancelled', file: file });
           });
         break;
         case 'remove':
@@ -243,8 +246,9 @@ export class NgUploaderService {
       const form = new FormData();
       try {
         const uploadFile = this.fileList.item(file.fileIndex);
-        const uploadIndex = this.uploads.findIndex(upload => upload.file.size === uploadFile.size);
-        if (this.uploads[uploadIndex].file.progress.status === UploadStatus.Canceled) {
+        const uploadIndex = this.files.findIndex(file => file.nativeFile === uploadFile);
+
+        if (this.files[uploadIndex].progress.status === UploadStatus.Canceled) {
           observer.complete();
         }
 

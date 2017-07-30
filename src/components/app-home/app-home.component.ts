@@ -35,7 +35,7 @@ export class AppHomeComponent {
       if (this.formData.autoUpload) {
         const event: UploadInput = {
           type: 'uploadAll',
-          url: '/upload',
+          url: 'http://ngx-uploader.com/upload',
           method: 'POST',
           data: { foo: 'bar' },
           concurrency: this.formData.concurrency
