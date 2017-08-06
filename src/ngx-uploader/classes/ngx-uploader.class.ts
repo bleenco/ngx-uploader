@@ -93,8 +93,8 @@ export class NgUploaderService {
           status: UploadStatus.Queue,
           data: {
             percentage: 0,
-            speed: null,
-            speedHuman: null,
+            speed: 0,
+            speedHuman: `${humanizeBytes(0)}/s`,
             startTime: null,
             endTime: null
           }
@@ -116,14 +116,14 @@ export class NgUploaderService {
       switch (event.type) {
         case 'uploadFile':
           const uploadFileIndex = this.files.findIndex(file => file === event.file);
-          if (uploadFileIndex !== -1) {
+          if (uploadFileIndex !== -1 && event.file) {
             this.files[uploadFileIndex].sub = this.uploadFile(event.file, event).subscribe(data => {
               this.serviceEvents.emit(data);
             });
           }
         break;
         case 'uploadAll':
-          const concurrency = event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
+          const concurrency = typeof event.concurrency !== 'undefined' && event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
           const files = this.files.filter(file => file.progress.status === UploadStatus.Queue);
           if (!files.length) {
             return;
@@ -183,7 +183,7 @@ export class NgUploaderService {
 
   uploadFile(file: UploadFile, event: UploadInput): Observable<UploadOutput> {
     return new Observable(observer => {
-      const url = event.url;
+      const url = ''+event.url;
       const method = event.method || 'POST';
       const data = event.data || {};
       const headers = event.headers || {};
@@ -191,6 +191,7 @@ export class NgUploaderService {
       const reader = new FileReader();
       const xhr = new XMLHttpRequest();
       let time: number = new Date().getTime();
+      let progressStartTime: number = (file.progress.data && file.progress.data.startTime) || time;
       let speed = 0;
 
       xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
@@ -198,6 +199,7 @@ export class NgUploaderService {
           const percentage = Math.round((e.loaded * 100) / e.total);
           const diff = new Date().getTime() - time;
           speed = Math.round(e.loaded / diff * 1000);
+          progressStartTime = (file.progress.data && file.progress.data.startTime) || new Date().getTime();
 
           file.progress = {
             status: UploadStatus.Uploading,
@@ -205,7 +207,7 @@ export class NgUploaderService {
               percentage: percentage,
               speed: speed,
               speedHuman: `${humanizeBytes(speed)}/s`,
-              startTime: file.progress.data.startTime || new Date().getTime(),
+              startTime: progressStartTime,
               endTime: null
             }
           };
@@ -221,14 +223,14 @@ export class NgUploaderService {
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-          const speedAverage = Math.round(file.size / (new Date().getTime() - file.progress.data.startTime) * 1000);
+          const speedAverage = Math.round(file.size / (new Date().getTime() - progressStartTime) * 1000);
           file.progress = {
             status: UploadStatus.Done,
             data: {
               percentage: 100,
               speed: speedAverage,
               speedHuman: `${humanizeBytes(speedAverage)}/s`,
-              startTime: file.progress.data.startTime,
+              startTime: progressStartTime,
               endTime: new Date().getTime()
             }
           };
