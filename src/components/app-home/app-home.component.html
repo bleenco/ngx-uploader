@@ -11,7 +11,7 @@
                 <div class="upload-item" *ngFor="let f of files; let i = index;">
                   <div class="upload-item-top">
                     <span class="filename">{{ f.name }}</span>
-                    <span class="progress">
+                    <span class="progress-data">
                       {{ f.progress.data.percentage }}% at {{ f.progress.data.speedHuman }} eta {{ f.progress.data.eta }}s
                     </span>
                     <span class="x" (click)="removeFile(f.id)">x</span>
