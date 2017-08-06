@@ -20,6 +20,8 @@ export interface UploadProgress {
     speedHuman: string;
     startTime: number | null;
     endTime: number | null;
+    eta: number | null;
+    etaHuman: string | null;
   };
 }
 
@@ -96,7 +98,9 @@ export class NgUploaderService {
             speed: 0,
             speedHuman: `${humanizeBytes(0)}/s`,
             startTime: null,
-            endTime: null
+            endTime: null,
+            eta: null,
+            etaHuman: null
           }
         },
         lastModifiedDate: file.lastModifiedDate,
@@ -193,6 +197,7 @@ export class NgUploaderService {
       let time: number = new Date().getTime();
       let progressStartTime: number = (file.progress.data && file.progress.data.startTime) || time;
       let speed = 0;
+      let eta: number | null = null;
 
       xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
         if (e.lengthComputable) {
@@ -200,6 +205,7 @@ export class NgUploaderService {
           const diff = new Date().getTime() - time;
           speed = Math.round(e.loaded / diff * 1000);
           progressStartTime = (file.progress.data && file.progress.data.startTime) || new Date().getTime();
+          eta = Math.ceil((e.total - e.loaded) / speed);
 
           file.progress = {
             status: UploadStatus.Uploading,
@@ -208,7 +214,9 @@ export class NgUploaderService {
               speed: speed,
               speedHuman: `${humanizeBytes(speed)}/s`,
               startTime: progressStartTime,
-              endTime: null
+              endTime: null,
+              eta: eta,
+              etaHuman: this.secondsToHuman(eta)
             }
           };
 
@@ -231,7 +239,9 @@ export class NgUploaderService {
               speed: speedAverage,
               speedHuman: `${humanizeBytes(speedAverage)}/s`,
               startTime: progressStartTime,
-              endTime: new Date().getTime()
+              endTime: new Date().getTime(),
+              eta: eta,
+              etaHuman: this.secondsToHuman(eta || 0)
             }
           };
 
@@ -274,6 +284,10 @@ export class NgUploaderService {
         reader.abort();
       };
     });
+  }
+
+  secondsToHuman(sec: number): string {
+    return new Date(sec * 1000).toISOString().substr(11, 8);
   }
 
   generateId(): string {

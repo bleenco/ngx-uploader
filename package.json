@@ -1,6 +1,6 @@
 {
   "name": "ngx-uploader",
-  "version": "3.3.5",
+  "version": "3.3.6",
   "main": "bundles/ngx-uploader.umd.js",
   "module": "index.js",
   "esnext": "index.js",

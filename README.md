@@ -43,7 +43,9 @@ export interface UploadProgress {
   data?: {
     percentage: number; // percentage of upload already completed
     speed: number; // current upload speed per second in bytes
-    speedHuman: string; // current upload speed per second in human readable form
+    speedHuman: string; // current upload speed per second in human readable form,
+    eta: number; // estimated time remaining in seconds
+    etaHuman: string; // estimated time remaining in human readable format
   };
 }
 
