@@ -39,6 +39,8 @@ export class NgFileSelectDirective implements OnInit, OnDestroy {
   }
 
   fileListener = () => {
-    this.upload.handleFiles(this.el.files);
+    if (this.el.files) {
+      this.upload.handleFiles(this.el.files);
+    }
   }
 }
