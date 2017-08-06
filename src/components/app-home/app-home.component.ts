@@ -20,7 +20,7 @@ export class AppHomeComponent {
 
   constructor() {
     this.formData = {
-      concurrency: 0,
+      concurrency: 1,
       autoUpload: false,
       verbose: true
     };

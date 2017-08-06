@@ -2,8 +2,10 @@ import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/mergeAll';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
 
 export enum UploadStatus {
   Queue,
@@ -133,9 +135,11 @@ export class NgUploaderService {
             return;
           }
 
-          Observable.from(files.map(file => file.sub = this.uploadFile(file, event)))
-            .mergeAll(concurrency)
-            .subscribe((data: UploadOutput) => this.serviceEvents.emit(data));
+          Observable.of(...files)
+            .mergeMap(file => {
+              return this.uploadFile(file, event);
+            }, concurrency)
+            .subscribe(data => this.serviceEvents.emit(data));
         break;
         case 'cancel':
           const id = event.id || null;
