@@ -4,203 +4,132 @@
 @import '../../node_modules/rash/rash'
 
 $blue: #1991EB
+$purple: #65619C
+$border: #EDEDED
+$grey: #D7D8D7
+$green: #93E777
 
-html, body, .hero
+html, body
   width: 100%
+  height: 100%
+
+body
+  background: $white
   font-family: 'Open Sans', sans-serif
-  -webkit-font-smoothing: antialiased
-  background: $white
-
-.drop-container
-  padding: 40px 0
-  border-radius: 10px
-  margin-bottom: 10px
-  border: 1px solid #313D4F
-  margin-top: 20px
-  background: $white
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2)
-
-  svg
-    width: 100px
-    margin: 20px auto
-    display: block
-
-  h1
-    display: block
-    color: $black
-    font-size: 22px
-    text-align: center
-    font-weight: 600
-
-  &.is-drop-over
-    background: lighten(#273142, 45)
-
-.upload-button, .start-upload-btn
-  width: 200px
-  display: block
-  margin: 10px auto
-  border-radius: 30px
-  background: $white
-  outline: none
-  font-size: 18px
-  text-align: center
-  padding: 10px 30px
-  cursor: pointer
-  color: $black
-  border: 1px solid $black
-  font-weight: 400
-  transition: all 250ms ease
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2)
-
-  input
-    display: none
-
-  &:hover
-    background: $black
-    color: $white
-
-  &.start-upload-btn
-    background: $white
-    padding: 10px
-    width: 200px
-    font-size: 18px
-
-    &:hover
-      background: $black
-      color: $white
-
-.progress-bar-container
-  width: 100%
-  height: 8px
-  border-radius: 10px
-  background: $white
-  margin: 30px 0
-  position: relative
-  border: 1px solid $black
-  display: flex
-  justify-content: center
-  align-items: center
-  color: $black
-  font-size: 14px
-  text-align: center
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2)
-
-  .bar
-    z-index: 1
-    padding: 0
-    margin: 0
-    border-radius: 10px
-    position: absolute
-    top: 0
-    left: 0
-    height: 6px
-    background: #90DF39
-
-    &.green
-      background: #90DF39
-
-  span
-    z-index: 2
-
-.verbose-data
-  color: $black
-  padding-bottom: 20px
-
-  pre
-    code
-      background: $white
-      border: 1px solid #313D4F
-      box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2)
-      border-radius: 5px
-      font-size: 11px
-      color: $black
-
-.label
-  margin: 5px 10px 0 0
-  color: $black
-  display: block
-  float: left
-
-.input-field
-  background: $white
-  width: 60px
-  height: 30px
   font-size: 12px
-  padding: 3px
-  text-align: center
-  border: 1px solid #313D4F
-  font-weight: $weight-semibold
-  color: $black
-  display: block
-  float: left
 
-  &:hover, &:focus
-    border: 1px solid $black
+.upload-popup
+  width: 100%
+  border-radius: 15px
+  box-shadow: 1px 2px 10px rgba($black, 0.2)
 
-.checkbox
-  width: 25px
-  margin: 5px 10px 0 0
-  position: relative
-  display: block
-  float: left
+  .popup-container
+    padding: 20px
 
-  label
-    cursor: pointer
-    position: absolute
-    width: 25px
-    height: 25px
-    top: 0
-    left: 0
-    background: $white
-    border: 1px solid #313D4F
-    border-radius: 4px
+    h1
+      color: $purple
+      font-size: 16px
+      font-weight: bold
+      margin: 5px 0
 
-    &:after
-      opacity: 0
-      content: ''
-      position: absolute
-      width: 12px
-      height: 7px
-      background: transparent
-      top: 7px
-      left: 6px
-      border: 3px solid $black
-      border-top: none
-      border-right: none
-      transform: rotate(-45deg)
+    .drop-container
+      border: 3px dashed $border
+      width: 100%
+      padding: 50px 0
+      border-radius: 10px
+      margin: 20px 0 0 0
 
-    &:hover
-      &::after
-        opacity: 0.2
+      h1
+        width: 100%
+        display: block
+        color: $purple
+        font-weight: bold
+        font-size: 20px
+        text-align: center
 
-  input[type="checkbox"]:checked + label:after
-    opacity: 1
+      p
+        width: 100%
+        display: flex
+        justify-content: center
+        font-size: 14px
+        color: #CBCCD8
+        font-weight: bold
 
-.centered
-  display: flex
-  align-items: center
+        span
+          display: block
+          float: left
 
-.upload-file
+      &.is-drop-over
+        background: lighten(#273142, 20)
 
-  .button
-    background: $white
-    border: 1px solid $black
-    color: $black
-    outline: none
-    padding: 5x 20px
-    border-radius: 4px
-    display: block
-    font-size: 14px
+      .upload-button
+        display: block
+        float: left
+        text-decoration: underline
+        border: none
+        outline: none
+        cursor: pointer
+        margin-left: 4px
 
-    &:hover
-      background: $black
-      color: $white
+        input
+          display: none
 
-.small-button
-  padding: 5px 10px
-  font-size: 8px
+    .uploads
 
-.flex-center
-  display: flex
-  align-items: center
-  justify-content: center
+      .upload-item
+        margin: 20px 0
+
+        .upload-item-top
+          font-size: 12px
+          font-weight: bold
+          display: inline-block
+          width: 100%
+          position: relative
+
+          .filename
+            color: $purple
+            display: block
+            float: left
+
+          .progress
+            color: lighten($purple, 20)
+            display: block
+            float: right
+            margin-right: 30px
+
+          .x
+            display: block
+            width: 16px
+            height: 16px
+            color: $red
+            font-size: 16px
+            position: absolute
+            right: 0
+            top: -5px
+            cursor: pointer
+
+        .progress-bar-container
+          width: 100%
+          height: 5px
+          border-radius: 2px
+          background: $grey
+          margin: 3px 0
+          position: relative
+          border: none
+          display: flex
+          justify-content: center
+          align-items: center
+
+          .bar
+            z-index: 1
+            padding: 0
+            margin: 0
+            border-radius: 2px
+            position: absolute
+            top: 0
+            left: 0
+            height: 6px
+            background: $purple
+
+            &.green
+              background: $green

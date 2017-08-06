@@ -31,18 +31,18 @@ export class AppHomeComponent {
   }
 
   onUploadOutput(output: UploadOutput): void {
-    if (output.type === 'allAddedToQueue') {
-      if (this.formData.autoUpload) {
-        const event: UploadInput = {
-          type: 'uploadAll',
-          url: 'http://ngx-uploader.com/upload',
-          method: 'POST',
-          data: { foo: 'bar' },
-          concurrency: this.formData.concurrency
-        };
+    console.log(output);
 
-        this.uploadInput.emit(event);
-      }
+    if (output.type === 'allAddedToQueue') {
+      const event: UploadInput = {
+        type: 'uploadAll',
+        url: 'http://ngx-uploader.com/upload',
+        method: 'POST',
+        data: { foo: 'bar' },
+        concurrency: this.formData.concurrency
+      };
+
+      this.uploadInput.emit(event);
     } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') {
       this.files.push(output.file);
     } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
