@@ -12,7 +12,9 @@
       "dom"
     ],
     "outDir": "lib",
-    "types": ["node"]
+    "types": ["node"],
+    "strictNullChecks": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "./main.aot.ts"

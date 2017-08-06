@@ -43,10 +43,10 @@ export class AppHomeComponent {
 
         this.uploadInput.emit(event);
       }
-    } else if (output.type === 'addedToQueue') {
+    } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') {
       this.files.push(output.file);
-    } else if (output.type === 'uploading') {
-      const index = this.files.findIndex(file => file.id === output.file.id);
+    } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
+      const index = this.files.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
       this.files[index] = output.file;
     } else if (output.type === 'removed') {
       this.files = this.files.filter((file: UploadFile) => file !== output.file);
