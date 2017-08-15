@@ -36,6 +36,7 @@ export interface UploadFile {
   type: string;
   progress: UploadProgress;
   response?: any;
+  responseStatus?: number;
   sub?: Subscription | any;
   nativeFile?: File;
 }
@@ -248,6 +249,8 @@ export class NgUploaderService {
               etaHuman: this.secondsToHuman(eta || 0)
             }
           };
+
+          file.responseStatus = xhr.status;
 
           try {
             file.response = JSON.parse(xhr.response);
