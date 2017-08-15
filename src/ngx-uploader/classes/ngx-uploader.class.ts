@@ -34,6 +34,7 @@ export interface UploadFile {
   name: string;
   size: number;
   type: string;
+  form: FormData;
   progress: UploadProgress;
   response?: any;
   responseStatus?: number;
@@ -99,6 +100,7 @@ export class NgUploaderService {
         name: file.name,
         size: file.size,
         type: file.type,
+        form: new FormData(),
         progress: {
           status: UploadStatus.Queue,
           data: {
@@ -272,7 +274,6 @@ export class NgUploaderService {
       xhr.open(method, url, true);
       xhr.withCredentials = event.withCredentials ? true : false;
 
-      const form = new FormData();
       try {
         const uploadFile = this.fileList[file.fileIndex];
         const uploadIndex = this.files.findIndex(file => file.nativeFile === uploadFile);
@@ -281,13 +282,13 @@ export class NgUploaderService {
           observer.complete();
         }
 
-        form.append(event.fieldName || 'file', uploadFile, uploadFile.name);
+        file.form.append(event.fieldName || 'file', uploadFile, uploadFile.name);
 
-        Object.keys(data).forEach(key => form.append(key, data[key]));
+        Object.keys(data).forEach(key => file.form.append(key, data[key]));
         Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));
 
         this.serviceEvents.emit({ type: 'start', file: file });
-        xhr.send(form);
+        xhr.send(file.form);
       } catch (e) {
         observer.complete();
       }
