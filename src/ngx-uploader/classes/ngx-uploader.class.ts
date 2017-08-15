@@ -93,7 +93,7 @@ export class NgUploaderService {
     this.fileList = toArray(this.fileList).concat(toArray(files));
 
     let i = this.files.length;
-    this.files.push(...[].map.call(files, (file: File, i: number) => {
+    this.files.push(...[].map.call(files, (file: File) => {
       const uploadFile: UploadFile = {
         fileIndex: i,
         id: this.generateId(),
