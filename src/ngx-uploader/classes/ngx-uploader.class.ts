@@ -2,10 +2,8 @@ import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
-import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeAll';
 
 export enum UploadStatus {
   Queue,
@@ -72,10 +70,14 @@ export function humanizeBytes(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
+export function toArray(files: FileList) {
+  return Array.prototype.slice.call(files || []);
+}
+
 export class NgUploaderService {
   fileList: FileList;
   files: UploadFile[];
-  uploads: { file?: UploadFile, files?: UploadFile[], sub: {instance: Subscription} }[];
+  uploads: { file?: UploadFile, files?: UploadFile[], sub: { instance: Subscription } }[];
   serviceEvents: EventEmitter<UploadOutput>;
 
   constructor() {
@@ -84,9 +86,10 @@ export class NgUploaderService {
   }
 
   handleFiles(files: FileList): void {
-    this.fileList = files;
+    this.fileList = toArray(this.fileList).concat(toArray(files));
 
-    this.files.push(...[].map.call(files, (file: File, i: number) => {
+    let i = this.files.length;
+    this.files.push(...[].map.call(files, (file: File) => {
       const uploadFile: UploadFile = {
         fileIndex: i,
         id: this.generateId(),
@@ -109,6 +112,7 @@ export class NgUploaderService {
         sub: Subscription,
         nativeFile: file
       };
+      i = i + 1;
 
       this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
       return uploadFile;
@@ -127,7 +131,7 @@ export class NgUploaderService {
               this.serviceEvents.emit(data);
             });
           }
-        break;
+          break;
         case 'uploadAll':
           const concurrency = typeof event.concurrency !== 'undefined' && event.concurrency > 0 ? event.concurrency : Number.POSITIVE_INFINITY;
           const files = this.files.filter(file => file.progress.status === UploadStatus.Queue);
@@ -135,12 +139,10 @@ export class NgUploaderService {
             return;
           }
 
-          Observable.of(...files)
-            .mergeMap(file => {
-              return this.uploadFile(file, event);
-            }, concurrency)
-            .subscribe(data => this.serviceEvents.emit(data));
-        break;
+          Observable.from(files.map(file => file.sub = this.uploadFile(file, event)))
+            .mergeAll(concurrency)
+            .subscribe((data: UploadOutput) => { this.serviceEvents.emit(data) });
+          break;
         case 'cancel':
           const id = event.id || null;
           if (!id) {
@@ -156,7 +158,7 @@ export class NgUploaderService {
             this.serviceEvents.emit({ type: 'cancelled', file: this.files[index] });
             this.files[index].progress.status = UploadStatus.Canceled;
           }
-        break;
+          break;
         case 'cancelAll':
           this.files.forEach(file => {
             if (file.sub) {
@@ -166,7 +168,7 @@ export class NgUploaderService {
             file.progress.status = UploadStatus.Canceled;
             this.serviceEvents.emit({ type: 'cancelled', file: file });
           });
-        break;
+          break;
         case 'remove':
           if (!event.id) {
             return;
@@ -178,13 +180,13 @@ export class NgUploaderService {
             this.files.splice(i, 1);
             this.serviceEvents.emit({ type: 'removed', file: file });
           }
-        break;
+          break;
         case 'removeAll':
           if (this.files.length) {
             this.files = [];
             this.serviceEvents.emit({ type: 'removedAll' });
           }
-        break;
+          break;
       }
     });
   }
@@ -253,6 +255,7 @@ export class NgUploaderService {
             file.response = JSON.parse(xhr.response);
           } catch (e) {
             file.response = xhr.response;
+
           }
 
           observer.next({ type: 'done', file: file });
@@ -265,7 +268,7 @@ export class NgUploaderService {
 
       const form = new FormData();
       try {
-        const uploadFile = this.fileList.item(file.fileIndex);
+        const uploadFile = this.fileList[file.fileIndex];
         const uploadIndex = this.files.findIndex(file => file.nativeFile === uploadFile);
 
         if (this.files[uploadIndex].progress.status === UploadStatus.Canceled) {
