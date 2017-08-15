@@ -73,6 +73,10 @@ export function humanizeBytes(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
+export function toArray(files: FileList) {
+  return Array.prototype.slice.call(files || []);
+}
+
 export class NgUploaderService {
   fileList: FileList;
   files: UploadFile[];
@@ -85,8 +89,9 @@ export class NgUploaderService {
   }
 
   handleFiles(files: FileList): void {
-    this.fileList = files;
+    this.fileList = toArray(this.fileList).concat(toArray(files));
 
+    let i = this.files.length;
     this.files.push(...[].map.call(files, (file: File, i: number) => {
       const uploadFile: UploadFile = {
         fileIndex: i,
@@ -110,6 +115,7 @@ export class NgUploaderService {
         sub: Subscription,
         nativeFile: file
       };
+      i = i + 1;
 
       this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
       return uploadFile;
@@ -268,7 +274,7 @@ export class NgUploaderService {
 
       const form = new FormData();
       try {
-        const uploadFile = this.fileList.item(file.fileIndex);
+        const uploadFile = this.fileList[file.fileIndex];
         const uploadIndex = this.files.findIndex(file => file.nativeFile === uploadFile);
 
         if (this.files[uploadIndex].progress.status === UploadStatus.Canceled) {
