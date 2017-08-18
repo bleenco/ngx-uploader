@@ -1,0 +1,41 @@
+<div class="hero is-fullheight">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-6 is-offset-3">
+          <div class="upload-popup">
+            <div class="popup-container">
+              <h1>My Uploads</h1>
+
+              <div class="uploads" *ngIf="files?.length">
+                <div class="upload-item" *ngFor="let f of files; let i = index;">
+                  <div class="upload-item-top">
+                    <span class="filename">{{ f.name }}</span>
+                    <span class="progress-data">
+                      {{ f.progress.data.percentage }}% at {{ f.progress.data.speedHuman }} eta {{ f.progress.data.eta }}s
+                    </span>
+                    <span class="x" (click)="removeFile(f.id)">x</span>
+                  </div>
+                  <div class="progress-bar-container">
+                    <div class="bar" [style.width]="f.progress.data.percentage + '%'" [class.green]="f.progress.data.percentage === 100"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
+                <h1>Drag & Drop</h1>
+                <p>
+                  <span>your files here or</span>
+                  <label class="upload-button">
+                    <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+                    browse
+                  </label>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

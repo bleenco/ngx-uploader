@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es5",
+    "noImplicitAny": true,
+    "sourceMap": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "outDir": "lib",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "files": [
+    "ngx-uploader.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipMetadataEmit": true
+  }
+}

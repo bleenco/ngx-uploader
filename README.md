@@ -43,7 +43,9 @@ export interface UploadProgress {
   data?: {
     percentage: number; // percentage of upload already completed
     speed: number; // current upload speed per second in bytes
-    speedHuman: string; // current upload speed per second in human readable form
+    speedHuman: string; // current upload speed per second in human readable form,
+    eta: number; // estimated time remaining in seconds
+    etaHuman: string; // estimated time remaining in human readable format
   };
 }
 
@@ -54,14 +56,17 @@ export interface UploadFile {
   name: string; // original name of the file
   size: number; // size of the file in bytes
   type: string; // mime type of the file
+  form: FormData; // FormData object (you can append extra data per file, to this object)
   progress: UploadProgress;
   response?: any; // response when upload is done (parsed JSON or string)
+  responseStatus?: number; // response status code when upload is done
 }
 
 // output events emitted by ngx-uploader
 export interface UploadOutput {
   type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'removed' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop';
   file?: UploadFile;
+  nativeFile?: File; // native javascript File object, can be used to process uploaded files in other libraries
 }
 
 // input events that user can emit to ngx-uploader
@@ -70,11 +75,13 @@ export interface UploadInput {
   url?: string; // URL to upload file to
   method?: string; // method (POST | PUT)
   id?: string; // unique id of uploaded file
+  fieldName?: string; // field name (default 'file')
   fileIndex?: number; // fileIndex in internal ngx-uploader array of files
   file?: UploadFile; // uploading file
   data?: { [key: string]: string | Blob }; // custom data sent with the file
   headers?: { [key: string]: string }; // custom headers
   concurrency?: number; // concurrency of how many files can be uploaded in parallel (default is 0 which means unlimited)
+  withCredentials?: boolean; // apply withCredentials option
 }
 ```
 
@@ -106,8 +113,6 @@ export class AppHomeComponent {
   }
 
   onUploadOutput(output: UploadOutput): void {
-    console.log(output); // lets output to see what's going on in the console
-
     if (output.type === 'allAddedToQueue') { // when all files added in queue
       // uncomment this if you want to auto upload files when added
       // const event: UploadInput = {
@@ -118,38 +123,46 @@ export class AppHomeComponent {
       //   concurrency: 0
       // };
       // this.uploadInput.emit(event);
-    } else if (output.type === 'addedToQueue') {
-      this.files.push(output.file); // add file to array when added
-    } else if (output.type === 'uploading') {
+    } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') { // add file to array when added
+      this.files.push(output.file);
+    } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
       // update current data in files array for uploading file
-      const index = this.files.findIndex(file => file.id === output.file.id);
+      const index = this.files.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
       this.files[index] = output.file;
     } else if (output.type === 'removed') {
       // remove file from array when removed
       this.files = this.files.filter((file: UploadFile) => file !== output.file);
-    } else if (output.type === 'dragOver') { // drag over event
+    } else if (output.type === 'dragOver') {
       this.dragOver = true;
-    } else if (output.type === 'dragOut') { // drag out event
+    } else if (output.type === 'dragOut') {
       this.dragOver = false;
-    } else if (output.type === 'drop') { // on drop event
+    } else if (output.type === 'drop') {
       this.dragOver = false;
     }
   }
 
-  startUpload(): void {  // manually start uploading
+  startUpload(): void {
     const event: UploadInput = {
       type: 'uploadAll',
-      url: '/upload',
+      url: 'http://ngx-uploader.com/upload',
       method: 'POST',
       data: { foo: 'bar' },
-      concurrency: 1 // set sequential uploading of files with concurrency 1
-    }
+      concurrency: this.formData.concurrency
+    };
 
     this.uploadInput.emit(event);
   }
 
   cancelUpload(id: string): void {
     this.uploadInput.emit({ type: 'cancel', id: id });
+  }
+
+  removeFile(id: string): void {
+    this.uploadInput.emit({ type: 'remove', id: id });
+  }
+
+  removeAllFiles(): void {
+    this.uploadInput.emit({ type: 'removeAll' });
   }
 }
 ```
@@ -159,7 +172,7 @@ export class AppHomeComponent {
 For whole template code please check [here](https://github.com/jkuri/ngx-uploader/tree/master/src/app/components/app-home/app-home.component.html).
 
 ```html
-`<div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
+<div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
   <h1>Drag & Drop</h1>
 </div>
 

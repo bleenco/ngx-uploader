@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from '../../../../';
+import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from '../../../';
 
 interface FormData {
   concurrency: number;
@@ -18,12 +18,11 @@ export class AppHomeComponent {
   humanizeBytes: Function;
   dragOver: boolean;
 
-
   constructor() {
     this.formData = {
-      concurrency: 0,
+      concurrency: 1,
       autoUpload: false,
-      verbose: false
+      verbose: true
     };
 
     this.files = [];
@@ -35,21 +34,19 @@ export class AppHomeComponent {
     console.log(output);
 
     if (output.type === 'allAddedToQueue') {
-      if (this.formData.autoUpload) {
-        const event: UploadInput = {
-          type: 'uploadAll',
-          url: '/upload',
-          method: 'POST',
-          data: { foo: 'bar' },
-          concurrency: this.formData.concurrency
-        };
+      const event: UploadInput = {
+        type: 'uploadAll',
+        url: 'http://ngx-uploader.com/upload',
+        method: 'POST',
+        data: { foo: 'bar' },
+        concurrency: this.formData.concurrency
+      };
 
-        this.uploadInput.emit(event);
-      }
-    } else if (output.type === 'addedToQueue') {
+      this.uploadInput.emit(event);
+    } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') {
       this.files.push(output.file);
-    } else if (output.type === 'uploading') {
-      const index = this.files.findIndex(file => file.id === output.file.id);
+    } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
+      const index = this.files.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
       this.files[index] = output.file;
     } else if (output.type === 'removed') {
       this.files = this.files.filter((file: UploadFile) => file !== output.file);
@@ -65,16 +62,24 @@ export class AppHomeComponent {
   startUpload(): void {
     const event: UploadInput = {
       type: 'uploadAll',
-      url: '/upload',
+      url: 'http://ngx-uploader.com/upload',
       method: 'POST',
       data: { foo: 'bar' },
       concurrency: this.formData.concurrency
-    }
+    };
 
     this.uploadInput.emit(event);
   }
 
   cancelUpload(id: string): void {
     this.uploadInput.emit({ type: 'cancel', id: id });
+  }
+
+  removeFile(id: string): void {
+    this.uploadInput.emit({ type: 'remove', id: id });
+  }
+
+  removeAllFiles(): void {
+    this.uploadInput.emit({ type: 'removeAll' });
   }
 }
