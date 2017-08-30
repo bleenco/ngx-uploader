@@ -1,10 +1,9 @@
 {
   "name": "ngx-uploader",
-  "version": "3.3.10",
+  "version": "3.3.11",
   "main": "bundles/ngx-uploader.umd.js",
   "module": "lib/index.js",
   "esnext": "lib/index.js",
-  "typings": "lib/index.d.ts",
   "scripts": {
     "start": "webpack-dev-server --env.client --env.serve --progress",
     "start:aot": "webpack-dev-server --env.client --env.serve --env.aot --progress",
@@ -12,7 +11,7 @@
     "build:prod": "tsc && webpack --env.client --env.aot -p --progress --hide-modules",
     "prebuild": "npm run clean",
     "prebuild:prod": "npm run clean",
-    "clean": "rimraf dist ./**/*.ngsummary.*",
+    "clean": "rimraf dist lib bundles ./**/*.ngsummary.*",
     "prepublishOnly": "ngc -p tsconfig.bundle.json && webpack --config webpack.dist.js -p"
   },
   "repository": {
