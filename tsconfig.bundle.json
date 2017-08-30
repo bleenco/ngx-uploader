@@ -4,10 +4,10 @@
     "moduleResolution": "node",
     "target": "es5",
     "noImplicitAny": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declaration": false,
+    "declaration": true,
     "lib": [
       "es2015",
       "dom"
