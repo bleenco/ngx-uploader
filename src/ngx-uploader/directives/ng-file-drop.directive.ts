@@ -1,23 +1,26 @@
 import { Directive, ElementRef, EventEmitter, Input, Output, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
-import { NgUploaderService, UploadOutput, UploadInput, UploadFile } from '../classes/ngx-uploader.class';
+import { NgUploaderService, UploadOutput, UploadInput, UploadFile, UploaderOptions } from '../classes/ngx-uploader.class';
 
 @Directive({
   selector: '[ngFileDrop]'
 })
 export class NgFileDropDirective implements OnInit, OnDestroy {
+  @Input() options: UploaderOptions;
   @Input() uploadInput: EventEmitter<UploadInput>;
   @Output() uploadOutput: EventEmitter<UploadOutput>;
 
   upload: NgUploaderService;
   el: HTMLInputElement;
 
-  constructor( private elementRef: ElementRef) {
-    this.upload = new NgUploaderService();
+  constructor(private elementRef: ElementRef) {
     this.uploadOutput = new EventEmitter<UploadOutput>();
   }
 
   ngOnInit() {
+    const concurrency = this.options && this.options.concurrency || Number.POSITIVE_INFINITY;
+    this.upload = new NgUploaderService(concurrency);
+
     this.el = this.elementRef.nativeElement;
 
     this.upload.serviceEvents.subscribe((event: UploadOutput) => {
