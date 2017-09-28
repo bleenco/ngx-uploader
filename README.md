@@ -71,7 +71,7 @@ export interface UploadOutput {
 
 // input events that user can emit to ngx-uploader
 export interface UploadInput {
-  type: 'uploadAll' | 'uploadFile' | 'cancel' | 'cancelAll';
+  type: 'uploadAll' | 'uploadFile' | 'cancel' | 'cancelAll' | 'remove' | 'removeAll';
   url?: string; // URL to upload file to
   method?: string; // method (POST | PUT)
   id?: string; // unique id of uploaded file
