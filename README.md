@@ -13,7 +13,7 @@ If you are looking for documentation for version prior to `3.0.0`, please check 
 1. Add `ngx-uploader` module as dependency to your project.
 
 ```
-yarn add ngx-uploader
+npm install ngx-uploader --save
 ```
 
 2. Include `NgUploaderModule` into your main AppModule or in module where you will use it.
@@ -93,13 +93,14 @@ export interface UploadInput {
 
 ```ts
 import { Component, EventEmitter } from '@angular/core';
-import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from 'ngx-uploader';
+import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions } from 'ngx-uploader';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'app-home.component.html'
 })
 export class AppHomeComponent {
+  options: UploaderOptions;
   formData: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
@@ -119,8 +120,7 @@ export class AppHomeComponent {
       //   type: 'uploadAll',
       //   url: '/upload',
       //   method: 'POST',
-      //   data: { foo: 'bar' },
-      //   concurrency: 0
+      //   data: { foo: 'bar' }
       // };
       // this.uploadInput.emit(event);
     } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') { // add file to array when added
@@ -146,8 +146,7 @@ export class AppHomeComponent {
       type: 'uploadAll',
       url: 'http://ngx-uploader.com/upload',
       method: 'POST',
-      data: { foo: 'bar' },
-      concurrency: this.formData.concurrency
+      data: { foo: 'bar' }
     };
 
     this.uploadInput.emit(event);
@@ -172,12 +171,12 @@ export class AppHomeComponent {
 For whole template code please check [here](https://github.com/jkuri/ngx-uploader/tree/master/src/app/components/app-home/app-home.component.html).
 
 ```html
-<div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
+<div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
   <h1>Drag & Drop</h1>
 </div>
 
 <label class="upload-button">
-  <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+  <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
   or choose file(s)
 </label>
 
