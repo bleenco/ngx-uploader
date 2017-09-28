@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { UploadOutput, UploadInput, UploadFile, humanizeBytes } from '../../../';
+import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions } from '../../../';
 
 interface FormData {
   concurrency: number;
@@ -17,8 +17,11 @@ export class AppHomeComponent {
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
   dragOver: boolean;
+  options: UploaderOptions;
 
   constructor() {
+    this.options = { concurrency: 1 };
+
     this.formData = {
       concurrency: 1,
       autoUpload: false,
@@ -38,8 +41,7 @@ export class AppHomeComponent {
         type: 'uploadAll',
         url: 'http://ngx-uploader.com/upload',
         method: 'POST',
-        data: { foo: 'bar' },
-        concurrency: this.formData.concurrency
+        data: { foo: 'bar' }
       };
 
       this.uploadInput.emit(event);
@@ -64,8 +66,7 @@ export class AppHomeComponent {
       type: 'uploadAll',
       url: 'http://ngx-uploader.com/upload',
       method: 'POST',
-      data: { foo: 'bar' },
-      concurrency: this.formData.concurrency
+      data: { foo: 'bar' }
     };
 
     this.uploadInput.emit(event);
