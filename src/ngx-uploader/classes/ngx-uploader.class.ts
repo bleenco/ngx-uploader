@@ -62,6 +62,9 @@ export interface UploadInput {
   url?: string;
   method?: string;
   id?: string;
+  
+  //modified
+  
   fieldName?: string;
   fileIndex?: number;
   file?: UploadFile;
@@ -298,7 +301,12 @@ export class NgUploaderService {
           observer.complete();
         }
 
+        //modified
+        form.append( event.fieldName || 'file', uploadFile, uploadFile.name);
+
+
         file.form.append(event.fieldName || 'file', uploadFile, uploadFile.name);
+
 
         Object.keys(data).forEach(key => file.form.append(key, data[key]));
         Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));
