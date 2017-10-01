@@ -2,11 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { Subscriber } from 'rxjs/Subscriber';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/map';
 
 export interface BlobFile extends Blob {
   name: string;

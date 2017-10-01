@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NgUploaderModule } from './ngx-uploader/module/ngx-uploader.module';
 import { AppComponent } from './app.component';
 import { AppHomeComponent } from './components/app-home';
+import { AppProgressChartComponent } from './components/app-progress-chart';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { AppHomeComponent } from './components/app-home';
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
-  declarations: [ AppComponent, AppHomeComponent ],
+  declarations: [ AppComponent, AppHomeComponent, AppProgressChartComponent ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}

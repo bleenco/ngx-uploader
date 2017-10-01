@@ -18,6 +18,7 @@ export class AppHomeComponent {
   humanizeBytes: Function;
   dragOver: boolean;
   options: UploaderOptions;
+  percent: number;
 
   constructor() {
     this.options = { concurrency: 1 };
