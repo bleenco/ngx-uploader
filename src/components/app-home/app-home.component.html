@@ -13,7 +13,17 @@
               </span>
             </div>
             <div class="browser-container">
-              <app-progress-chart [percent]="'20'"></app-progress-chart>
+              <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver, 'is-hidden': uploading }">
+                <h1>Drag & Drop</h1>
+                <p>
+                  <span>your files here or</span>
+                  <label class="upload-button">
+                    <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+                    browse
+                  </label>
+                </p>
+              </div>
+              <app-progress-chart [percent]="percent" *ngIf="uploading" [class.is-hidden]="!uploading"></app-progress-chart>
             </div>
           </div>
         </div>

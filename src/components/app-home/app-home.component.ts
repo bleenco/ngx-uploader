@@ -1,11 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions } from '../../../';
-
-interface FormData {
-  concurrency: number;
-  autoUpload: boolean;
-  verbose: boolean;
-}
+import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, UploadStatus } from '../../../';
 
 @Component({
   selector: 'app-home',
@@ -19,24 +13,17 @@ export class AppHomeComponent {
   dragOver: boolean;
   options: UploaderOptions;
   percent: number;
+  uploading: boolean;
 
   constructor() {
+    this.uploading = false;
     this.options = { concurrency: 1 };
-
-    this.formData = {
-      concurrency: 1,
-      autoUpload: false,
-      verbose: true
-    };
-
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
   }
 
   onUploadOutput(output: UploadOutput): void {
-    console.log(output);
-
     if (output.type === 'allAddedToQueue') {
       const event: UploadInput = {
         type: 'uploadAll',
@@ -49,6 +36,7 @@ export class AppHomeComponent {
     } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') {
       this.files.push(output.file);
     } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
+      this.uploading = true;
       const index = this.files.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
       this.files[index] = output.file;
     } else if (output.type === 'removed') {
@@ -60,6 +48,22 @@ export class AppHomeComponent {
     } else if (output.type === 'drop') {
       this.dragOver = false;
     }
+
+    let uploadInProgress = false;
+    let percent = 0;
+
+    this.files.forEach(file => {
+      if (file.progress.status !== UploadStatus.Done) {
+        uploadInProgress = true;
+      }
+
+      if (file.progress.data) {
+        percent += file.progress.data.percentage;
+      }
+    });
+
+    this.uploading = uploadInProgress;
+    this.percent = percent / this.files.length;
   }
 
   startUpload(): void {
