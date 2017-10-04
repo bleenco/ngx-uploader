@@ -44,7 +44,8 @@ export interface UploadFile {
 }
 
 export interface UploadOutput {
-  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop' | 'removed' | 'removedAll';
+  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'start' | 'cancelled' | 'dragOver'
+      | 'dragOut' | 'drop' | 'removed' | 'removedAll';
   file?: UploadFile;
   nativeFile?: File;
 }
