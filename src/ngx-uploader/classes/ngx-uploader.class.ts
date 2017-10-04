@@ -157,7 +157,7 @@ export class NgUploaderService {
 
       const reader = new FileReader();
       const xhr = new XMLHttpRequest();
-      let time: number = new Date().getTime();
+      const time: number = new Date().getTime();
       let progressStartTime: number = (file.progress.data && file.progress.data.startTime) || time;
       let speed = 0;
       let eta: number | null = null;
@@ -227,7 +227,7 @@ export class NgUploaderService {
 
       try {
         const uploadFile = <BlobFile>file.nativeFile;
-        const uploadIndex = this.queue.findIndex(file => file.nativeFile === uploadFile);
+        const uploadIndex = this.queue.findIndex(outFile => outFile.nativeFile === uploadFile);
 
         if (this.queue[uploadIndex].progress.status === UploadStatus.Cancelled) {
           observer.complete();
