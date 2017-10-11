@@ -172,7 +172,7 @@ For whole template code please check [here](https://github.com/jkuri/ngx-uploade
 
 ```html
 <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
-  <h1>Drag & Drop</h1>
+  <h1>Drag &amp; Drop</h1>
 </div>
 
 <label class="upload-button">
