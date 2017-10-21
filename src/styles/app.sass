@@ -3,12 +3,16 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,600,700')
 @import '../../node_modules/bulma/bulma'
 
-$blue: #1991EB
-$purple: #65619C
+$blue: #38A2FB
+$purple: #5754A3
 $border: #EDEDED
 $grey: #D7D8D7
 $green: #93E777
 $red: #C11161
+
+$text: #74809D
+$text-light: #C0C4C7
+$border: #D2D6DA
 
 html, body
   width: 100%
@@ -19,108 +23,60 @@ body
   font-family: 'Roboto', sans-serif
   font-size: 12px
 
-.browser-window
-  width: 800px
-  height: 600px
-  display: block
-  margin: 0 auto
-  background: #F4F6F9
-  box-shadow: 0 0 7px 0 rgba(0,0,0,0.20)
-  border-radius: 5px
-
-  .browser-topbar
-    width: 100%
-    height: 30px
-    background-image: linear-gradient(-180deg, #FFFFFF 0%, #FAFBFC 100%)
-    box-shadow: 0 0 2px 0 rgba(0,0,0,0.15)
-    padding: 20px 10px
-    border-top-left-radius: 5px
-    border-top-right-radius: 5px
-    display: flex
-    align-items: center
-
-    .dot
-      width: 8px
-      height: 8px
-      border-radius: 50%
-      display: block
-      float: left
-      margin-right: 8px
-
-      &.red
-        background: #FC605C
-
-      &.green
-        background: #34C749
-
-      &.yellow
-        background: #FDBC40
-
-    .browser-title
-      display: block
-      float: left
-      margin-left: 10px
-      color: #3e3e3e
-
-  .browser-container
-    display: flex
-    height: calc(100% - 30px)
-    align-items: center
-    justify-content: center
-
-.progress-chart
-  width: 230px
-  height: 230px
-  background-color: #ECECEC
-  display: flex
-  align-items: center
-  justify-content: center
-  border-radius: 50%
-
-  img
-    display: block
-    position: absolute
-
-.drop-container
-  border: 3px dashed $border
-  width: 100%
-  padding: 50px 0
-  border-radius: 10px
-  margin: 0 20px
+.hero
   background: $white
 
-  h1
+  .drop-container
+    background: $white
+    border-radius: 6px
+    height: 150px
     width: 100%
-    display: block
-    color: #3e3e3e
-    font-weight: bold
-    font-size: 20px
-    text-align: center
-
-  p
-    width: 100%
+    box-shadow: 1px 2px 20px rgba($black, 0.1)
     display: flex
+    align-items: center
     justify-content: center
-    font-size: 14px
-    color: #CBCCD8
-    font-weight: bold
+    border: 2px dashed $text-light
 
-    span
-      display: block
-      float: left
+    p
+      font-size: 16px
+      font-weight: 400
+      color: $text-light
 
-  &.is-drop-over
-    background: lighten(#273142, 20)
+      .upload-button
+        display: inline-block
+        border: none
+        outline: none
+        cursor: pointer
+        color: $purple
 
-  .upload-button
+        input
+          display: none
+
+  .upload-items
     display: block
-    float: left
-    text-decoration: underline
-    border: none
-    outline: none
-    cursor: pointer
-    margin-left: 4px
-    color: #3e3e3e
+    width: 100%
 
-    input
-      display: none
+    .upload-item
+      width: 100%
+      display: block
+      margin-top: 20px
+
+      .filename
+        display: block
+        padding: 0 0 5px 5px
+        color: $text
+
+      .progress
+        display: block
+        position: relative
+        width: 100%
+        height: 15px
+        border: 1px solid $purple
+        border-radius: 2px
+
+        .bar
+          position: absolute
+          top: 0
+          left: 0
+          height: 15px
+          background: $purple

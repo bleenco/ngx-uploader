@@ -1,29 +1,30 @@
 <div class="hero is-fullheight">
   <div class="hero-body">
     <div class="container">
-      <div class="columns">
-        <div class="column is-12">
-          <div class="browser-window">
-            <div class="browser-topbar">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
-              <span class="browser-title">
-                http://ngx-uploader.com
+      <div class="columns is-multiline">
+        <div class="column is-8 is-offset-2">
+          <div class="drop-container">
+            <p>
+              Drag a file here or
+              <label class="upload-button">
+                <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+                browse
+              </label>
+              to upload.
+            </p>
+          </div>
+        </div>
+        <div class="column is-8 is-offset-2">
+          <div class="upload-items">
+            <div class="upload-item" *ngFor="let f of files; let i = index;">
+              <span class="filename">
+                <span>{{ f.name }} ({{ f.id }}) - {{ f.progress?.data?.percentage }}%</span>
+                <span>uploading with {{ f.progress?.data?.speedHuman }}</span>
+                <span>ETA {{ f.progress?.data?.etaHuman }}</span>
               </span>
-            </div>
-            <div class="browser-container">
-              <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver, 'is-hidden': uploading }">
-                <h1>Drag & Drop</h1>
-                <p>
-                  <span>your files here or</span>
-                  <label class="upload-button">
-                    <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
-                    browse
-                  </label>
-                </p>
+              <div class="progress">
+                <span class="bar" [style.width]="f?.progress?.data?.percentage + '%'"></span>
               </div>
-              <app-progress-chart [percent]="percent" *ngIf="uploading" [class.is-hidden]="!uploading"></app-progress-chart>
             </div>
           </div>
         </div>
@@ -31,47 +32,3 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="hero is-fullheight">
-  <div class="hero-body">
-    <div class="container">
-      <div class="columns">
-        <div class="column is-6 is-offset-3">
-          <div class="upload-popup">
-            <div class="popup-container">
-              <h1>My Uploads</h1>
-
-              <div class="uploads" *ngIf="files?.length">
-                <div class="upload-item" *ngFor="let f of files; let i = index;">
-                  <div class="upload-item-top">
-                    <span class="filename">{{ f.name }}</span>
-                    <span class="progress-data">
-                      {{ f.progress.data.percentage }}% at {{ f.progress.data.speedHuman }} eta {{ f.progress.data.eta }}s
-                    </span>
-                    <span class="x" (click)="removeFile(f.id)">x</span>
-                  </div>
-                  <div class="progress-bar-container">
-                    <div class="bar" [style.width]="f.progress.data.percentage + '%'" [class.green]="f.progress.data.percentage === 100"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
-                <h1>Drag & Drop</h1>
-                <p>
-                  <span>your files here or</span>
-                  <label class="upload-button">
-                    <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
-                    browse
-                  </label>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
