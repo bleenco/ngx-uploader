@@ -155,7 +155,6 @@ export class NgUploaderService {
       const data = event.data || {};
       const headers = event.headers || {};
 
-      const reader = new FileReader();
       const xhr = new XMLHttpRequest();
       let time: number = new Date().getTime();
       let progressStartTime: number = (file.progress.data && file.progress.data.startTime) || time;
@@ -246,7 +245,6 @@ export class NgUploaderService {
 
       return () => {
         xhr.abort();
-        reader.abort();
       };
     });
   }
