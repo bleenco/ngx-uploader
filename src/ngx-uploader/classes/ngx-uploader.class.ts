@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/mergeMap';
-import { UploaderOptions, UploadFile, UploadOutput, UploadInput, UploadStatus, BlobFile } from './interfaces';
+import { UploadFile, UploadOutput, UploadInput, UploadStatus, BlobFile } from './interfaces';
 
 export function humanizeBytes(bytes: number): string {
   if (bytes === 0) {
@@ -67,8 +67,8 @@ export class NgUploaderService {
     this.serviceEvents.emit({ type: 'allAddedToQueue' });
   }
 
-  initInputEvents(input: EventEmitter<UploadInput>): void {
-    input.subscribe((event: UploadInput) => {
+  initInputEvents(input: EventEmitter<UploadInput>): Subscription {
+    return input.subscribe((event: UploadInput) => {
       switch (event.type) {
         case 'uploadFile':
           const uploadFileIndex = this.queue.findIndex(file => file === event.file);
