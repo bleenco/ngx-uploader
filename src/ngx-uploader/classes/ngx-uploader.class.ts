@@ -259,7 +259,7 @@ export class NgUploaderService {
     if (this.allContentTypesAllowed()) {
       return true;
     }
-    if (this.contentTypes.find((type: string) => type === mimetype ) != undefined) {
+    if (this.contentTypes.find((type: string) => type === mimetype ) !== undefined) {
       return true;
     }
 
