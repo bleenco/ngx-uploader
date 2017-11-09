@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "declaration": false,
     "lib": [
-      "es2015",
+      "es2017",
       "dom"
     ],
     "outDir": "lib",
@@ -17,10 +17,9 @@
       "node_modules/@types"
     ]
   },
-  "files": [
-    "ngx-uploader.ts"
-  ],
-  "angularCompilerOptions": {
-    "skipMetadataEmit": true
-  }
+  "include": [
+    "index.ts",
+    "ngx-uploader.ts",
+    "src/ngx-uploader/**/*.ts"
+  ]
 }

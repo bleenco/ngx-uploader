@@ -2,5 +2,4 @@ dist/
 node_modules/
 .DS_Store
 src/
-index.ts
-ngx-uploader.ts
+!src/ngx-uploader
