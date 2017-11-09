@@ -14,7 +14,7 @@ export class AppHomeComponent {
   options: UploaderOptions;
 
   constructor() {
-    this.options = { concurrency: 1 };
+    this.options = { concurrency: 1, allowedContentTypes: ['image/png', 'image/jpeg', 'image/gif'] };
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
@@ -24,7 +24,7 @@ export class AppHomeComponent {
     if (output.type === 'allAddedToQueue') {
       const event: UploadInput = {
         type: 'uploadAll',
-        url: 'http://ngx-uploader.com/upload',
+        url: 'http://localhost:4900/upload',
         method: 'POST',
         data: { foo: 'bar' }
       };
@@ -43,6 +43,8 @@ export class AppHomeComponent {
       this.dragOver = false;
     } else if (output.type === 'drop') {
       this.dragOver = false;
+    } else if (output.type === 'rejected' && typeof output.file !== 'undefined') {
+      console.log(output.file.name + ' rejected');
     }
 
     this.files = this.files.filter(file => file.progress.status !== UploadStatus.Done);
@@ -51,7 +53,7 @@ export class AppHomeComponent {
   startUpload(): void {
     const event: UploadInput = {
       type: 'uploadAll',
-      url: 'http://ngx-uploader.com/upload',
+      url: 'http://localhost:4900/upload',
       method: 'POST',
       data: { foo: 'bar' }
     };

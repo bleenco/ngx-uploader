@@ -22,12 +22,14 @@ export class NgUploaderService {
   serviceEvents: EventEmitter<UploadOutput>;
   uploadScheduler: Subject<{ file: UploadFile, event: UploadInput }>;
   subs: { id: string, sub: Subscription }[];
+  contentTypes: string[];
 
-  constructor(concurrency: number = Number.POSITIVE_INFINITY) {
+  constructor(concurrency: number = Number.POSITIVE_INFINITY, contentTypes: string[] = ['*']) {
     this.queue = [];
     this.serviceEvents = new EventEmitter<any>();
     this.uploadScheduler = new Subject();
     this.subs = [];
+    this.contentTypes = contentTypes;
 
     this.uploadScheduler
       .mergeMap(upload => this.startUpload(upload), concurrency)
@@ -35,31 +37,20 @@ export class NgUploaderService {
   }
 
   handleFiles(incomingFiles: FileList): void {
-    this.queue.push(...[].map.call(incomingFiles, (file: File, i: number) => {
-      const uploadFile: UploadFile = {
-        fileIndex: i,
-        id: this.generateId(),
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        form: new FormData(),
-        progress: {
-          status: UploadStatus.Queue,
-          data: {
-            percentage: 0,
-            speed: 0,
-            speedHuman: `${humanizeBytes(0)}/s`,
-            startTime: null,
-            endTime: null,
-            eta: null,
-            etaHuman: null
-          }
-        },
-        lastModifiedDate: file.lastModifiedDate,
-        sub: undefined,
-        nativeFile: file
-      };
+    let allowedIncomingFiles: File[] = [];
 
+    for (let i = 0; i < incomingFiles.length; i++) {
+        let checkFile = incomingFiles[i];
+        if (this.isContentTypeAllowed(checkFile.type)) {
+            allowedIncomingFiles.push(checkFile);
+        } else {
+            const rejectedFile: UploadFile = this.makeUploadFile(checkFile, i);
+            this.serviceEvents.emit({ type: 'rejected', file: rejectedFile });
+        }
+    }
+
+    this.queue.push(...[].map.call(allowedIncomingFiles, (file: File, i: number) => {
+      const uploadFile: UploadFile = this.makeUploadFile(file, i);
       this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
       return uploadFile;
     }));
@@ -255,5 +246,49 @@ export class NgUploaderService {
 
   generateId(): string {
     return Math.random().toString(36).substring(7);
+  }
+
+  private allContentTypesAllowed(): boolean {
+    if (this.contentTypes.find((type: string) => type === '*') !== undefined) {
+      return true;
+    }
+    return false;
+  }
+
+  private isContentTypeAllowed(mimetype: string): boolean {
+    if (this.allContentTypesAllowed()) {
+      return true;
+    }
+    if (this.contentTypes.find((type: string) => type === mimetype ) != undefined) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private makeUploadFile(file: File, index: number): UploadFile {
+    return {
+        fileIndex: index,
+        id: this.generateId(),
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        form: new FormData(),
+        progress: {
+            status: UploadStatus.Queue,
+            data: {
+                percentage: 0,
+                speed: 0,
+                speedHuman: `${humanizeBytes(0)}/s`,
+                startTime: null,
+                endTime: null,
+                eta: null,
+                etaHuman: null
+            }
+        },
+        lastModifiedDate: file.lastModifiedDate,
+        sub: undefined,
+        nativeFile: file
+    };
   }
 }
