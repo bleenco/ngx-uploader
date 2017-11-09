@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 export interface UploaderOptions {
   concurrency: number;
+  allowedContentTypes?: string[];
 }
 
 export interface BlobFile extends Blob {
@@ -45,7 +46,7 @@ export interface UploadFile {
 
 export interface UploadOutput {
   type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'start' | 'cancelled' | 'dragOver'
-      | 'dragOut' | 'drop' | 'removed' | 'removedAll';
+      | 'dragOut' | 'drop' | 'removed' | 'removedAll' | 'rejected';
   file?: UploadFile;
   nativeFile?: File;
 }

@@ -22,7 +22,8 @@ export class NgFileDropDirective implements OnInit, OnDestroy {
   ngOnInit() {
     this._sub = [];
     const concurrency = this.options && this.options.concurrency || Number.POSITIVE_INFINITY;
-    this.upload = new NgUploaderService(concurrency);
+    const allowedContentTypes = this.options && this.options.allowedContentTypes || ['*'];
+    this.upload = new NgUploaderService(concurrency, allowedContentTypes);
 
     this.el = this.elementRef.nativeElement;
 

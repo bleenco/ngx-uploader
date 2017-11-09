@@ -6,3 +6,5 @@ lib/
 *.ngsummary.json
 *.ngfactory.ts
 *.d.ts
+yarn.lock
+.idea
