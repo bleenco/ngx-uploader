@@ -1,5 +1,7 @@
 # ngx-uploader
 
+[![AbstruseCI](https://ci.bleenco.io/badge/11)](https://ci.bleenco.io/repo/11)
+
 Angular 2+ File Uploader
 
 http://ngx-uploader.com
