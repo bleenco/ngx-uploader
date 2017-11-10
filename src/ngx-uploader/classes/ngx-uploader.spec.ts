@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import 'mocha';
 import { describe } from 'selenium-webdriver/testing';
 
-import rewire = require('rewire');
+import * as rewire from 'rewire';
 let rewiredNgUploaderService = rewire('./ngx-uploader.class');
 
 describe('NgUploaderService constructor', () => {

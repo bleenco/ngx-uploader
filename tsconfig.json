@@ -12,8 +12,5 @@
     "typeRoots": [
       "node_modules/@types"
     ]
-  },
-  "files": [
-    "src/api/index.ts"
-  ]
+  }
 }

@@ -15,11 +15,17 @@
     "outDir": "lib",
     "typeRoots": [
       "node_modules/@types"
+    ],
+    "types": [
+      "mocha"
     ]
   },
   "include": [
     "index.ts",
     "ngx-uploader.ts",
     "src/ngx-uploader/**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
   ]
 }
