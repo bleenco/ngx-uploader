@@ -248,6 +248,18 @@ export class NgUploaderService {
     return Math.random().toString(36).substring(7);
   }
 
+  setContentTypes(contentTypes: string[]): void {
+    if ( typeof contentTypes != 'undefined' && contentTypes instanceof Array ) {
+      if (contentTypes.find((type: string) => type === '*') !== undefined) {
+        this.contentTypes = ['*'];
+      } else {
+        this.contentTypes = contentTypes;
+      }
+      return;
+    }
+    this.contentTypes = ['*'];
+  }
+
   private allContentTypesAllowed(): boolean {
     if (this.contentTypes.find((type: string) => type === '*') !== undefined) {
       return true;
