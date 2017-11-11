@@ -1,4 +1,4 @@
-import { NgUploaderService } from './ngx-uploader.class';
+import { NgUploaderService, humanizeBytes } from './ngx-uploader.class';
 import { expect } from 'chai';
 import 'mocha';
 import { describe } from 'selenium-webdriver/testing';
@@ -38,22 +38,22 @@ describe('setContentTypes function', () => {
 });
 
 describe('isContentTypeAllowed function', () => {
-  var private_uploader = rewiredNgUploaderService.__get__('NgUploaderService');
+  let rewiredUploader = rewiredNgUploaderService.__get__('NgUploaderService');
 
   it('should return true', () => {
-    let uploader = new private_uploader();
+    let uploader = new rewiredUploader();
     expect(uploader.isContentTypeAllowed('all/you-can-eat')).is.true;
   });
 
   it('should return true', () => {
-    let uploader = new private_uploader(1, ['image/jpeg', 'image/png', 'image/gif']);
+    let uploader = new rewiredUploader(1, ['image/jpeg', 'image/png', 'image/gif']);
     expect(uploader.isContentTypeAllowed('image/jpeg')).is.true;
     expect(uploader.isContentTypeAllowed('image/gif')).is.true;
     expect(uploader.isContentTypeAllowed('image/png')).is.true;
   });
 
   it('should return false', () => {
-    let uploader = new private_uploader(1, ['image/jpeg', 'image/png', 'image/gif']);
+    let uploader = new rewiredUploader(1, ['image/jpeg', 'image/png', 'image/gif']);
     expect(uploader.isContentTypeAllowed('image/webm')).is.false;
   });
 });
@@ -72,6 +72,43 @@ describe('allContentTypesAllowed function', () => {
   });
 });
 
+describe('humanizeBytes function', () => {
+  it('should return 0 Bytes', () => {
+    expect(humanizeBytes(0)).to.equal('0 Byte');
+  });
+
+  it('should return 1 KB', () => {
+    expect(humanizeBytes(1024)).to.equal('1 KB');
+  });
+
+  it('should return 1.5 KB', () => {
+    expect(humanizeBytes(1536)).to.equal('1.5 KB');
+  });
+
+  it('should return 1.75 KB', () => {
+    expect(humanizeBytes(1792)).to.equal('1.75 KB');
+  });
+
+  it('should return 2 KB', () => {
+    expect(humanizeBytes(2048)).to.equal('2 KB');
+  });
+
+  it('should return 1 MB', () => {
+    expect(humanizeBytes(1048576)).to.equal('1 MB');
+  });
+
+  it('should return 1 GB', () => {
+    expect(humanizeBytes(1073741824)).to.equal('1 GB');
+  });
+
+  it('should return 1 TB', () => {
+    expect(humanizeBytes(1099511627776)).to.equal('1 TB');
+  });
+
+  it('should return 1 PB', () => {
+    expect(humanizeBytes(1125899906842624)).to.equal('1 PB');
+  });
+});
 
 
 
