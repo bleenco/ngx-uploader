@@ -1,4 +1,4 @@
-import { NgUploaderService } from './ngx-uploader.class';
+import { NgUploaderService, humanizeBytes } from './ngx-uploader.class';
 import { expect } from 'chai';
 import 'mocha';
 import { describe } from 'selenium-webdriver/testing';
@@ -72,6 +72,43 @@ describe('allContentTypesAllowed function', () => {
   });
 });
 
+describe('humanizeBytes function', () => {
+  it('should return 0 Bytes', () => {
+    expect(humanizeBytes(0)).to.equal('0 Byte');
+  });
+
+  it('should return 1 KB', () => {
+    expect(humanizeBytes(1024)).to.equal('1 KB');
+  });
+
+  it('should return 1.5 KB', () => {
+    expect(humanizeBytes(1536)).to.equal('1.5 KB');
+  });
+
+  it('should return 1.75 KB', () => {
+    expect(humanizeBytes(1792)).to.equal('1.75 KB');
+  });
+
+  it('should return 2 KB', () => {
+    expect(humanizeBytes(2048)).to.equal('2 KB');
+  });
+
+  it('should return 1 MB', () => {
+    expect(humanizeBytes(1048576)).to.equal('1 MB');
+  });
+
+  it('should return 1 GB', () => {
+    expect(humanizeBytes(1073741824)).to.equal('1 GB');
+  });
+
+  it('should return 1 TB', () => {
+    expect(humanizeBytes(1099511627776)).to.equal('1 TB');
+  });
+
+  it('should return 1 PB', () => {
+    expect(humanizeBytes(1125899906842624)).to.equal('1 PB');
+  });
+});
 
 
 
