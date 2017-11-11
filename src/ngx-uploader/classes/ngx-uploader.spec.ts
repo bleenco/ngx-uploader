@@ -38,22 +38,22 @@ describe('setContentTypes function', () => {
 });
 
 describe('isContentTypeAllowed function', () => {
-  var private_uploader = rewiredNgUploaderService.__get__('NgUploaderService');
+  let rewiredUploader = rewiredNgUploaderService.__get__('NgUploaderService');
 
   it('should return true', () => {
-    let uploader = new private_uploader();
+    let uploader = new rewiredUploader();
     expect(uploader.isContentTypeAllowed('all/you-can-eat')).is.true;
   });
 
   it('should return true', () => {
-    let uploader = new private_uploader(1, ['image/jpeg', 'image/png', 'image/gif']);
+    let uploader = new rewiredUploader(1, ['image/jpeg', 'image/png', 'image/gif']);
     expect(uploader.isContentTypeAllowed('image/jpeg')).is.true;
     expect(uploader.isContentTypeAllowed('image/gif')).is.true;
     expect(uploader.isContentTypeAllowed('image/png')).is.true;
   });
 
   it('should return false', () => {
-    let uploader = new private_uploader(1, ['image/jpeg', 'image/png', 'image/gif']);
+    let uploader = new rewiredUploader(1, ['image/jpeg', 'image/png', 'image/gif']);
     expect(uploader.isContentTypeAllowed('image/webm')).is.false;
   });
 });
