@@ -4,7 +4,7 @@
   "main": "bundles/ngx-uploader.umd.js",
   "module": "lib/index.js",
   "scripts": {
-    "start": "webpack-dev-server --env.client --env.serve --progress",
+    "start": "webpack-dev-server --env.client --env.serve --progress --hot",
     "start-server": "node ./dist/api/index.js",
     "start:aot": "webpack-dev-server --env.client --env.serve --env.aot --progress",
     "test": "mocha -r ts-node/register -r ignore-styles src/**/*.spec.ts",
