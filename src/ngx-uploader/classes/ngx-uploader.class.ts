@@ -37,17 +37,16 @@ export class NgUploaderService {
   }
 
   handleFiles(incomingFiles: FileList): void {
-    let allowedIncomingFiles: File[] = [];
-
-    for (let i = 0; i < incomingFiles.length; i++) {
-      let checkFile = incomingFiles[i];
+    const allowedIncomingFiles: File[] = [].reduce.call(incomingFiles, (acc: File[], checkFile: File, i: number) => {
       if (this.isContentTypeAllowed(checkFile.type)) {
-        allowedIncomingFiles.push(checkFile);
+        acc = acc.concat(checkFile);
       } else {
         const rejectedFile: UploadFile = this.makeUploadFile(checkFile, i);
         this.serviceEvents.emit({ type: 'rejected', file: rejectedFile });
       }
-    }
+
+      return acc;
+    }, []);
 
     this.queue.push(...[].map.call(allowedIncomingFiles, (file: File, i: number) => {
       const uploadFile: UploadFile = this.makeUploadFile(file, i);
