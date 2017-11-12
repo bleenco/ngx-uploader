@@ -87,6 +87,42 @@ export interface UploadInput {
 }
 ```
 
+## Upload Restrictions
+
+With version 4.2.1 we've introduced restrictions for Content-Types.
+To not break the behaviour of previous releases, there are no restrictions by default at all.
+
+Look at [app-home.component.ts](https://github.com/bleenco/ngx-uploader/blob/master/src/components/app-home/app-home.component.ts) for an example of Content-Type restriction.
+
+If you want to toast a message for the rejected file, add this to your onUploadOutput method.
+
+```ts
+onUploadOutput(output: UploadOutput): void {
+....
+} else if (output.type === 'rejected' && typeof output.file !== 'undefined') {
+  // console.log(output.file.name + ' rejected');
+}
+...
+```
+
+## Token Authorization
+If you have to upload files with Token Authorization, you can set the header in startUpload as follows.
+
+```ts
+startUpload(): void {
+  let token = this.myToken;  // <----  get token
+  const event: UploadInput = {
+    type: 'uploadAll',
+    url: 'http://ngx-uploader.com/upload',
+    method: 'POST',
+    headers: { 'Authorization': 'JWT ' + token },  // <----  set headers
+    data: { foo: 'bar' }
+  };
+
+  this.uploadInput.emit(event);
+}
+```
+
 ## Example
 
 **You can always run working example by cloning this repository, building project with `yarn build:prod` and running server with `node ./dist/api/index.js`.**
