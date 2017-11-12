@@ -13,9 +13,9 @@ export class NgFileSelectDirective implements OnInit, OnDestroy {
   upload: NgUploaderService;
   el: HTMLInputElement;
 
-  private _sub: Subscription[];
+  _sub: Subscription[];
 
-  constructor(private elementRef: ElementRef) {
+  constructor(public elementRef: ElementRef) {
     this.uploadOutput = new EventEmitter<UploadOutput>();
   }
 

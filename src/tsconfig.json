@@ -12,7 +12,7 @@
       "dom"
     ],
     "outDir": "lib",
-    "types": ["node"],
+    "types": ["jasmine", "node"],
     "strictNullChecks": true,
     "skipLibCheck": true
   },
