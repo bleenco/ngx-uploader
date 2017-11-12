@@ -261,20 +261,14 @@ export class NgUploaderService {
   }
 
   allContentTypesAllowed(): boolean {
-    if (this.contentTypes.find((type: string) => type === '*') !== undefined) {
-      return true;
-    }
-    return false;
+    return this.contentTypes.find((type: string) => type === '*') !== undefined;
   }
 
   isContentTypeAllowed(mimetype: string): boolean {
     if (this.allContentTypesAllowed()) {
       return true;
     }
-    if (this.contentTypes.find((type: string) => type === mimetype ) !== undefined) {
-      return true;
-    }
-    return false;
+    return this.contentTypes.find((type: string) => type === mimetype) !== undefined;
   }
 
   makeUploadFile(file: File, index: number): UploadFile {
