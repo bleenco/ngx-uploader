@@ -13,4 +13,3 @@ import { NgFileSelectDirective } from '../directives/ng-file-select.directive';
   ]
 })
 export class NgUploaderModule {}
-
