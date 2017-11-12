@@ -260,14 +260,14 @@ export class NgUploaderService {
     this.contentTypes = ['*'];
   }
 
-  private allContentTypesAllowed(): boolean {
+  allContentTypesAllowed(): boolean {
     if (this.contentTypes.find((type: string) => type === '*') !== undefined) {
       return true;
     }
     return false;
   }
 
-  private isContentTypeAllowed(mimetype: string): boolean {
+  isContentTypeAllowed(mimetype: string): boolean {
     if (this.allContentTypesAllowed()) {
       return true;
     }
@@ -277,7 +277,7 @@ export class NgUploaderService {
     return false;
   }
 
-  private makeUploadFile(file: File, index: number): UploadFile {
+  makeUploadFile(file: File, index: number): UploadFile {
     return {
       fileIndex: index,
       id: this.generateId(),
