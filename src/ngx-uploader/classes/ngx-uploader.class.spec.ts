@@ -10,7 +10,7 @@ describe('NgUploaderService constructor', () => {
   it('should return [\'image/jpeg\']', () => {
     let uploader = new NgUploaderService(1, ['image/jpeg']);
     expect(uploader.contentTypes.length).toEqual(1);
-    expect(uploader.contentTypes).not.toContain('*')
+    expect(uploader.contentTypes).not.toContain('*');
     expect(uploader.contentTypes).toContain('image/jpeg');
     expect(uploader.contentTypes).toEqual(['image/jpeg']);
   });

@@ -6,6 +6,10 @@ Angular 2+ File Uploader
 
 http://ngx-uploader.com
 
+### Maintenance Information
+We are actively maintain the 4.x branch. 
+The 2.x and 3.x are outdated and you should *NOT* use this branches any more. Therefore all open issues for that releases will be closed soon.
+
 **This module has been completely rewritten from scratch with the version `3.0.0`.**
 
 If you are looking for documentation for version prior to `3.0.0`, please check [2.x.x](https://github.com/jkuri/ngx-uploader/tree/2.x.x) branch.
