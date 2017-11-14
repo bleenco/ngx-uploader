@@ -1,6 +1,8 @@
 image: abstruse
 
 matrix:
+  - env: SCRIPT=test NODE_VERSION=6
+  - env: SCRIPT=test NODE_VERSION=7
   - env: SCRIPT=test NODE_VERSION=8
 
 before_install:
