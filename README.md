@@ -6,6 +6,12 @@ Angular 2+ File Uploader
 
 http://ngx-uploader.com
 
+#### <a name="question"></a> Got a Question or Problem?
+
+Do not open issues for general support questions as we want to keep GitHub issues for bug reports and feature requests. You've got much better chances of getting your question answered on [Stack Overflow](https://stackoverflow.com) where the questions should be tagged with tag `ngx-uploader`.
+
+To save your and our time, we will systematically close all issues that are requests for general support and redirect people to Stack Overflow.
+
 ### Maintenance Information
 We are actively maintain the 4.x branch. 
 The 2.x and 3.x are outdated and you should *NOT* use this branches any more. Therefore all open issues for that releases will be closed soon.
