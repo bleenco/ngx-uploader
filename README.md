@@ -216,7 +216,7 @@ export class AppHomeComponent {
 
 ### Template Code
 
-For whole template code please check [here](https://github.com/jkuri/ngx-uploader/tree/master/src/app/components/app-home/app-home.component.html).
+For whole template code please check [here](https://github.com/bleenco/ngx-uploader/blob/master/src/components/app-home/app-home.component.html).
 
 ```html
 <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
