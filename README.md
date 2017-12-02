@@ -2,7 +2,7 @@
 
 [![AbstruseCI](https://ci.bleenco.io/badge/11)](https://ci.bleenco.io/repo/11)
 
-Angular 2+ File Uploader
+Angular 2+ File Uploader (this includes also Angular 5)
 
 http://ngx-uploader.com
 
