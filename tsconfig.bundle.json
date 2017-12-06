@@ -7,7 +7,7 @@
     "sourceMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declaration": false,
+    "declaration": true,
     "lib": [
       "es2017",
       "dom"
@@ -15,9 +15,6 @@
     "outDir": "lib",
     "typeRoots": [
       "node_modules/@types"
-    ],
-    "types": [
-      "mocha"
     ]
   },
   "include": [

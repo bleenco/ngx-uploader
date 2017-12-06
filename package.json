@@ -3,6 +3,7 @@
   "version": "4.2.1",
   "main": "bundles/ngx-uploader.umd.js",
   "module": "lib/index.js",
+  "typings": "lib/index",
   "scripts": {
     "start": "webpack-dev-server --env.client --env.serve --progress --hot",
     "start-server": "node ./dist/api/index.js",
