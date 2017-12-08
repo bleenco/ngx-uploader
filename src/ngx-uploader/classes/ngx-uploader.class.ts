@@ -205,6 +205,8 @@ export class NgUploaderService {
             file.response = xhr.response;
           }
 
+          file.rawRequest = xhr;
+
           observer.next({ type: 'done', file: file });
 
           observer.complete();
