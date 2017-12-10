@@ -299,12 +299,15 @@ export class NgUploaderService {
   }
 
   private parseResponseHeaders(httpHeaders: ByteString) {
-      return httpHeaders.split('\n')
-          .map(x => x.split(/: */, 2))
-          .filter(x => x[0])
-          .reduce((ac, x) => {
-              ac[x[0]] = x[1];
-              return ac;
-          }, {});
+    if (!httpHeaders) {
+      return null;
+    }
+    return httpHeaders.split('\n')
+      .map(x => x.split(/: */, 2))
+      .filter(x => x[0])
+      .reduce((ac, x) => {
+        ac[x[0]] = x[1];
+        return ac;
+      }, {});
   }
 }
