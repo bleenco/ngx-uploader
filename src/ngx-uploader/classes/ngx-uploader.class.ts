@@ -205,6 +205,8 @@ export class NgUploaderService {
             file.response = xhr.response;
           }
 
+          file.responseHeaders = this.parseResponseHeaders(xhr.getAllResponseHeaders());
+
           observer.next({ type: 'done', file: file });
 
           observer.complete();
@@ -294,5 +296,18 @@ export class NgUploaderService {
       sub: undefined,
       nativeFile: file
     };
+  }
+
+  private parseResponseHeaders(httpHeaders: ByteString) {
+    if (!httpHeaders) {
+      return;
+    }
+    return httpHeaders.split('\n')
+      .map(x => x.split(/: */, 2))
+      .filter(x => x[0])
+      .reduce((ac, x) => {
+        ac[x[0]] = x[1];
+        return ac;
+      }, {});
   }
 }
