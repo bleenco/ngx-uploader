@@ -72,6 +72,7 @@ export interface UploadFile {
   progress: UploadProgress;
   response?: any; // response when upload is done (parsed JSON or string)
   responseStatus?: number; // response status code when upload is done
+  responseHeaders?: { [key: string]: string }; // response headers when upload is done
 }
 
 // output events emitted by ngx-uploader

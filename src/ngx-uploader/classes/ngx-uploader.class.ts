@@ -205,7 +205,7 @@ export class NgUploaderService {
             file.response = xhr.response;
           }
 
-          file.headers = this.parseResponseHeaders(xhr.getAllResponseHeaders());
+          file.responseHeaders = this.parseResponseHeaders(xhr.getAllResponseHeaders());
 
           observer.next({ type: 'done', file: file });
 
@@ -300,7 +300,7 @@ export class NgUploaderService {
 
   private parseResponseHeaders(httpHeaders: ByteString) {
     if (!httpHeaders) {
-      return null;
+      return;
     }
     return httpHeaders.split('\n')
       .map(x => x.split(/: */, 2))

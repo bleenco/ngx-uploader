@@ -42,7 +42,7 @@ export interface UploadFile {
   responseStatus?: number;
   sub?: Subscription | any;
   nativeFile?: File;
-  headers?: { [key: string]: string };
+  responseHeaders?: { [key: string]: string };
 }
 
 export interface UploadOutput {
