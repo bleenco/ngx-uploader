@@ -14,7 +14,7 @@ export class AppHomeComponent {
   options: UploaderOptions;
 
   constructor() {
-    this.options = { concurrency: 1, allowedContentTypes: ['image/png', 'image/jpeg', 'image/gif'] };
+    this.options = { concurrency: 1 };
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
