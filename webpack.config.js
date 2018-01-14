@@ -16,7 +16,7 @@ module.exports = function (options, webpackOptions) {
     entry: getEntry(options),
     resolve: { extensions: ['.ts', '.js', '.json'] },
     output: {
-      path: root('dist')
+      path: root('dist-app')
     },
     module: {
       rules: [
@@ -37,7 +37,7 @@ module.exports = function (options, webpackOptions) {
     },
     target: 'web',
     plugins: [
-      new html({ template: root('src/index.html'), output: root('dist') })
+      new html({ template: root('src/index.html'), output: root('dist-app') })
     ],
     devServer: {
       historyApiFallback: true,
