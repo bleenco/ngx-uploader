@@ -9,7 +9,7 @@
       "es2017",
       "dom"
     ],
-    "outDir": "dist/api",
+    "outDir": "dist-app/api",
     "typeRoots": [
       "node_modules/@types"
     ]

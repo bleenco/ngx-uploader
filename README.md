@@ -136,7 +136,7 @@ startUpload(): void {
 
 ## Example
 
-**You can always run working example by cloning this repository, building project with `yarn build:prod` and running server with `node ./dist/api/index.js`.**
+**You can always run working example by cloning this repository, building project with `yarn build:prod` and running server with `node ./dist-app/api/index.js`.**
 
 ### Component Code
 

@@ -7,7 +7,7 @@
   "typings": "./dist/ngx-uploader.d.ts",
   "scripts": {
     "start": "webpack-dev-server --env.client --env.serve --progress --hot",
-    "start-server": "node ./dist/api/index.js",
+    "start-server": "node ./dist-app/api/index.js",
     "start:aot": "webpack-dev-server --env.client --env.serve --env.aot --progress",
     "test": "karma start",
     "build": "tsc -p tsconfig.json && webpack --env.client --progress",

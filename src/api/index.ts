@@ -5,7 +5,9 @@ import * as rimraf from 'rimraf';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import { mkdirSync, existsSync } from 'fs';
-const config = require('../../config.json');
+const config = {
+  port: 4900
+};
 const uploadsDir = path.resolve(__dirname, 'uploads');
 
 if (!existsSync(uploadsDir)) {
