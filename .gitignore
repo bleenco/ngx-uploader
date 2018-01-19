@@ -1,4 +1,5 @@
 dist/
+dist-app/
 bundles/
 .DS_Store
 node_modules/
