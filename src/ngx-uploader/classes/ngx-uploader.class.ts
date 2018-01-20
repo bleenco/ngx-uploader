@@ -2,7 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/mergeMap';
+import { mergeMap } from 'rxjs/operators/mergeMap';
 import { UploadFile, UploadOutput, UploadInput, UploadStatus, BlobFile } from './interfaces';
 
 export function humanizeBytes(bytes: number): string {
@@ -26,13 +26,15 @@ export class NgUploaderService {
 
   constructor(concurrency: number = Number.POSITIVE_INFINITY, contentTypes: string[] = ['*']) {
     this.queue = [];
-    this.serviceEvents = new EventEmitter<any>();
+    this.serviceEvents = new EventEmitter<UploadOutput>();
     this.uploadScheduler = new Subject();
     this.subs = [];
     this.contentTypes = contentTypes;
 
     this.uploadScheduler
-      .mergeMap(upload => this.startUpload(upload), concurrency)
+      .pipe(
+        mergeMap(upload => this.startUpload(upload), concurrency)
+      )
       .subscribe(uploadOutput => this.serviceEvents.emit(uploadOutput));
   }
 
