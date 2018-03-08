@@ -1,6 +1,6 @@
 {
   "name": "ngx-uploader",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "main": "./dist/bundles/ngx-uploader.umd.js",
   "module": "./dist/ngx-uploader.es5.js",
   "es2015": "./dist/ngx-uploader.js",
