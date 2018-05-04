@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 export interface UploaderOptions {
   concurrency: number;
   allowedContentTypes?: string[];
+  maxUploads?: number;
 }
 
 export interface BlobFile extends Blob {
