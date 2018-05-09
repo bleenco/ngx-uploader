@@ -1,6 +1,6 @@
 import { Directive, ElementRef, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { UploadOutput, UploaderOptions, NgUploaderService } from '../../../';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[ngFileSelect]'
