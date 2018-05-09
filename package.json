@@ -79,6 +79,7 @@
     "raw-loader": "^0.5.1",
     "rimraf": "^2.6.2",
     "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.0.0",
     "sass-loader": "^6.0.7",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.19.1",
