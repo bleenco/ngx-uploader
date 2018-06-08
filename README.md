@@ -2,7 +2,7 @@
 
 [![AbstruseCI](https://ci.bleenco.io/badge/11)](https://ci.bleenco.io/repo/11)
 
-Angular 2+ File Uploader (this includes also Angular 5)
+Angular 6 File Uploader
 
 http://ngx-uploader.com
 
@@ -11,14 +11,6 @@ http://ngx-uploader.com
 Do not open issues for general support questions as we want to keep GitHub issues for bug reports and feature requests. You've got much better chances of getting your question answered on [Stack Overflow](https://stackoverflow.com) where the questions should be tagged with tag `ngx-uploader`.
 
 To save your and our time, we will systematically close all issues that are requests for general support and redirect people to Stack Overflow.
-
-### Maintenance Information
-We are actively maintain the 4.x branch. 
-The 2.x and 3.x are outdated and you should *NOT* use this branches any more. Therefore all open issues for that releases will be closed soon.
-
-**This module has been completely rewritten from scratch with the version `3.0.0`.**
-
-If you are looking for documentation for version prior to `3.0.0`, please check [2.x.x](https://github.com/jkuri/ngx-uploader/tree/2.x.x) branch.
 
 ## Installation
 
