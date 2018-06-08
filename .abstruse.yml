@@ -1,9 +1,9 @@
 image: abstruse
 
 matrix:
-  - env: SCRIPT=test NODE_VERSION=6
-  - env: SCRIPT=test NODE_VERSION=7
   - env: SCRIPT=test NODE_VERSION=8
+  - env: SCRIPT=test NODE_VERSION=9
+  - env: SCRIPT=test NODE_VERSION=10
 
 before_install:
   - nvm install $NODE_VERSION
