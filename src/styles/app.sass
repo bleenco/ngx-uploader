@@ -1,82 +1,189 @@
 @charset 'utf8'
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,600,700')
+@import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')
 @import '../../node_modules/bulma/bulma'
 
-$blue: #38A2FB
-$purple: #5754A3
-$border: #EDEDED
-$grey: #D7D8D7
-$green: #93E777
-$red: #C11161
+$blue: #13EBFF
+$green: #6CEFBD
+$red: #FF7080
+$yellow: #FFE28B
 
-$text: #74809D
+$text: #8793A2
 $text-light: #C0C4C7
 $border: #D2D6DA
+
+$upload-box-background: #2C3139
+$upload-box-header-background: #3A414A
+$upload-box-progress-background: #3A4048
 
 html, body
   width: 100%
   height: 100%
 
 body
-  background: $white
+  background-image: linear-gradient(-20deg, #b721ff 0%, #21d4fd 100%)
   font-family: 'Roboto', sans-serif
   font-size: 12px
+  color: $text
 
 .hero
-  background: $white
+  background: transparent
 
-  .drop-container
-    background: $white
-    border-radius: 6px
-    height: 150px
+.upload-box
+  width: 100%
+  height: auto
+  display: inline-block
+  border-radius: 10px
+  background: $upload-box-background
+
+  .upload-box-header
     width: 100%
-    box-shadow: 1px 2px 20px rgba($black, 0.1)
+    height: 50px
+    border-top-left-radius: 10px
+    border-top-right-radius: 10px
+    background: $upload-box-header-background
     display: flex
     align-items: center
-    justify-content: center
-    border: 2px dashed $text-light
+    justify-content: space-between
 
-    p
-      font-size: 16px
-      font-weight: 400
-      color: $text-light
+    .control-circles
+      padding-left: 15px
+      height: 14px
+
+      .circle
+        display: inline-block
+        margin: 0 4px
+        width: 14px
+        height: 14px
+        border-radius: 50%
+
+        &.is-green
+          background: $green
+
+        &.is-yellow
+          background: $yellow
+
+        &.is-red
+          background: $red
+
+    .header-title
+
+      h2
+        +unselectable
+        font-size: 18px
+        font-weight: 400
+        color: $text
+
+    .gh-icon
+      padding-right: 15px
+
+      i
+        font-size: 24px
+        color: $text
+        margin-right: 5px
+        margin-left: 36px
+        cursor: pointer
+
+  .upload-box-content
+
+    .upload-item, .drop-container
+      width: 100%
+      height: 150px
+      box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.6)
+
+    .drop-container
+      display: flex
+      align-items: center
+      justify-content: center
+
+      p
+        font-size: 16px
+        font-weight: 400
+        color: $text
 
       .upload-button
         display: inline-block
         border: none
         outline: none
         cursor: pointer
-        color: $purple
+        font-weight: 600
+        padding: 0 2px
 
         input
           display: none
 
-  .upload-items
-    display: block
-    width: 100%
-
     .upload-item
-      width: 100%
-      display: block
-      margin-top: 20px
+      display: flex
+      align-items: center
+      padding: 0 30px
 
-      .filename
-        display: block
-        padding: 0 0 5px 5px
-        color: $text
-
-      .progress
-        display: block
-        position: relative
+      .upload-item-content
         width: 100%
-        height: 15px
-        border: 1px solid $purple
-        border-radius: 2px
 
-        .bar
-          position: absolute
-          top: 0
-          left: 0
-          height: 15px
-          background: $purple
+        .filename
+          display: flex
+          align-items: center
+
+          i
+            color: $text
+            opacity: .8
+            font-size: 24px
+            margin-right: 12px
+
+          span
+            color: $text
+            font-size: 14px
+            font-weight: 400
+
+        .progress-content
+          display: flex
+          align-items: center
+          margin: 10px 30px
+
+          .progress
+            display: block
+            position: relative
+            width: 100%
+            height: 12px
+            border-radius: 10px
+            background: $upload-box-progress-background
+
+            .bar
+              position: absolute
+              top: 0
+              left: 0
+              height: 12px
+              background: linear-gradient(90deg, rgba(19,235,255,1) 0%, rgba(108,239,189,1) 100%)
+
+              &.is-done
+                background: $green
+
+        .progress-text-content
+          display: flex
+          align-items: center
+          justify-content: space-between
+          margin: 10px 30px 0
+
+          .progress-text
+            font-size: 13px
+            font-weight: 600
+            color: $blue
+            transition: color 200ms ease-out
+
+            &.is-done
+              color: $green
+
+          .speed-and-eta-text
+            font-size: 13px
+            font-weight: 600
+            color: $text
+
+  .help-text
+    display: flex
+    padding: 10px 30px
+    font-size: 12px
+    justify-content: center
+    align-items: center
+    color: $text
+    box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.6)
