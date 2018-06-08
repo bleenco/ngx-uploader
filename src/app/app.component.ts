@@ -24,7 +24,7 @@ export class AppComponent {
     if (output.type === 'allAddedToQueue') {
       const event: UploadInput = {
         type: 'uploadAll',
-        url: 'http://ngx-uploader.com/upload',
+        url: 'https://ngx-uploader.com/upload',
         method: 'POST',
         data: { foo: 'bar' }
       };
@@ -53,7 +53,7 @@ export class AppComponent {
   startUpload(): void {
     const event: UploadInput = {
       type: 'uploadAll',
-      url: 'http://ngx-uploader.com/upload',
+      url: 'https://ngx-uploader.com/upload',
       method: 'POST',
       data: { foo: 'bar' }
     };
