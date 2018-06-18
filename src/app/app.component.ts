@@ -14,7 +14,7 @@ export class AppComponent {
   options: UploaderOptions;
 
   constructor() {
-    this.options = { concurrency: 1 };
+    this.options = { concurrency: 1, maxUploads: 3 };
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
