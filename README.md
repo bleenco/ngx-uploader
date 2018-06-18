@@ -42,6 +42,12 @@ export class AppModule {}
 ## Data Structures of Events and Uploaded Files
 
 ```ts
+export interface UploaderOptions {
+  concurrency: number; // number of files uploaded at the same time
+  allowedContentTypes?: string[]; // content types allowed (default *)
+  maxUploads?: number; // max number of files the user can upload
+}
+
 export interface UploadProgress {
   status: UploadStatus; // current status of upload for specific file (Queue | Uploading | Done | Canceled)
   data?: {
@@ -149,6 +155,7 @@ export class AppHomeComponent {
   dragOver: boolean;
 
   constructor() {
+    this.options = { concurrency: 1, maxUploads: 3 };
     this.files = []; // local uploading files array
     this.uploadInput = new EventEmitter<UploadInput>(); // input events, we use this to emit data to ngx-uploader
     this.humanizeBytes = humanizeBytes;
