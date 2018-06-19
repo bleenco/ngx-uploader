@@ -16,7 +16,7 @@ To save your and our time, we will systematically close all issues that are requ
 
 1. Add `ngx-uploader` module as dependency to your project.
 
-```bash
+```console
 npm install ngx-uploader --save
 ```
 
@@ -38,7 +38,7 @@ import { NgxUploaderModule } from 'ngx-uploader';
 export class AppModule {}
 ```
 
-**or** include `NgxUploaderModule` with your SharedModule. This could be usefull if your project has nested Modules.
+**or** include `NgxUploaderModule` into your SharedModule. This could be usefull if your project has nested Modules.
 
 ```ts
 // shared.module.ts
@@ -62,7 +62,9 @@ import { NgxUploaderModule } from 'ngx-uploader';
 })
 export class SharedModule {
 }
+```
 
+```ts
 // app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
