@@ -16,28 +16,69 @@ To save your and our time, we will systematically close all issues that are requ
 
 1. Add `ngx-uploader` module as dependency to your project.
 
-```
+```bash
 npm install ngx-uploader --save
 ```
 
-2. Include `NgUploaderModule` into your main AppModule or in module where you will use it.
+2. Include `NgxUploaderModule` into your main AppModule or in module where you will use it.
 
-```
+```ts
 // app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgUploaderModule } from 'ngx-uploader';
+import { NgxUploaderModule } from 'ngx-uploader';
 
 @NgModule({
   imports: [
     BrowserModule,
-    NgUploaderModule
+    NgxUploaderModule
   ],
-  declarations: [ AppComponent ],
-  exports: [ AppComponent ]
+  declarations: [ AppComponent ]
 })
 export class AppModule {}
 ```
+
+**or** include `NgxUploaderModule` with your SharedModule. This could be usefull if your project has nested Modules.
+
+```ts
+// shared.module.ts
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgxUploaderModule } from 'ngx-uploader';
+...
+
+@NgModule({
+  imports: [
+    CommonModule,
+    NgxUploaderModule,
+    ...
+  ],
+  exports: [
+    CommonModule,
+    NgxUploaderModule,
+    ...
+  ],
+  ...
+})
+export class SharedModule {
+}
+
+// app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { SharedModule } from './shared.module';
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    SharedModule
+  ],
+  declarations: [ AppComponent ]
+})
+export class AppModule {}
+
+````
+
 
 ## Data Structures of Events and Uploaded Files
 
