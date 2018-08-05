@@ -1,6 +1,18 @@
 {
   "name": "ngx-uploader",
-  "version": "0.0.1",
+  "version": "6.0.2",
+  "homepage": "https://ngx-uploader.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bleenco/ngx-uploader.git"
+  },
+  "authors": [
+    "Jan Kuri <jkuri88@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bleenco/ngx-uploader/issues"
+  },
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
