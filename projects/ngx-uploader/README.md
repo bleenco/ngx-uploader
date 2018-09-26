@@ -134,6 +134,7 @@ export interface UploadInput {
   file?: UploadFile; // uploading file
   data?: { [key: string]: string | Blob }; // custom data sent with the file
   headers?: { [key: string]: string }; // custom headers
+  includeWebKitFormBoundary?: boolean; // If false, only the file is send trough xhr.send (WebKitFormBoundary is omit)
   concurrency?: number; // concurrency of how many files can be uploaded in parallel (default is 0 which means unlimited)
   withCredentials?: boolean; // apply withCredentials option
 }
@@ -168,7 +169,8 @@ startUpload(): void {
     url: 'http://ngx-uploader.com/upload',
     method: 'POST',
     headers: { 'Authorization': 'JWT ' + token },  // <----  set headers
-    data: { foo: 'bar' }
+    data: { foo: 'bar' },
+    includeWebKitFormBoundary: true // <----  set WebKitFormBoundary
   };
 
   this.uploadInput.emit(event);
