@@ -63,5 +63,6 @@ export interface UploadInput {
   file?: UploadFile;
   data?: { [key: string]: string | Blob };
   headers?: { [key: string]: string };
+  includeWebKitFormBoundary?: boolean; // If false, only the file is send trough xhr.send (WebKitFormBoundary is omit)
   withCredentials?: boolean;
 }

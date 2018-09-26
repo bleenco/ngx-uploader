@@ -227,13 +227,20 @@ export class NgUploaderService {
           observer.complete();
         }
 
-        Object.keys(data).forEach(key => file.form.append(key, data[key]));
         Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));
 
-        file.form.append(event.fieldName || 'file', uploadFile, uploadFile.name);
+        let bodyToSend;
+
+        if (event.includeWebKitFormBoundary !== false) {
+          Object.keys(data).forEach(key => file.form.append(key, data[key]));
+          file.form.append(event.fieldName || 'file', uploadFile, uploadFile.name);
+          bodyToSend = file.form;
+        } else {
+          bodyToSend = uploadFile;
+        }
 
         this.serviceEvents.emit({ type: 'start', file: file });
-        xhr.send(file.form);
+        xhr.send(bodyToSend);
       } catch (e) {
         observer.complete();
       }
