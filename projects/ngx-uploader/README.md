@@ -207,30 +207,43 @@ export class AppHomeComponent {
   }
 
   onUploadOutput(output: UploadOutput): void {
-    if (output.type === 'allAddedToQueue') { // when all files added in queue
-      // uncomment this if you want to auto upload files when added
-      // const event: UploadInput = {
-      //   type: 'uploadAll',
-      //   url: '/upload',
-      //   method: 'POST',
-      //   data: { foo: 'bar' }
-      // };
-      // this.uploadInput.emit(event);
-    } else if (output.type === 'addedToQueue'  && typeof output.file !== 'undefined') { // add file to array when added
-      this.files.push(output.file);
-    } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
-      // update current data in files array for uploading file
-      const index = this.files.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
-      this.files[index] = output.file;
-    } else if (output.type === 'removed') {
-      // remove file from array when removed
-      this.files = this.files.filter((file: UploadFile) => file !== output.file);
-    } else if (output.type === 'dragOver') {
-      this.dragOver = true;
-    } else if (output.type === 'dragOut') {
-      this.dragOver = false;
-    } else if (output.type === 'drop') {
-      this.dragOver = false;
+    switch (output.type) {
+      case 'allAddedToQueue':
+          // uncomment this if you want to auto upload files when added
+          // const event: UploadInput = {
+          //   type: 'uploadAll',
+          //   url: '/upload',
+          //   method: 'POST',
+          //   data: { foo: 'bar' }
+          // };
+          // this.uploadInput.emit(event);
+        break;
+      case 'addedToQueue':
+        if (typeof output.file !== 'undefined') {
+          this.files.push(output.file);
+        }
+        break;
+      case 'uploading':
+        if (typeof output.file !== 'undefined') {
+          // update current data in files array for uploading file
+          const index = this.files.findIndex((file) => typeof output.file !== 'undefined' && file.id === output.file.id);
+          this.files[index] = output.file;
+        }
+        break;
+      case 'removed':
+        // remove file from array when removed
+        this.files = this.files.filter((file: UploadFile) => file !== output.file);
+        break;
+      case 'dragOver':
+        this.dragOver = true;
+        break;
+      case 'dragOut':
+      case 'drop':
+        this.dragOver = false;
+        break;
+      case 'done':
+        // The file is downloaded
+        break;
     }
   }
 
