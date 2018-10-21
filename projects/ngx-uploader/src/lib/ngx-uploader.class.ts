@@ -78,17 +78,17 @@ export class NgUploaderService {
           if (!id) {
             return;
           }
-
-          const index = this.subs.findIndex(sub => sub.id === id);
-          if (index !== -1 && this.subs[index].sub) {
-            this.subs[index].sub.unsubscribe();
-
-            const fileIndex = this.queue.findIndex(file => file.id === id);
-            if (fileIndex !== -1) {
-              this.queue[fileIndex].progress.status = UploadStatus.Cancelled;
-              this.serviceEvents.emit({ type: 'cancelled', file: this.queue[fileIndex] });
+          const subs = this.subs.filter(sub => sub.id === id);
+          subs.forEach(sub => {
+            if (sub.sub) {
+              sub.sub.unsubscribe();
+              const fileIndex = this.queue.findIndex(file => file.id === id);
+              if (fileIndex !== -1) {
+                this.queue[fileIndex].progress.status = UploadStatus.Cancelled;
+                this.serviceEvents.emit({type: 'cancelled', file: this.queue[fileIndex]});
+              }
             }
-          }
+          });
           break;
         case 'cancelAll':
           this.subs.forEach(sub => {
