@@ -302,13 +302,13 @@ export class NgUploaderService {
           etaHuman: null
         }
       },
-      lastModifiedDate: file.lastModifiedDate,
+      lastModifiedDate: new Date(file.lastModified),
       sub: undefined,
       nativeFile: file
     };
   }
 
-  private parseResponseHeaders(httpHeaders: ByteString) {
+  private parseResponseHeaders(httpHeaders: string) {
     if (!httpHeaders) {
       return;
     }

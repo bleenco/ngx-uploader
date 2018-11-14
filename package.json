@@ -65,7 +65,7 @@
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^1.4.0",
     "multer": "^1.4.1",
-    "ng-packagr": "^3.0.6",
+    "ng-packagr": "^4.4.0",
     "protractor": "~5.4.1",
     "rimraf": "^2.6.2",
     "ts-node": "~7.0.1",
