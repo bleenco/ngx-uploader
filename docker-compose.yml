@@ -1,9 +1,0 @@
-version: '2'
-
-services:
-    app:
-        container_name: app
-        build: docker/app
-        volumes:
-            - .:/var/www/html
-
