@@ -3,7 +3,7 @@
   "version": "7.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bleenco/ngx-uploader.git"
+    "url": "git+https://github.com/sujen2009/ngx-uploader.git"
   },
   "authors": [
     "Jan Kuri <jkuri88@gmail.com>"
