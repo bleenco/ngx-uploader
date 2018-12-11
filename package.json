@@ -17,7 +17,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build ngx-uploader && ng build ngx-uploader-demo --prod && tsc -p tsconfig.api.json",
+    "build:prod": "ng build ngx-uploader --prod && tsc -p tsconfig.api.json",
     "test": "ng test ngx-uploader",
     "lint": "ng lint",
     "e2e": "ng e2e",
