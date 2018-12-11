@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, finalize } from 'rxjs/operators';
 import { UploadFile, UploadOutput, UploadInput, UploadStatus, BlobFile } from './interfaces';
 
 export function humanizeBytes(bytes: number): string {
@@ -128,6 +128,11 @@ export class NgUploaderService {
   startUpload(upload: { file: UploadFile, event: UploadInput }): Observable<UploadOutput> {
     return new Observable(observer => {
       const sub = this.uploadFile(upload.file, upload.event)
+        .pipe(finalize(() => {
+          if (!observer.closed) {
+            observer.complete();
+          }
+        }))
         .subscribe(output => {
           observer.next(output);
         }, err => {
