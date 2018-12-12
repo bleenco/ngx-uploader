@@ -17,20 +17,17 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build ngx-uploader --prod && tsc -p tsconfig.api.json",
+    "build:prod": "ng build ngx-uploader && ng build ngx-uploader-demo --prod && tsc -p tsconfig.api.json",
     "test": "ng test ngx-uploader",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:lib": "ng build ngx-uploader --prod",
-    "prepare": "npm run build:prod",
-    "install": "npm run build:prod"
+    "build:lib": "ng build ngx-uploader --prod"
   },
   "private": true,
   "dependencies": {
     "@angular/common": "^6.1.1",
     "@angular/core": "^6.1.1",
     "@angular/compiler": "^6.1.1",
-    "@angular-devkit/build-ng-packagr": "~0.11.2",
     "@angular/animations": "^6.1.1",
     "@angular/forms": "^6.1.1",
     "@angular/http": "^6.1.1",
@@ -39,9 +36,7 @@
     "@angular/router": "^6.1.1",
     "core-js": "^2.5.7",
     "rxjs": "^6.2.2",
-    "zone.js": "^0.8.26",
-    "@angular/cli": "~6.1.2",
-    "typescript": "^2.9.2"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.7.2",
