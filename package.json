@@ -21,7 +21,8 @@
     "test": "ng test ngx-uploader",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:lib": "ng build ngx-uploader --prod"
+    "build:lib": "ng build ngx-uploader --prod",
+    "prepare": "npm run build:prod"
   },
   "private": true,
   "dependencies": {
