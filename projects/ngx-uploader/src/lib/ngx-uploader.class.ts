@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, finalize } from 'rxjs/operators';
 import { UploadFile, UploadOutput, UploadInput, UploadStatus, BlobFile } from './interfaces';
 
 export function humanizeBytes(bytes: number): string {
@@ -23,7 +23,11 @@ export class NgUploaderService {
   contentTypes: string[];
   maxUploads: number;
 
-  constructor(concurrency: number = Number.POSITIVE_INFINITY, contentTypes: string[] = ['*'], maxUploads: number = Number.POSITIVE_INFINITY) {
+  constructor(
+    concurrency: number = Number.POSITIVE_INFINITY,
+    contentTypes: string[] = ['*'],
+    maxUploads: number = Number.POSITIVE_INFINITY
+  ) {
     this.queue = [];
     this.serviceEvents = new EventEmitter<UploadOutput>();
     this.uploadScheduler = new Subject();
@@ -85,7 +89,7 @@ export class NgUploaderService {
               const fileIndex = this.queue.findIndex(file => file.id === id);
               if (fileIndex !== -1) {
                 this.queue[fileIndex].progress.status = UploadStatus.Cancelled;
-                this.serviceEvents.emit({type: 'cancelled', file: this.queue[fileIndex]});
+                this.serviceEvents.emit({ type: 'cancelled', file: this.queue[fileIndex] });
               }
             }
           });
@@ -128,6 +132,11 @@ export class NgUploaderService {
   startUpload(upload: { file: UploadFile, event: UploadInput }): Observable<UploadOutput> {
     return new Observable(observer => {
       const sub = this.uploadFile(upload.file, upload.event)
+        .pipe(finalize(() => {
+          if (!observer.closed) {
+            observer.complete();
+          }
+        }))
         .subscribe(output => {
           observer.next(output);
         }, err => {
@@ -229,7 +238,7 @@ export class NgUploaderService {
 
         Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));
 
-        let bodyToSend;
+        let bodyToSend: FormData | BlobFile;
 
         if (event.includeWebKitFormBoundary !== false) {
           Object.keys(data).forEach(key => file.form.append(key, data[key]));
@@ -260,7 +269,7 @@ export class NgUploaderService {
   }
 
   setContentTypes(contentTypes: string[]): void {
-    if (typeof contentTypes != 'undefined' && contentTypes instanceof Array) {
+    if (typeof contentTypes !== 'undefined' && contentTypes instanceof Array) {
       if (contentTypes.find((type: string) => type === '*') !== undefined) {
         this.contentTypes = ['*'];
       } else {
@@ -302,22 +311,23 @@ export class NgUploaderService {
           etaHuman: null
         }
       },
-      lastModifiedDate: file.lastModifiedDate,
+      lastModifiedDate: new Date(file.lastModified),
       sub: undefined,
       nativeFile: file
     };
   }
 
-  private parseResponseHeaders(httpHeaders: ByteString) {
+  private parseResponseHeaders(httpHeaders: string) {
     if (!httpHeaders) {
       return;
     }
+
     return httpHeaders.split('\n')
-      .map(x => x.split(/: */, 2))
-      .filter(x => x[0])
-      .reduce((ac, x) => {
-        ac[x[0]] = x[1];
-        return ac;
+      .map((x: string) => x.split(/: */, 2))
+      .filter((x: string[]) => x[0])
+      .reduce((acc: Object, x: string[]) => {
+        acc[x[0]] = x[1];
+        return acc;
       }, {});
   }
 }

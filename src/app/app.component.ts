@@ -6,6 +6,7 @@ import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, 
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+  url = 'http://localhost:4900/upload';
   formData: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
@@ -24,7 +25,7 @@ export class AppComponent {
     if (output.type === 'allAddedToQueue') {
       const event: UploadInput = {
         type: 'uploadAll',
-        url: 'https://ngx-uploader.com/upload',
+        url: this.url,
         method: 'POST',
         data: { foo: 'bar' }
       };
@@ -35,7 +36,7 @@ export class AppComponent {
     } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
       const index = this.files.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
       this.files[index] = output.file;
-    } else if (output.type === 'removed') {
+    } else if (output.type === 'cancelled' || output.type === 'removed') {
       this.files = this.files.filter((file: UploadFile) => file !== output.file);
     } else if (output.type === 'dragOver') {
       this.dragOver = true;
@@ -53,7 +54,7 @@ export class AppComponent {
   startUpload(): void {
     const event: UploadInput = {
       type: 'uploadAll',
-      url: 'https://ngx-uploader.com/upload',
+      url: this.url,
       method: 'POST',
       data: { foo: 'bar' }
     };

@@ -32,8 +32,13 @@
               <div class="upload-item" *ngFor="let f of files; let i = index;">
                 <div class="upload-item-content">
                   <div class="filename">
-                    <i class="ionicon ion-ios-copy"></i>
-                    <span>{{ f.name }}</span>
+                    <div class="filename-left">
+                      <i class="ionicon ion-ios-copy"></i>
+                      <span>{{ f.name }}</span>
+                    </div>
+                    <div class="filename-right">
+                      <i class="ionicon ion-close-round" (click)="cancelUpload(f.id)"></i>
+                    </div>
                   </div>
                   <div class="progress-content">
                     <div class="progress">

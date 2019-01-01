@@ -22,7 +22,7 @@ html, body
   height: 100%
 
 body
-  background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%)
+  background: $white
   font-family: 'Roboto', sans-serif
   font-size: 12px
   color: $text
@@ -124,22 +124,33 @@ body
         .filename
           display: flex
           align-items: center
+          justify-content: space-between
+
+          .filename-left, .filename-right
+            display: flex
+            align-items: center
 
           i
             color: $text
             opacity: .8
             font-size: 24px
-            margin-right: 12px
+
+            &.ion-close-round
+
+              &:hover
+                opacity: 1
+                cursor: pointer
 
           span
             color: $text
             font-size: 14px
             font-weight: 400
+            margin-left: 10px
 
         .progress-content
           display: flex
           align-items: center
-          margin: 10px 30px
+          margin: 10px 0
 
           .progress
             display: block
@@ -163,7 +174,7 @@ body
           display: flex
           align-items: center
           justify-content: space-between
-          margin: 10px 30px 0
+          margin: 10px 0 0 0
 
           .progress-text
             font-size: 13px
