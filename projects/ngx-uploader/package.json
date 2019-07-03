@@ -1,6 +1,6 @@
 {
   "name": "ngx-uploader",
-  "version": "7.1.0",
+  "version": "8.0.0",
   "homepage": "https://ngx-uploader.com",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "url": "https://github.com/bleenco/ngx-uploader/issues"
   },
   "peerDependencies": {
-    "@angular/common": "^7.1.4",
-    "@angular/core": "^7.1.4"
+    "@angular/common": "^7.1.4 || ^8.0.0",
+    "@angular/core": "^7.1.4 || ^8.0.0"
   }
 }
