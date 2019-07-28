@@ -4,6 +4,7 @@ export interface UploaderOptions {
   concurrency: number;
   allowedContentTypes?: string[];
   maxUploads?: number;
+  maxFileSize?: number;
 }
 
 export interface BlobFile extends Blob {

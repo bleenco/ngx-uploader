@@ -89,6 +89,7 @@ export interface UploaderOptions {
   concurrency: number; // number of files uploaded at the same time
   allowedContentTypes?: string[]; // content types allowed (default *)
   maxUploads?: number; // max number of files the user can upload
+  maxFileSize?: number; // max size of the file in bytes the user can upload
 }
 
 export interface UploadProgress {
@@ -200,7 +201,7 @@ export class AppHomeComponent {
   dragOver: boolean;
 
   constructor() {
-    this.options = { concurrency: 1, maxUploads: 3 };
+    this.options = { concurrency: 1, maxUploads: 3, maxFileSize: 1000000 };
     this.files = []; // local uploading files array
     this.uploadInput = new EventEmitter<UploadInput>(); // input events, we use this to emit data to ngx-uploader
     this.humanizeBytes = humanizeBytes;
