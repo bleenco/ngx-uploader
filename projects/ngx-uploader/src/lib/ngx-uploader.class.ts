@@ -22,11 +22,13 @@ export class NgUploaderService {
   subs: { id: string, sub: Subscription }[];
   contentTypes: string[];
   maxUploads: number;
+  maxFileSize: number;
 
   constructor(
     concurrency: number = Number.POSITIVE_INFINITY,
     contentTypes: string[] = ['*'],
-    maxUploads: number = Number.POSITIVE_INFINITY
+    maxUploads: number = Number.POSITIVE_INFINITY,
+    maxFileSize: number = Number.POSITIVE_INFINITY
   ) {
     this.queue = [];
     this.serviceEvents = new EventEmitter<UploadOutput>();
@@ -34,6 +36,7 @@ export class NgUploaderService {
     this.subs = [];
     this.contentTypes = contentTypes;
     this.maxUploads = maxUploads;
+    this.maxFileSize = maxFileSize;
 
     this.uploadScheduler
       .pipe(
@@ -45,7 +48,7 @@ export class NgUploaderService {
   handleFiles(incomingFiles: FileList): void {
     const allowedIncomingFiles: File[] = [].reduce.call(incomingFiles, (acc: File[], checkFile: File, i: number) => {
       const futureQueueLength = acc.length + this.queue.length + 1;
-      if (this.isContentTypeAllowed(checkFile.type) && futureQueueLength <= this.maxUploads) {
+      if (this.isContentTypeAllowed(checkFile.type) && futureQueueLength <= this.maxUploads && this.isFileSizeAllowed(checkFile.size)) {
         acc = acc.concat(checkFile);
       } else {
         const rejectedFile: UploadFile = this.makeUploadFile(checkFile, i);
@@ -289,6 +292,13 @@ export class NgUploaderService {
       return true;
     }
     return this.contentTypes.find((type: string) => type === mimetype) !== undefined;
+  }
+
+  isFileSizeAllowed(fileSize: number): boolean {
+    if (!this.maxFileSize) {
+      return true;
+    }
+    return fileSize <= this.maxFileSize;
   }
 
   makeUploadFile(file: File, index: number): UploadFile {
