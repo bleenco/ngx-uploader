@@ -191,6 +191,25 @@ export class NgUploaderService {
         }
       }, false);
 
+      xhr.addEventListener('load', (e) => {
+        if (xhr.status < 400) {
+        } else {
+          file.responseStatus = xhr.status;
+
+          try {
+            file.response = JSON.parse(xhr.response);
+          } catch (e) {
+            file.response = xhr.response;
+          }
+
+          file.responseHeaders = this.parseResponseHeaders(xhr.getAllResponseHeaders());
+          file.progress.status = UploadStatus.Failed;
+
+          observer.next({ type: 'failed', file: file });
+          observer.complete();
+        }
+      });
+
       xhr.upload.addEventListener('error', (e: Event) => {
         observer.error(e);
         observer.complete();

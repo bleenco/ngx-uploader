@@ -15,7 +15,8 @@ export enum UploadStatus {
   Queue,
   Uploading,
   Done,
-  Cancelled
+  Cancelled,
+  Failed
 }
 
 export interface UploadProgress {
@@ -44,12 +45,12 @@ export interface UploadFile {
   responseStatus?: number;
   sub?: Subscription | any;
   nativeFile?: File;
-  responseHeaders?: { [key: string]: string };
+  responseHeaders?: Object;
 }
 
 export interface UploadOutput {
   type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'start' | 'cancelled' | 'dragOver'
-      | 'dragOut' | 'drop' | 'removed' | 'removedAll' | 'rejected';
+      | 'dragOut' | 'drop' | 'removed' | 'removedAll' | 'rejected' | 'failed';
   file?: UploadFile;
   nativeFile?: File;
 }

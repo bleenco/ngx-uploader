@@ -42,14 +42,15 @@
                   </div>
                   <div class="progress-content">
                     <div class="progress">
-                      <span class="bar" [style.width]="f?.progress?.data?.percentage + '%'" [class.is-done]="f?.progress?.data?.percentage === 100"></span>
+                      <span class="bar" [style.width]="f?.progress?.data?.percentage + '%'" [class.is-done]="f?.progress?.data?.percentage === 100" [class.is-failed]="f.progress?.status === 4"></span>
                     </div>
                   </div>
                   <div class="progress-text-content">
-                    <span class="progress-text" [class.is-done]="f?.progress?.data?.percentage === 100">
+                    <span class="progress-text" [class.is-done]="f?.progress?.data?.percentage === 100" [class.is-failed]="f.progress?.status === 4">
                       <span>{{ f.progress?.data?.percentage }}% </span>
                       <span *ngIf="f.progress?.data?.percentage !== 100">Uploading...</span>
-                      <span *ngIf="f.progress?.data?.percentage === 100">Done</span>
+                      <span *ngIf="f.progress?.status !== 4 && f.progress?.data?.percentage === 100">Done</span>
+                      <span *ngIf="f.progress?.status === 4">Failed<span *ngIf="!!f.response?.detail"> [{{ f.response?.detail }}]</span></span>
                     </span>
                     <span class="speed-and-eta-text" *ngIf="f.progress?.data?.percentage !== 0 && f.progress?.data?.percentage !== 100">
                       <span>{{ f.progress?.data?.speedHuman }} </span>
