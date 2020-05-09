@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/ngx-uploader-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,6 +30,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -137,7 +144,8 @@
           "configurations": {
             "production": {
               "project": "projects/ngx-uploader/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/ngx-uploader/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
