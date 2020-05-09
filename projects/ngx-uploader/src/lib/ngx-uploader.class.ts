@@ -335,7 +335,7 @@ export class NgUploaderService {
     return httpHeaders.split('\n')
       .map((x: string) => x.split(/: */, 2))
       .filter((x: string[]) => x[0])
-      .reduce((acc: Object, x: string[]) => {
+      .reduce((acc, x: string[]) => {
         acc[x[0]] = x[1];
         return acc;
       }, {});
