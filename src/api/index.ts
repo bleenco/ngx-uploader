@@ -24,7 +24,7 @@ const storage: multer.StorageEngine = multer.diskStorage({
   }
 });
 
-const upload: multer.Instance = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
 export const uploadRouter = express.Router();
 
