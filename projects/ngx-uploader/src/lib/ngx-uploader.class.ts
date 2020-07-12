@@ -18,8 +18,8 @@ export function humanizeBytes(bytes: number): string {
 export class NgUploaderService {
   queue: UploadFile[];
   serviceEvents: EventEmitter<UploadOutput>;
-  uploadScheduler: Subject<{ file: UploadFile, event: UploadInput }>;
-  subs: { id: string, sub: Subscription }[];
+  uploadScheduler: Subject<{ file: UploadFile; event: UploadInput }>;
+  subs: { id: string; sub: Subscription }[];
   contentTypes: string[];
   maxUploads: number;
   maxFileSize: number;
@@ -39,30 +39,38 @@ export class NgUploaderService {
     this.maxFileSize = maxFileSize;
 
     this.uploadScheduler
-      .pipe(
-        mergeMap(upload => this.startUpload(upload), concurrency)
-      )
+      .pipe(mergeMap(upload => this.startUpload(upload), concurrency))
       .subscribe(uploadOutput => this.serviceEvents.emit(uploadOutput));
   }
 
   handleFiles(incomingFiles: FileList): void {
-    const allowedIncomingFiles: File[] = [].reduce.call(incomingFiles, (acc: File[], checkFile: File, i: number) => {
-      const futureQueueLength = acc.length + this.queue.length + 1;
-      if (this.isContentTypeAllowed(checkFile.type) && futureQueueLength <= this.maxUploads && this.isFileSizeAllowed(checkFile.size)) {
-        acc = acc.concat(checkFile);
-      } else {
-        const rejectedFile: UploadFile = this.makeUploadFile(checkFile, i);
-        this.serviceEvents.emit({ type: 'rejected', file: rejectedFile });
-      }
+    const allowedIncomingFiles: File[] = [].reduce.call(
+      incomingFiles,
+      (acc: File[], checkFile: File, i: number) => {
+        const futureQueueLength = acc.length + this.queue.length + 1;
+        if (
+          this.isContentTypeAllowed(checkFile.type) &&
+          futureQueueLength <= this.maxUploads &&
+          this.isFileSizeAllowed(checkFile.size)
+        ) {
+          acc = acc.concat(checkFile);
+        } else {
+          const rejectedFile: UploadFile = this.makeUploadFile(checkFile, i);
+          this.serviceEvents.emit({ type: 'rejected', file: rejectedFile });
+        }
 
-      return acc;
-    }, []);
+        return acc;
+      },
+      []
+    );
 
-    this.queue.push(...[].map.call(allowedIncomingFiles, (file: File, i: number) => {
-      const uploadFile: UploadFile = this.makeUploadFile(file, i);
-      this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
-      return uploadFile;
-    }));
+    this.queue.push(
+      ...[].map.call(allowedIncomingFiles, (file: File, i: number) => {
+        const uploadFile: UploadFile = this.makeUploadFile(file, i);
+        this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
+        return uploadFile;
+      })
+    );
 
     this.serviceEvents.emit({ type: 'allAddedToQueue' });
   }
@@ -132,22 +140,28 @@ export class NgUploaderService {
     });
   }
 
-  startUpload(upload: { file: UploadFile, event: UploadInput }): Observable<UploadOutput> {
+  startUpload(upload: { file: UploadFile; event: UploadInput }): Observable<UploadOutput> {
     return new Observable(observer => {
       const sub = this.uploadFile(upload.file, upload.event)
-        .pipe(finalize(() => {
-          if (!observer.closed) {
+        .pipe(
+          finalize(() => {
+            if (!observer.closed) {
+              observer.complete();
+            }
+          })
+        )
+        .subscribe(
+          output => {
+            observer.next(output);
+          },
+          err => {
+            observer.error(err);
+            observer.complete();
+          },
+          () => {
             observer.complete();
           }
-        }))
-        .subscribe(output => {
-          observer.next(output);
-        }, err => {
-          observer.error(err);
-          observer.complete();
-        }, () => {
-          observer.complete();
-        });
+        );
 
       this.subs.push({ id: upload.file.id, sub: sub });
     });
@@ -166,30 +180,34 @@ export class NgUploaderService {
       let speed = 0;
       let eta: number | null = null;
 
-      xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-        if (e.lengthComputable) {
-          const percentage = Math.round((e.loaded * 100) / e.total);
-          const diff = new Date().getTime() - time;
-          speed = Math.round(e.loaded / diff * 1000);
-          progressStartTime = (file.progress.data && file.progress.data.startTime) || new Date().getTime();
-          eta = Math.ceil((e.total - e.loaded) / speed);
+      xhr.upload.addEventListener(
+        'progress',
+        (e: ProgressEvent) => {
+          if (e.lengthComputable) {
+            const percentage = Math.round((e.loaded * 100) / e.total);
+            const diff = new Date().getTime() - time;
+            speed = Math.round((e.loaded / diff) * 1000);
+            progressStartTime = (file.progress.data && file.progress.data.startTime) || new Date().getTime();
+            eta = Math.ceil((e.total - e.loaded) / speed);
 
-          file.progress = {
-            status: UploadStatus.Uploading,
-            data: {
-              percentage: percentage,
-              speed: speed,
-              speedHuman: `${humanizeBytes(speed)}/s`,
-              startTime: progressStartTime,
-              endTime: null,
-              eta: eta,
-              etaHuman: this.secondsToHuman(eta)
-            }
-          };
+            file.progress = {
+              status: UploadStatus.Uploading,
+              data: {
+                percentage: percentage,
+                speed: speed,
+                speedHuman: `${humanizeBytes(speed)}/s`,
+                startTime: progressStartTime,
+                endTime: null,
+                eta: eta,
+                etaHuman: this.secondsToHuman(eta)
+              }
+            };
 
-          observer.next({ type: 'uploading', file: file });
-        }
-      }, false);
+            observer.next({ type: 'uploading', file: file });
+          }
+        },
+        false
+      );
 
       xhr.upload.addEventListener('error', (e: Event) => {
         observer.error(e);
@@ -198,7 +216,7 @@ export class NgUploaderService {
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-          const speedAverage = Math.round(file.size / (new Date().getTime() - progressStartTime) * 1000);
+          const speedAverage = Math.round((file.size / (new Date().getTime() - progressStartTime)) * 1000);
           file.progress = {
             status: UploadStatus.Done,
             data: {
@@ -327,15 +345,16 @@ export class NgUploaderService {
     };
   }
 
-  private parseResponseHeaders(httpHeaders: string) {
+  private parseResponseHeaders(httpHeaders: string): { [key: string]: string } {
     if (!httpHeaders) {
       return;
     }
 
-    return httpHeaders.split('\n')
+    return httpHeaders
+      .split('\n')
       .map((x: string) => x.split(/: */, 2))
       .filter((x: string[]) => x[0])
-      .reduce((acc: Object, x: string[]) => {
+      .reduce((acc: { [key: string]: string }, x: string[]) => {
         acc[x[0]] = x[1];
         return acc;
       }, {});

@@ -6,7 +6,7 @@ import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, 
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  url = 'http://localhost:4900/upload';
+  url = '/upload';
   formData: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;

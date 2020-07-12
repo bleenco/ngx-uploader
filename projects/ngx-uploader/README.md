@@ -1,8 +1,6 @@
 # ngx-uploader
 
-[![AbstruseCI](https://ci.bleenco.io/badge/11)](https://ci.bleenco.io/repo/11)
-
-Angular 6 File Uploader
+Angular 2+ File Uploader
 
 http://ngx-uploader.com
 
@@ -29,11 +27,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxUploaderModule } from 'ngx-uploader';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    NgxUploaderModule
-  ],
-  declarations: [ AppComponent ]
+  imports: [BrowserModule, NgxUploaderModule],
+  declarations: [AppComponent]
 })
 export class AppModule {}
 ```
@@ -71,16 +66,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from './shared.module';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    SharedModule
-  ],
-  declarations: [ AppComponent ]
+  imports: [BrowserModule, SharedModule],
+  declarations: [AppComponent]
 })
 export class AppModule {}
-
-````
-
+```
 
 ## Data Structures of Events and Uploaded Files
 
@@ -119,7 +109,17 @@ export interface UploadFile {
 
 // output events emitted by ngx-uploader
 export interface UploadOutput {
-  type: 'addedToQueue' | 'allAddedToQueue' | 'uploading' | 'done' | 'removed' | 'start' | 'cancelled' | 'dragOver' | 'dragOut' | 'drop';
+  type:
+    | 'addedToQueue'
+    | 'allAddedToQueue'
+    | 'uploading'
+    | 'done'
+    | 'removed'
+    | 'start'
+    | 'cancelled'
+    | 'dragOver'
+    | 'dragOut'
+    | 'drop';
   file?: UploadFile;
   nativeFile?: File; // native javascript File object, can be used to process uploaded files in other libraries
 }
@@ -160,6 +160,7 @@ onUploadOutput(output: UploadOutput): void {
 ```
 
 ## Token Authorization
+
 If you have to upload files with Token Authorization, you can set the header in startUpload as follows.
 
 ```ts
@@ -210,14 +211,14 @@ export class AppHomeComponent {
   onUploadOutput(output: UploadOutput): void {
     switch (output.type) {
       case 'allAddedToQueue':
-          // uncomment this if you want to auto upload files when added
-          // const event: UploadInput = {
-          //   type: 'uploadAll',
-          //   url: '/upload',
-          //   method: 'POST',
-          //   data: { foo: 'bar' }
-          // };
-          // this.uploadInput.emit(event);
+        // uncomment this if you want to auto upload files when added
+        // const event: UploadInput = {
+        //   type: 'uploadAll',
+        //   url: '/upload',
+        //   method: 'POST',
+        //   data: { foo: 'bar' }
+        // };
+        // this.uploadInput.emit(event);
         break;
       case 'addedToQueue':
         if (typeof output.file !== 'undefined') {
@@ -227,7 +228,7 @@ export class AppHomeComponent {
       case 'uploading':
         if (typeof output.file !== 'undefined') {
           // update current data in files array for uploading file
-          const index = this.files.findIndex((file) => typeof output.file !== 'undefined' && file.id === output.file.id);
+          const index = this.files.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
           this.files[index] = output.file;
         }
         break;
@@ -278,12 +279,26 @@ export class AppHomeComponent {
 For whole template code please check [here](https://github.com/bleenco/ngx-uploader/blob/master/src/components/app-home/app-home.component.html).
 
 ```html
-<div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
+<div
+  class="drop-container"
+  ngFileDrop
+  [options]="options"
+  (uploadOutput)="onUploadOutput($event)"
+  [uploadInput]="uploadInput"
+  [ngClass]="{ 'is-drop-over': dragOver }"
+>
   <h1>Drag &amp; Drop</h1>
 </div>
 
 <label class="upload-button">
-  <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+  <input
+    type="file"
+    ngFileSelect
+    [options]="options"
+    (uploadOutput)="onUploadOutput($event)"
+    [uploadInput]="uploadInput"
+    multiple
+  />
   or choose file(s)
 </label>
 
