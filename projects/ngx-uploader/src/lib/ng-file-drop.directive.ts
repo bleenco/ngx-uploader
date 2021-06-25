@@ -46,7 +46,9 @@ export class NgFileDropDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._sub.forEach(sub => sub.unsubscribe());
+      if(this._sub) {
+        this._sub.forEach(sub => sub.unsubscribe())
+      }
   }
 
   stopEvent = (e: Event) => {
