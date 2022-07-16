@@ -27,7 +27,7 @@ jobs:
       - name: Publish package
         run: |
           cd dist/ngx-uploader
-          npm publish
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
