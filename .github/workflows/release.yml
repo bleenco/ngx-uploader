@@ -1,0 +1,38 @@
+name: Release CI
+
+on:
+  push:
+    tags: "v*"
+
+env:
+  NODE_VERSION: "14.x"
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Build package
+        run: |
+          npm install
+          npm run build
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create release
+        run: |
+          VERSION=${GITHUB_REF/refs\/tags\//}
+          gh release create "${VERSION}" -t "${VERSION}"
+          gh release view "${VERSION}"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
