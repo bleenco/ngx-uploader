@@ -23,9 +23,11 @@ jobs:
       - name: Build package
         run: |
           npm install
-          npm run build
+          npm run build:lib
       - name: Publish package
-        run: npm publish
+        run: |
+          cd dist/ngx-uploader
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
