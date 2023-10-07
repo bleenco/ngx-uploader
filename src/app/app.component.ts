@@ -7,15 +7,15 @@ import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, 
 })
 export class AppComponent {
   url = '/upload';
-  formData: FormData;
+  formData!: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
-  dragOver: boolean;
+  dragOver!: boolean;
   options: UploaderOptions;
 
   constructor() {
-    this.options = { concurrency: 1, maxUploads: 3, maxFileSize: 1000000 };
+    this.options = { concurrency: 1, maxUploads: 10, maxFileSize: 10000000 };
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;

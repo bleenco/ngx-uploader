@@ -7,14 +7,14 @@ import { Subscription } from 'rxjs';
   selector: '[ngFileDrop]'
 })
 export class NgFileDropDirective implements OnInit, OnDestroy {
-  @Input() options: UploaderOptions;
-  @Input() uploadInput: EventEmitter<UploadInput>;
+  @Input() options!: UploaderOptions;
+  @Input() uploadInput!: EventEmitter<UploadInput>;
   @Output() uploadOutput: EventEmitter<UploadOutput>;
 
-  upload: NgUploaderService;
-  el: HTMLInputElement;
+  upload!: NgUploaderService;
+  el!: HTMLInputElement;
 
-  _sub: Subscription[];
+  _sub!: Subscription[];
 
   constructor(public elementRef: ElementRef) {
     this.uploadOutput = new EventEmitter<UploadOutput>();
@@ -46,9 +46,9 @@ export class NgFileDropDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-      if(this._sub) {
-        this._sub.forEach(sub => sub.unsubscribe())
-      }
+    if (this._sub) {
+      this._sub.forEach(sub => sub.unsubscribe())
+    }
   }
 
   stopEvent = (e: Event) => {

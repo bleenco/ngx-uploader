@@ -1,6 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { mergeMap, finalize } from 'rxjs/operators';
+import { Observable, Subject, Subscription, mergeMap, finalize } from 'rxjs';
 import { UploadFile, UploadOutput, UploadInput, UploadStatus, BlobFile } from './interfaces';
 
 export function humanizeBytes(bytes: number): string {
@@ -44,33 +43,33 @@ export class NgUploaderService {
   }
 
   handleFiles(incomingFiles: FileList): void {
-    const allowedIncomingFiles: File[] = [].reduce.call(
+    const allowedIncomingFiles = [].reduce.call(
       incomingFiles,
-      (acc: File[], checkFile: File, i: number) => {
-        const futureQueueLength = acc.length + this.queue.length + 1;
+      (acc: unknown, checkFile: File, i: number) => {
+        const futureQueueLength = (acc as File[]).length + this.queue.length + 1;
         if (
           this.isContentTypeAllowed(checkFile.type) &&
           futureQueueLength <= this.maxUploads &&
           this.isFileSizeAllowed(checkFile.size)
         ) {
-          acc = acc.concat(checkFile);
+          acc = (acc as File[]).concat(checkFile);
         } else {
           const rejectedFile: UploadFile = this.makeUploadFile(checkFile, i);
           this.serviceEvents.emit({ type: 'rejected', file: rejectedFile });
         }
 
-        return acc;
-      },
-      []
-    );
+        return acc as File[];
+      }, [] as File[]) as File[];
+
+
 
     this.queue.push(
-      ...[].map.call(allowedIncomingFiles, (file: File, i: number) => {
+      ...allowedIncomingFiles.map((file: File, i: number) => {
         const uploadFile: UploadFile = this.makeUploadFile(file, i);
         this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
         return uploadFile;
       })
-    );
+    )
 
     this.serviceEvents.emit({ type: 'allAddedToQueue' });
   }
@@ -347,7 +346,7 @@ export class NgUploaderService {
 
   private parseResponseHeaders(httpHeaders: string): { [key: string]: string } {
     if (!httpHeaders) {
-      return;
+      return {};
     }
 
     return httpHeaders
