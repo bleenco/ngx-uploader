@@ -2,11 +2,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es2022",
     "sourceMap": false,
     "experimentalDecorators": true,
     "lib": [
-      "es2017",
+      "es2022",
       "dom"
     ],
     "outDir": "dist/api",

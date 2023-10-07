@@ -7,14 +7,14 @@ import { Subscription } from 'rxjs';
   selector: '[ngFileSelect]'
 })
 export class NgFileSelectDirective implements OnInit, OnDestroy {
-  @Input() options: UploaderOptions;
-  @Input() uploadInput: EventEmitter<any>;
+  @Input() options!: UploaderOptions;
+  @Input() uploadInput!: EventEmitter<any>;
   @Output() uploadOutput: EventEmitter<UploadOutput>;
 
-  upload: NgUploaderService;
-  el: HTMLInputElement;
+  upload!: NgUploaderService;
+  el!: HTMLInputElement;
 
-  _sub: Subscription[];
+  _sub!: Subscription[];
 
   constructor(public elementRef: ElementRef) {
     this.uploadOutput = new EventEmitter<UploadOutput>();
@@ -43,7 +43,7 @@ export class NgFileSelectDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.el){
+    if (this.el) {
       this.el.removeEventListener('change', this.fileListener, false);
       this._sub.forEach(sub => sub.unsubscribe());
     }

@@ -47,13 +47,13 @@
                   </div>
                   <div class="progress-text-content">
                     <span class="progress-text" [class.is-done]="f?.progress?.data?.percentage === 100">
-                      <span>{{ f.progress?.data?.percentage }}% </span>
+                      <span>{{ f.progress.data?.percentage }}% </span>
                       <span *ngIf="f.progress?.data?.percentage !== 100">Uploading...</span>
                       <span *ngIf="f.progress?.data?.percentage === 100">Done</span>
                     </span>
                     <span class="speed-and-eta-text" *ngIf="f.progress?.data?.percentage !== 0 && f.progress?.data?.percentage !== 100">
-                      <span>{{ f.progress?.data?.speedHuman }} </span>
-                      <span>ETA {{ f.progress?.data?.etaHuman }}</span>
+                      <span>{{ f.progress.data?.speedHuman }} </span>
+                      <span>ETA {{ f.progress.data?.etaHuman }}</span>
                     </span>
                   </div>
                 </div>
