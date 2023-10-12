@@ -11,7 +11,7 @@ https://ngx-uploader.com
 Add `ngx-uploader` module as dependency to your project.
 
 ```console
-npm install ngx-uploader --save
+npm i ngx-uploader
 ```
 
 or using `yarn`:
