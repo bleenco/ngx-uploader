@@ -1,10 +1,8 @@
 # ngx-uploader
 
-<img src="https://user-images.githubusercontent.com/1796022/50571605-f35deb80-0dae-11e9-94b5-dd23fa5cd4b9.png" width="300">
+Angular File Uploader
 
-Angular 2+ File Uploader
-
-https://ngx-uploader.com
+https://ngx-uploader.jankuri.me
 
 ## Installation
 
