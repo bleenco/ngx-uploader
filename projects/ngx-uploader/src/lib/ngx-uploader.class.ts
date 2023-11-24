@@ -301,14 +301,39 @@ export class NgUploaderService {
   }
 
   allContentTypesAllowed(): boolean {
-    return this.contentTypes.find((type: string) => type === '*') !== undefined;
+    return this.contentTypes.includes('*');
+  }
+
+  partialContentTypesAllowed(mimetype: string): boolean {
+    const partialWildcardRegExp = /\w*\/\*/;
+    if (mimetype.includes('/')) {
+      const partialContentTypesAllowed = this.contentTypes
+      .filter((type: string) => type.match(partialWildcardRegExp))
+      .map((type: string) => {
+        return type.split('/')[0];
+      });
+
+      if (partialContentTypesAllowed && partialContentTypesAllowed.length > 0) {
+        const partialMimetype = mimetype.split('/')[0];
+        return partialContentTypesAllowed.includes(partialMimetype);
+      }
+
+      return false;
+    }
+
+    return false;
   }
 
   isContentTypeAllowed(mimetype: string): boolean {
     if (this.allContentTypesAllowed()) {
       return true;
     }
-    return this.contentTypes.find((type: string) => type === mimetype) !== undefined;
+
+    if (this.partialContentTypesAllowed(mimetype)) {
+      return true;
+    }
+
+    return this.contentTypes.includes(mimetype);
   }
 
   isFileSizeAllowed(fileSize: number): boolean {
