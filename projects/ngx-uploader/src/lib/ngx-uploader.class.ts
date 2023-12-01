@@ -179,6 +179,9 @@ export class NgUploaderService {
       let speed = 0;
       let eta: number | null = null;
 
+      xhr.open(method, url, true);
+      xhr.withCredentials = event.withCredentials ? true : false;
+
       xhr.upload.onprogress = (e: ProgressEvent) => {
         if (e.lengthComputable) {
           const percentage = Math.round((e.loaded * 100) / e.total);
@@ -248,9 +251,6 @@ export class NgUploaderService {
           observer.complete();
         }
       };
-
-      xhr.open(method, url, true);
-      xhr.withCredentials = event.withCredentials ? true : false;
 
       try {
         const uploadFile = <BlobFile>file.nativeFile;
