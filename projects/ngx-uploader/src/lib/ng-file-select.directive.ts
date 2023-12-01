@@ -1,7 +1,7 @@
-import { Directive, ElementRef, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { UploadOutput, UploaderOptions } from './interfaces';
 import { NgUploaderService } from './ngx-uploader.class';
-import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[ngFileSelect]'
@@ -22,10 +22,10 @@ export class NgFileSelectDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._sub = [];
-    const concurrency = this.options && this.options.concurrency || Number.POSITIVE_INFINITY;
-    const allowedContentTypes = this.options && this.options.allowedContentTypes || ['*'];
-    const maxUploads = this.options && this.options.maxUploads || Number.POSITIVE_INFINITY;
-    const maxFileSize = this.options && this.options.maxFileSize || Number.POSITIVE_INFINITY;
+    const concurrency = (this.options && this.options.concurrency) || Number.POSITIVE_INFINITY;
+    const allowedContentTypes = (this.options && this.options.allowedContentTypes) || ['*'];
+    const maxUploads = (this.options && this.options.maxUploads) || Number.POSITIVE_INFINITY;
+    const maxFileSize = (this.options && this.options.maxFileSize) || Number.POSITIVE_INFINITY;
     this.upload = new NgUploaderService(concurrency, allowedContentTypes, maxUploads, maxFileSize);
 
     this.el = this.elementRef.nativeElement;
@@ -53,5 +53,5 @@ export class NgFileSelectDirective implements OnInit, OnDestroy {
     if (this.el.files) {
       this.upload.handleFiles(this.el.files);
     }
-  }
+  };
 }

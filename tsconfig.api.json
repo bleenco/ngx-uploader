@@ -5,16 +5,9 @@
     "target": "es2022",
     "sourceMap": false,
     "experimentalDecorators": true,
-    "lib": [
-      "es2022",
-      "dom"
-    ],
+    "lib": ["es2022", "dom"],
     "outDir": "dist/api",
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"]
   },
-  "files": [
-    "src/api/index.ts"
-  ]
+  "files": ["src/api/index.ts"]
 }

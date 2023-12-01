@@ -1,7 +1,7 @@
-import { Directive, ElementRef, EventEmitter, Input, Output, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { UploadOutput, UploadInput, UploaderOptions } from './interfaces';
-import { NgUploaderService } from './ngx-uploader.class';
+import { Directive, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { UploadInput, UploadOutput, UploaderOptions } from './interfaces';
+import { NgUploaderService } from './ngx-uploader.class';
 
 @Directive({
   selector: '[ngFileDrop]'
@@ -22,10 +22,10 @@ export class NgFileDropDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._sub = [];
-    const concurrency = this.options && this.options.concurrency || Number.POSITIVE_INFINITY;
-    const allowedContentTypes = this.options && this.options.allowedContentTypes || ['*'];
-    const maxUploads = this.options && this.options.maxUploads || Number.POSITIVE_INFINITY;
-    const maxFileSize = this.options && this.options.maxFileSize || Number.POSITIVE_INFINITY;
+    const concurrency = (this.options && this.options.concurrency) || Number.POSITIVE_INFINITY;
+    const allowedContentTypes = (this.options && this.options.allowedContentTypes) || ['*'];
+    const maxUploads = (this.options && this.options.maxUploads) || Number.POSITIVE_INFINITY;
+    const maxFileSize = (this.options && this.options.maxFileSize) || Number.POSITIVE_INFINITY;
     this.upload = new NgUploaderService(concurrency, allowedContentTypes, maxUploads, maxFileSize);
 
     this.el = this.elementRef.nativeElement;
@@ -47,14 +47,14 @@ export class NgFileDropDirective implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this._sub) {
-      this._sub.forEach(sub => sub.unsubscribe())
+      this._sub.forEach(sub => sub.unsubscribe());
     }
   }
 
   stopEvent = (e: Event) => {
     e.stopPropagation();
     e.preventDefault();
-  }
+  };
 
   @HostListener('drop', ['$event'])
   public onDrop(e: any) {

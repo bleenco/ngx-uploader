@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
-import { Observable, Subject, Subscription, mergeMap, finalize } from 'rxjs';
-import { UploadFile, UploadOutput, UploadInput, UploadStatus, BlobFile } from './interfaces';
+import { Observable, Subject, Subscription, finalize, mergeMap } from 'rxjs';
+import { BlobFile, UploadFile, UploadInput, UploadOutput, UploadStatus } from './interfaces';
 
 export function humanizeBytes(bytes: number): string {
   if (bytes === 0) {
@@ -59,9 +59,9 @@ export class NgUploaderService {
         }
 
         return acc as File[];
-      }, [] as File[]) as File[];
-
-
+      },
+      [] as File[]
+    ) as File[];
 
     this.queue.push(
       ...allowedIncomingFiles.map((file: File, i: number) => {
@@ -69,7 +69,7 @@ export class NgUploaderService {
         this.serviceEvents.emit({ type: 'addedToQueue', file: uploadFile });
         return uploadFile;
       })
-    )
+    );
 
     this.serviceEvents.emit({ type: 'allAddedToQueue' });
   }

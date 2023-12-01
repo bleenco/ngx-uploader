@@ -12,9 +12,7 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
-      "ngx-uploader": [
-        "projects/ngx-uploader/src/public_api"
-      ]
+      "ngx-uploader": ["projects/ngx-uploader/src/public_api"]
     },
     "declaration": false,
     "downlevelIteration": true,
@@ -24,10 +22,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

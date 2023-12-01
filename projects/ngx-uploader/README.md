@@ -302,9 +302,7 @@ For whole template code please check [here](https://github.com/bleenco/ngx-uploa
   or choose file(s)
 </label>
 
-<button type="button" class="start-upload-btn" (click)="startUpload()">
-  Start Upload
-</button>
+<button type="button" class="start-upload-btn" (click)="startUpload()">Start Upload</button>
 ```
 
 ### LICENCE

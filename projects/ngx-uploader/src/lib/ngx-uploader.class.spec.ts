@@ -1,13 +1,13 @@
 import { NgUploaderService, humanizeBytes } from './ngx-uploader.class';
 
 describe('NgUploaderService constructor', () => {
-  it('without parameters should return allowedContentTypes = [\'*\']', () => {
+  it("without parameters should return allowedContentTypes = ['*']", () => {
     const uploader: NgUploaderService = new NgUploaderService();
     expect(uploader.contentTypes.length).toEqual(1);
     expect(uploader.contentTypes).toEqual(['*']);
   });
 
-  it('should return [\'image/jpeg\']', () => {
+  it("should return ['image/jpeg']", () => {
     const uploader = new NgUploaderService(1, ['image/jpeg']);
     expect(uploader.contentTypes.length).toEqual(1);
     expect(uploader.contentTypes).not.toContain('*');
@@ -19,14 +19,14 @@ describe('NgUploaderService constructor', () => {
 describe('setContentTypes function', () => {
   const uploader = new NgUploaderService();
 
-  it('should return [\'*\']', () => {
+  it("should return ['*']", () => {
     uploader.setContentTypes(['*']);
     expect(uploader.contentTypes.length).toEqual(1);
     expect(uploader.contentTypes).toContain('*');
     expect(uploader.contentTypes).toEqual(['*']);
   });
 
-  it('should return [\'image/jpeg\']', () => {
+  it("should return ['image/jpeg']", () => {
     uploader.setContentTypes(['image/jpeg']);
     expect(uploader.contentTypes.length).toEqual(1);
     expect(uploader.contentTypes).toContain('image/jpeg');
