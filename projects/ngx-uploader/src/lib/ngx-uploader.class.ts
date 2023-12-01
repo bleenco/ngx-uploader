@@ -84,7 +84,7 @@ export class NgUploaderService {
           }
           break;
         case 'uploadAll':
-          const files = this.queue.filter(file => file.progress.status === UploadStatus.Queue);
+          const files = this.queue.filter(file => file.progress.status === UploadStatus.Queue && !this.subs.find((f) => f.id === file.id));
           files.forEach(file => this.uploadScheduler.next({ file: file, event: event }));
           break;
         case 'cancel':
