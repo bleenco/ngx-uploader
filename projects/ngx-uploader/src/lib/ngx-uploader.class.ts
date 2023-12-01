@@ -149,18 +149,18 @@ export class NgUploaderService {
             }
           })
         )
-        .subscribe(
-          output => {
+        .subscribe({
+          next: (output: UploadOutput) => {
             observer.next(output);
           },
-          err => {
+          error: (err: any) => {
             observer.error(err);
             observer.complete();
           },
-          () => {
+          complete: () => {
             observer.complete();
           }
-        );
+        });
 
       this.subs.push({ id: upload.file.id, sub: sub });
     });
@@ -179,39 +179,44 @@ export class NgUploaderService {
       let speed = 0;
       let eta: number | null = null;
 
-      xhr.upload.addEventListener(
-        'progress',
-        (e: ProgressEvent) => {
-          if (e.lengthComputable) {
-            const percentage = Math.round((e.loaded * 100) / e.total);
-            const diff = new Date().getTime() - time;
-            speed = Math.round((e.loaded / diff) * 1000);
-            progressStartTime = (file.progress.data && file.progress.data.startTime) || new Date().getTime();
-            eta = Math.ceil((e.total - e.loaded) / speed);
+      xhr.upload.onprogress = (e: ProgressEvent) => {
+        if (e.lengthComputable) {
+          const percentage = Math.round((e.loaded * 100) / e.total);
+          const diff = new Date().getTime() - time;
+          speed = Math.round((e.loaded / diff) * 1000);
+          progressStartTime = (file.progress.data && file.progress.data.startTime) || new Date().getTime();
+          eta = Math.ceil((e.total - e.loaded) / speed);
 
-            file.progress = {
-              status: UploadStatus.Uploading,
-              data: {
-                percentage: percentage,
-                speed: speed,
-                speedHuman: `${humanizeBytes(speed)}/s`,
-                startTime: progressStartTime,
-                endTime: null,
-                eta: eta,
-                etaHuman: this.secondsToHuman(eta)
-              }
-            };
+          file.progress = {
+            status: UploadStatus.Uploading,
+            data: {
+              percentage: percentage,
+              speed: speed,
+              speedHuman: `${humanizeBytes(speed)}/s`,
+              startTime: progressStartTime,
+              endTime: null,
+              eta: eta,
+              etaHuman: this.secondsToHuman(eta)
+            }
+          };
 
-            observer.next({ type: 'uploading', file: file });
-          }
-        },
-        false
-      );
+          observer.next({ type: 'uploading', file: file });
+        }
+      };
 
-      xhr.upload.addEventListener('error', (e: Event) => {
+      xhr.upload.ontimeout = (e: ProgressEvent<EventTarget>) => {
         observer.error(e);
         observer.complete();
-      });
+      };
+
+      xhr.upload.onerror = (e: ProgressEvent<EventTarget>) => {
+        observer.error(e);
+        observer.complete();
+      };
+
+      xhr.upload.onabort = () => {
+        observer.complete();
+      };
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -240,7 +245,6 @@ export class NgUploaderService {
           file.responseHeaders = this.parseResponseHeaders(xhr.getAllResponseHeaders());
 
           observer.next({ type: 'done', file: file });
-
           observer.complete();
         }
       };
