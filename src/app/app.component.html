@@ -20,16 +20,30 @@
               </div>
             </div>
             <div class="upload-box-content">
-              <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput">
+              <div
+                class="drop-container"
+                ngFileDrop
+                [options]="options"
+                (uploadOutput)="onUploadOutput($event)"
+                [uploadInput]="uploadInput"
+              >
                 <p>
                   Drag files here or
                   <label class="upload-button">
-                    <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple> browse
+                    <input
+                      type="file"
+                      ngFileSelect
+                      [options]="options"
+                      (uploadOutput)="onUploadOutput($event)"
+                      [uploadInput]="uploadInput"
+                      multiple
+                    />
+                    browse
                   </label>
                   to upload.
                 </p>
               </div>
-              <div class="upload-item" *ngFor="let f of files; let i = index;">
+              <div class="upload-item" *ngFor="let f of files; let i = index">
                 <div class="upload-item-content">
                   <div class="filename">
                     <div class="filename-left">
@@ -42,17 +56,24 @@
                   </div>
                   <div class="progress-content">
                     <div class="progress">
-                      <span class="bar" [style.width]="f?.progress?.data?.percentage + '%'" [class.is-done]="f?.progress?.data?.percentage === 100"></span>
+                      <span
+                        class="bar"
+                        [style.width]="f?.progress?.data?.percentage + '%'"
+                        [class.is-done]="f?.progress?.data?.percentage === 100"
+                      ></span>
                     </div>
                   </div>
                   <div class="progress-text-content">
                     <span class="progress-text" [class.is-done]="f?.progress?.data?.percentage === 100">
-                      <span>{{ f.progress.data?.percentage }}% </span>
+                      <span>{{ f.progress.data?.percentage }}%</span>
                       <span *ngIf="f.progress?.data?.percentage !== 100">Uploading...</span>
                       <span *ngIf="f.progress?.data?.percentage === 100">Done</span>
                     </span>
-                    <span class="speed-and-eta-text" *ngIf="f.progress?.data?.percentage !== 0 && f.progress?.data?.percentage !== 100">
-                      <span>{{ f.progress.data?.speedHuman }} </span>
+                    <span
+                      class="speed-and-eta-text"
+                      *ngIf="f.progress?.data?.percentage !== 0 && f.progress?.data?.percentage !== 100"
+                    >
+                      <span>{{ f.progress.data?.speedHuman }}</span>
                       <span>ETA {{ f.progress.data?.etaHuman }}</span>
                     </span>
                   </div>
@@ -60,10 +81,13 @@
               </div>
             </div>
             <div class="help-text">
-              <span>Upload concurrency is intentionally set to single file. All files are immediately deleted after uploaded.</span>
+              <span>
+                Upload concurrency is intentionally set to single file. All files are immediately deleted after
+                uploaded.
+              </span>
               <span>
                 <a href="https://github.com/bleenco">
-                  <img src="/assets/images/bleenco-logo.svg">
+                  <img src="/assets/images/bleenco-logo.svg" />
                 </a>
               </span>
             </div>

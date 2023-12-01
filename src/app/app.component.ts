@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, UploadStatus } from 'ngx-uploader';
+import { UploadFile, UploadInput, UploadOutput, UploadStatus, UploaderOptions, humanizeBytes } from 'ngx-uploader';
 
 @Component({
   selector: 'app-root',

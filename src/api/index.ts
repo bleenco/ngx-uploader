@@ -1,10 +1,10 @@
-import * as path from 'path';
-import * as express from 'express';
-import * as multer from 'multer';
-import * as rimraf from 'rimraf';
-import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
-import { mkdirSync, existsSync } from 'fs';
+import * as cors from 'cors';
+import * as express from 'express';
+import { existsSync, mkdirSync } from 'fs';
+import * as multer from 'multer';
+import * as path from 'path';
+import * as rimraf from 'rimraf';
 const config = {
   port: 4900
 };
