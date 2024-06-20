@@ -51,6 +51,15 @@ describe('isContentTypeAllowed function', () => {
     const uploader = new NgUploaderService(1, ['image/jpeg', 'image/png', 'image/gif']);
     expect(uploader.isContentTypeAllowed('image/webm')).toBeFalsy();
   });
+
+  it('partial wildcard match', () => {
+    const uploader = new NgUploaderService(1, ['image/*', 'video/mp4']);
+    expect(uploader.isContentTypeAllowed('image/jpeg')).toBeTruthy();
+    expect(uploader.isContentTypeAllowed('image/gif')).toBeTruthy();
+    expect(uploader.isContentTypeAllowed('image/png')).toBeTruthy();
+    expect(uploader.isContentTypeAllowed('video/avi')).toBeFalsy();
+    expect(uploader.isContentTypeAllowed('video/mp4')).toBeTruthy();
+  });
 });
 
 describe('allContentTypesAllowed function', () => {
