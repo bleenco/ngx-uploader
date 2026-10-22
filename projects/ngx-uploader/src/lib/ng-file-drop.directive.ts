@@ -67,11 +67,14 @@ export class NgFileDropDirective implements OnInit, OnDestroy {
   }
 
   @HostListener('dragover', ['$event'])
-  public onDragOver(e: Event) {
+  public onDragOver(e: DragEvent) {
     if (!e) {
       return;
     }
+    if (e && e.dataTransfer && e.dataTransfer.dropEffect != "copy") {
 
+      e.dataTransfer.dropEffect  = "copy";
+  }
     const event: UploadOutput = { type: 'dragOver' };
     this.uploadOutput.emit(event);
   }
